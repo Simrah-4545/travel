@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BudgetStayFly.com | Compare &amp; Book Cheap Flights and Hotels</title>
+  
+  <!-- FontAwesome Icons for visuals -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Styling Sheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ==================== TOAST NOTIFICATION ==================== -->
+  <div class="toast-notice" id="system-toast">
+    <i class="fa-solid fa-bell toast-icon"></i>
+    <span id="system-toast-msg">Database loaded successfully.</span>
+  </div>
+
+  <!-- ==================== LOADER SCREEN ==================== -->
+  <div class="loader-overlay" id="search-loader">
+    <div class="loader-spinner"></div>
+    <div class="loader-text" id="loader-status-text">Comparing flight fares...</div>
+  </div>
+
+  <!-- ==================== MAIN SHELL WRAPPER ==================== -->
+  <div class="app-shell">
+    
+    <!-- TOP NAVIGATION BAR -->
+    <header class="navbar">
+      <div class="brand-wrapper" onclick="goHome()">
+        <i class="fa-solid fa-plane-departure brand-icon"></i>
+        <span class="brand-name">BudgetStayFly<span style="color:var(--accent-gold);">.com</span></span>
+      </div>
+      
+      <nav>
+        <ul class="nav-links">
+          <li><button class="nav-link-btn" onclick="selectTab('flights')">Flights</button></li>
+          <li><button class="nav-link-btn" onclick="selectTab('hotels')">Hotels</button></li>
+          <li><button class="nav-link-btn" onclick="scrollToElement('deals-section')">Hot Deals</button></li>
+        </ul>
+      </nav>
+      
+      <div class="nav-actions">
+        <button class="btn-secondary" onclick="openAffiliateDrawer()" title="Affiliate Partner Dashboard">
+          <i class="fa-solid fa-sliders"></i> Partner Settings
+        </button>
+      </div>
+    </header>
+
+    <!-- HERO PANEL WITH SEARCH CARD -->
+    <section class="hero-section">
+      <h1 class="hero-title">Fly Smarter, Stay Better, <span>Pay Less</span></h1>
+      <p class="hero-subtitle">Search, compare, and lock in the cheapest flight routes and top-rated stays. Zero hidden fees. Direct booking with your favorite partners.</p>
+      
+      <!-- Unified Search Container -->
+      <div class="search-container-card">
+        <div class="search-tabs">
+          <button class="tab-btn active" id="tab-flights" onclick="selectTab('flights')">
+            <i class="fa-solid fa-plane"></i> Search Flights
+          </button>
+          <button class="tab-btn" id="tab-hotels" onclick="selectTab('hotels')">
+            <i class="fa-solid fa-hotel"></i> Search Hotels
+          </button>
+          <button class="tab-btn" id="tab-cabs" onclick="selectTab('cabs')">
+            <i class="fa-solid fa-car"></i> Search Cabs
+          </button>
+        </div>
+        
+        <!-- FLIGHTS FORM PANEL -->
+        <form id="flights-search-form" onsubmit="executeSearch(event, 'flights')">
+          <div class="search-form-grid">
+            <div class="form-group">
+              <label class="form-label">Origin Airport</label>
+              <div class="input-wrapper">
+                <i class="fa-solid fa-plane-departure input-icon"></i>
+                <input type="text" id="flight-origin" class="form-input" placeholder="City or Airport (e.g. DEL)" required value="DEL" />
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label">Destination City</label>
+              <div class="input-wrapper">
+                <i class="fa-solid fa-plane-arrival input-icon"></i>
+                <input type="text" id="flight-destination" class="form-input" placeholder="Where to? (e.g. DXB)" required value="DXB" />
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label">Departure Date</label>
+              <div class="input-wrapper">
+                <i class="fa-solid fa-calendar-day input-icon"></i>
+                <input type="date" id="flight-date-dep" class="form-input" required />
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label">Cabin Class</label>
+              <div class="input-wrapper">
+                <i class="fa-solid fa-couch input-icon"></i>
+                <select id="flight-cabin" class="form-input" style="padding-left: 40px; cursor: pointer;">
+                  <option value="economy">Economy Class</option>
+                  <option value="premium">Premium Economy</option>
+                  <option value="business">Business Class</option>
+                  <option value="first">First Class</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          
+          <div style="display:flex; justify-content:flex-end;">
+            <button type="submit" class="btn-primary">
+              Find Cheap Flights <i class="fa-solid fa-arrow-right"></i>
+            </button>
+          </div>
+        </form>
+
+        <!-- HOTELS FORM PANEL (Hidden by Default) -->
+        <form id="hotels-search-form" onsubmit="executeSearch(event, 'hotels')" style="display: none;">
+          <div class="search-form-grid">
+            <div class="form-group" style="grid-column: span 2;">
+              <label class="form-label">Destination City / Hotel Name</label>
+              <div class="input-wrapper">
+                <i class="fa-solid fa-location-dot input-icon"></i>
+                <input type="text" id="hotel-destination" class="form-input" placeholder="Enter city or area (e.g. Dubai)" required value="Dubai" />
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label">Check-in Date</label>
+              <div class="input-wrapper">
+                <i class="fa-solid fa-calendar-check input-icon"></i>
+                <input type="date" id="hotel-date-in" class="form-input" required />
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label">Check-out Date</label>
+              <div class="input-wrapper">
+                <i class="fa-solid fa-calendar-xmark input-icon"></i>
+                <input type="date" id="hotel-date-out" class="form-input" required />
+              </div>
+            </div>
+          </div>
+          
+          <div style="display:flex; justify-content:flex-end;">
+            <button type="submit" class="btn-primary">
+              Compare Stays <i class="fa-solid fa-arrow-right"></i>
+            </button>
+          </div>
+        </form>
+
+        <!-- CABS FORM PANEL (Hidden by Default) -->
+        <form id="cabs-search-form" onsubmit="executeSearch(event, 'cabs')" style="display: none;">
+          <div class="search-form-grid">
+            <div class="form-group">
+              <label class="form-label">Pick-up Location</label>
+              <div class="input-wrapper">
+                <i class="fa-solid fa-location-dot input-icon"></i>
+                <input type="text" id="cab-pickup" class="form-input" placeholder="Airport, hotel, address" required value="Dubai Airport (DXB)" />
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label">Drop-off Location</label>
+              <div class="input-wrapper">
+                <i class="fa-solid fa-location-arrow input-icon"></i>
+                <input type="text" id="cab-dropoff" class="form-input" placeholder="Where to? (e.g. Dubai Marina)" required value="Dubai Marina" />
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label">Pick-up Date</label>
+              <div class="input-wrapper">
+                <i class="fa-solid fa-calendar-day input-icon"></i>
+                <input type="date" id="cab-date" class="form-input" required />
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label">Pick-up Time</label>
+              <div class="input-wrapper">
+                <i class="fa-solid fa-clock input-icon"></i>
+                <input type="time" id="cab-time" class="form-input" required value="12:00" />
+              </div>
+            </div>
+          </div>
+          
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div style="display:flex; gap:16px;">
+              <label class="checkbox-option" style="margin-bottom:0; cursor:pointer;">
+                <input type="radio" name="cab-transfer-type" value="oneway" checked /> One-way transfer
+              </label>
+              <label class="checkbox-option" style="margin-bottom:0; cursor:pointer;">
+                <input type="radio" name="cab-transfer-type" value="roundtrip" /> Return transfer
+              </label>
+            </div>
+            <button type="submit" class="btn-primary">
+              Find Transfers <i class="fa-solid fa-arrow-right"></i>
+            </button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- SECTION: FEATURED BUDGET DEALS -->
+    <section id="deals-section">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">Trending <span>Global Destinations</span></h2>
+          <p class="section-subtitle">Specially curated packages matching high comfort and budget prices.</p>
+        </div>
+      </div>
+      
+      <div class="deals-grid" id="featured-deals-grid">
+        <!-- Injected dynamically via JS -->
+      </div>
+    </section>
+
+    <!-- FOOTER WITH COMMISSION DISCLOSURE -->
+    <footer class="footer">
+      <p>&copy; 2026 BudgetStayFly.com. All rights reserved.</p>
+      <p style="font-size: 11px; max-width: 800px; margin: 8px auto 20px auto; line-height: 1.6; color: var(--text-muted);">
+        Disclaimer: BudgetStayFly.com is a travel meta-search engine and aggregator. We compare prices from multiple airlines and booking providers to find you the best deals. When you make a booking through our referral links, we may earn a small affiliate commission at absolutely no additional cost to you.
+      </p>
+      <ul class="footer-links">
+        <li><button class="footer-link-btn" onclick="scrollToElement('navbar')">Home</button></li>
+        <li><button class="footer-link-btn" onclick="openAffiliateDrawer()">Partner Console</button></li>
+        <li><button class="footer-link-btn" onclick="alert('BudgetStayFly.com respects your privacy. All user search coordinates and cookies are stored locally in your browser.')">Privacy Policy</button></li>
+      </ul>
+    </footer>
+  </div>
+
+  <!-- ==================== SEARCH RESULTS DRAWER VIEW ==================== -->
+  <div class="results-overlay" id="search-results-panel">
+    <div class="results-header">
+      <div class="results-summary-info">
+        <h2 id="res-header-title">Flights Delhi (DEL) to Dubai (DXB)</h2>
+        <p id="res-header-subtitle">Found 12 matching options &bull; sorted by cheapest</p>
+      </div>
+      <button class="close-overlay-btn" onclick="closeResultsPanel()" title="Back to Search">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+    
+    <div class="results-layout-grid">
+      <!-- Sidebar Filters -->
+      <aside class="filter-card">
+        <div class="filter-group">
+          <h3 class="filter-title"><i class="fa-solid fa-filter"></i> Sort By</h3>
+          <label class="checkbox-option">
+            <input type="radio" name="sort-by" value="cheapest" checked onchange="handleSortChange(this.value)" />
+            Cheapest Price
+          </label>
+          <label class="checkbox-option">
+            <input type="radio" name="sort-by" value="quickest" onchange="handleSortChange(this.value)" />
+            Quickest/Direct
+          </label>
+          <label class="checkbox-option">
+            <input type="radio" name="sort-by" value="recommended" onchange="handleSortChange(this.value)" />
+            Top Recommended
+          </label>
+        </div>
+        
+        <div class="filter-group" id="filter-stops-block">
+          <h3 class="filter-title">Flight Stops</h3>
+          <label class="checkbox-option">
+            <input type="checkbox" class="stop-filter" value="0" checked onchange="applyFilters()" />
+            Non-stop
+          </label>
+          <label class="checkbox-option">
+            <input type="checkbox" class="stop-filter" value="1" checked onchange="applyFilters()" />
+            1 Stop
+          </label>
+          <label class="checkbox-option">
+            <input type="checkbox" class="stop-filter" value="2" checked onchange="applyFilters()" />
+            2+ Stops
+          </label>
+        </div>
+
+        <!-- HOTEL SPECIFIC FILTERS (Dynamic display) -->
+        <div id="filter-hotel-blocks" style="display: none;">
+          
+          <!-- Your budget (per night) -->
+          <div class="filter-group">
+            <h3 class="filter-title">Your budget (per night)</h3>
+            <div id="price-slider-val" style="font-size: 13.5px; font-weight: 700; color: var(--accent-blue); margin-bottom: 12px;">₹2,000 - ₹35,000+</div>
+            
+            <!-- Simple Pure HTML Histogram Visual -->
+            <div class="price-histogram" style="display:flex; align-items:flex-end; gap:2px; height:32px; margin-bottom:8px; padding:0 4px;">
+              <div style="flex:1; background:#e2e8f0; height:8px; border-radius:1px 1px 0 0;"></div>
+              <div style="flex:1; background:#cbd5e1; height:14px; border-radius:1px 1px 0 0;"></div>
+              <div style="flex:1; background:#cbd5e1; height:18px; border-radius:1px 1px 0 0;"></div>
+              <div style="flex:1; background:#94a3b8; height:26px; border-radius:1px 1px 0 0;"></div>
+              <div style="flex:1; background:#64748b; height:32px; border-radius:1px 1px 0 0;"></div>
+              <div style="flex:1; background:#475569; height:28px; border-radius:1px 1px 0 0;"></div>
+              <div style="flex:1; background:#334155; height:22px; border-radius:1px 1px 0 0;"></div>
+              <div style="flex:1; background:#1e293b; height:16px; border-radius:1px 1px 0 0;"></div>
+              <div style="flex:1; background:#0f172a; height:10px; border-radius:1px 1px 0 0;"></div>
+              <div style="flex:1; background:#cbd5e1; height:14px; border-radius:1px 1px 0 0;"></div>
+              <div style="flex:1; background:#94a3b8; height:22px; border-radius:1px 1px 0 0;"></div>
+              <div style="flex:1; background:#475569; height:30px; border-radius:1px 1px 0 0;"></div>
+              <div style="flex:1; background:#1e293b; height:12px; border-radius:1px 1px 0 0;"></div>
+            </div>
+            
+            <input type="range" id="filter-price-slider" min="3000" max="35000" value="35000" step="1000" oninput="updatePriceFilter(this.value)" style="width:100%; accent-color:var(--accent-blue); cursor:pointer;" />
+          </div>
+
+          <!-- Popular filters -->
+          <div class="filter-group">
+            <h3 class="filter-title">Popular filters</h3>
+            <label class="checkbox-option has-count">
+              <span class="checkbox-label-content">
+                <input type="checkbox" class="pop-filter" value="breakfast" onchange="applyFilters()" />
+                <span>Breakfast included</span>
+              </span>
+              <span class="filter-count">621</span>
+            </label>
+            <label class="checkbox-option has-count">
+              <span class="checkbox-label-content">
+                <input type="checkbox" class="pop-filter" value="stars5" onchange="applyFilters()" />
+                <span>5 stars</span>
+              </span>
+              <span class="filter-count">531</span>
+            </label>
+            <label class="checkbox-option has-count">
+              <span class="checkbox-label-content">
+                <input type="checkbox" class="pop-filter" value="resorts" onchange="applyFilters()" />
+                <span>Resorts</span>
+              </span>
+              <span class="filter-count">53</span>
+            </label>
+            <label class="checkbox-option has-count">
+              <span class="checkbox-label-content">
+                <input type="checkbox" class="pop-filter" value="hotels" onchange="applyFilters()" />
+                <span>Hotels</span>
+              </span>
+              <span class="filter-count">669</span>
+            </label>
+            <label class="checkbox-option has-count" style="align-items: flex-start;">
+              <span class="checkbox-label-content">
+                <input type="checkbox" class="pop-filter" value="score8" onchange="applyFilters()" style="margin-top: 3px;" />
+                <span style="display:flex; flex-direction:column; line-height:1.2;">
+                  <span>Very Good: 8+</span>
+                  <span style="font-size: 10px; color: var(--text-muted); font-weight: 400; text-transform: none; letter-spacing: 0;">Based on guest reviews</span>
+                </span>
+              </span>
+              <span class="filter-count" style="margin-top: 3px;">1942</span>
+            </label>
+            <label class="checkbox-option has-count">
+              <span class="checkbox-label-content">
+                <input type="checkbox" class="pop-filter" value="pool" onchange="applyFilters()" />
+                <span>Swimming pool</span>
+              </span>
+              <span class="filter-count">3933</span>
+            </label>
+            <label class="checkbox-option has-count">
+              <span class="checkbox-label-content">
+                <input type="checkbox" class="pop-filter" value="apartments" onchange="applyFilters()" />
+                <span>Apartments</span>
+              </span>
+              <span class="filter-count">3844</span>
+            </label>
+          </div>
+
+          <!-- Property Type -->
+          <div class="filter-group">
+            <h3 class="filter-title">Property Type</h3>
+            <label class="checkbox-option has-count">
+              <span class="checkbox-label-content">
+                <input type="checkbox" class="prop-filter" value="Hotels" onchange="applyFilters()" />
+                <span>Hotels</span>
+              </span>
+              <span class="filter-count">669</span>
+            </label>
+            <label class="checkbox-option has-count">
+              <span class="checkbox-label-content">
+                <input type="checkbox" class="prop-filter" value="Apartments" onchange="applyFilters()" />
+                <span>Apartments</span>
+              </span>
+              <span class="filter-count">3844</span>
+            </label>
+            <label class="checkbox-option has-count">
+              <span class="checkbox-label-content">
+                <input type="checkbox" class="prop-filter" value="Resorts" onchange="applyFilters()" />
+                <span>Resorts</span>
+              </span>
+              <span class="filter-count">53</span>
+            </label>
+            <label class="checkbox-option has-count">
+              <span class="checkbox-label-content">
+                <input type="checkbox" class="prop-filter" value="Villas" onchange="applyFilters()" />
+                <span>Villas</span>
+              </span>
+              <span class="filter-count">62</span>
+            </label>
+            <label class="checkbox-option has-count">
+              <span class="checkbox-label-content">
+                <input type="checkbox" class="prop-filter" value="Hostels" onchange="applyFilters()" />
+                <span>Hostels</span>
+              </span>
+              <span class="filter-count">1</span>
+            </label>
+          </div>
+
+          <!-- Bedrooms and bathrooms -->
+          <div class="filter-group">
+            <h3 class="filter-title">Bedrooms and bathrooms</h3>
+            <div style="display:flex; flex-direction:column; gap:12px; margin-top:10px;">
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <span style="font-size:13.5px; color:var(--text-secondary);">Bedrooms</span>
+                <div style="display:flex; align-items:center; gap:12px;">
+                  <button type="button" class="btn-counter" onclick="adjustCounter('rooms-bed', -1)">-</button>
+                  <span id="lbl-counter-rooms-bed" style="font-size:14px; font-weight:600; width:12px; text-align:center;">0</span>
+                  <button type="button" class="btn-counter" onclick="adjustCounter('rooms-bed', 1)">+</button>
+                </div>
+              </div>
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <span style="font-size:13.5px; color:var(--text-secondary);">Bathrooms</span>
+                <div style="display:flex; align-items:center; gap:12px;">
+                  <button type="button" class="btn-counter" onclick="adjustCounter('rooms-bath', -1)">-</button>
+                  <span id="lbl-counter-rooms-bath" style="font-size:14px; font-weight:600; width:12px; text-align:center;">0</span>
+                  <button type="button" class="btn-counter" onclick="adjustCounter('rooms-bath', 1)">+</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Meals -->
+          <div class="filter-group">
+            <h3 class="filter-title">Meals</h3>
+            <label class="checkbox-option has-count">
+              <span class="checkbox-label-content">
+                <input type="checkbox" class="meal-filter" value="breakfast" onchange="applyFilters()" />
+                <span>Breakfast included</span>
+              </span>
+              <span class="filter-count">621</span>
+            </label>
+            <label class="checkbox-option has-count">
+              <span class="checkbox-label-content">
+                <input type="checkbox" class="meal-filter" value="all-inclusive" onchange="applyFilters()" />
+                <span>All-inclusive</span>
+              </span>
+              <span class="filter-count">19</span>
+            </label>
+            <label class="checkbox-option has-count">
+              <span class="checkbox-label-content">
+                <input type="checkbox" class="meal-filter" value="breakfast-dinner" onchange="applyFilters()" />
+                <span>Breakfast &amp; dinner included</span>
+              </span>
+              <span class="filter-count">263</span>
+            </label>
+            <label class="checkbox-option has-count">
+              <span class="checkbox-label-content">
+                <input type="checkbox" class="meal-filter" value="kitchen" onchange="applyFilters()" />
+                <span>Kitchen facilities</span>
+              </span>
+              <span class="filter-count">4072</span>
+            </label>
+          </div>
+
+          <!-- Review score -->
+          <div class="filter-group">
+            <h3 class="filter-title">Review score</h3>
+            <label class="checkbox-option has-count">
+              <span class="checkbox-label-content">
+                <input type="checkbox" class="score-filter" value="9" onchange="applyFilters()" />
+                <span>Superb: 9+</span>
+              </span>
+              <span class="filter-count">320</span>
+            </label>
+            <label class="checkbox-option has-count">
+              <span class="checkbox-label-content">
+                <input type="checkbox" class="score-filter" value="8.5" onchange="applyFilters()" />
+                <span>Very Good: 8.5+</span>
+              </span>
+              <span class="filter-count">850</span>
+            </label>
+            <label class="checkbox-option has-count">
+              <span class="checkbox-label-content">
+                <input type="checkbox" class="score-filter" value="8" onchange="applyFilters()" />
+                <span>Good: 8+</span>
+              </span>
+              <span class="filter-count">1942</span>
+            </label>
+            <label class="checkbox-option has-count">
+              <span class="checkbox-label-content">
+                <input type="checkbox" class="score-filter" value="7" onchange="applyFilters()" />
+                <span>Pleasant: 7+</span>
+              </span>
+              <span class="filter-count">3102</span>
+            </label>
+          </div>
+
+          <!-- Property rating -->
+          <div class="filter-group">
+            <h3 class="filter-title">Property rating</h3>
+            <label class="checkbox-option has-count">
+              <span class="checkbox-label-content">
+                <input type="checkbox" class="rating-filter" value="5" onchange="applyFilters()" />
+                <span>5 stars</span>
+              </span>
+              <span class="filter-count">531</span>
+            </label>
+            <label class="checkbox-option has-count">
+              <span class="checkbox-label-content">
+                <input type="checkbox" class="rating-filter" value="4" onchange="applyFilters()" />
+                <span>4 stars</span>
+              </span>
+              <span class="filter-count">869</span>
+            </label>
+            <label class="checkbox-option has-count">
+              <span class="checkbox-label-content">
+                <input type="checkbox" class="rating-filter" value="3" onchange="applyFilters()" />
+                <span>3 stars</span>
+              </span>
+              <span class="filter-count">1240</span>
+            </label>
+          </div>
+
+          <!-- Neighborhood -->
+          <div class="filter-group">
+            <h3 class="filter-title">Neighborhood</h3>
+            <label class="checkbox-option has-count">
+              <span class="checkbox-label-content">
+                <input type="checkbox" class="neighborhood-filter" value="Dubai Marina" onchange="applyFilters()" />
+                <span>Dubai Marina</span>
+              </span>
+              <span class="filter-count">150</span>
+            </label>
+            <label class="checkbox-option has-count">
+              <span class="checkbox-label-content">
+                <input type="checkbox" class="neighborhood-filter" value="Downtown Dubai" onchange="applyFilters()" />
+                <span>Downtown Dubai</span>
+              </span>
+              <span class="filter-count">120</span>
+            </label>
+            <label class="checkbox-option has-count">
+              <span class="checkbox-label-content">
+                <input type="checkbox" class="neighborhood-filter" value="Palm Jumeirah" onchange="applyFilters()" />
+                <span>Palm Jumeirah</span>
+              </span>
+              <span class="filter-count">45</span>
+            </label>
+          </div>
+
+          <!-- Bed preference -->
+          <div class="filter-group">
+            <h3 class="filter-title">Bed preference</h3>
+            <label class="checkbox-option has-count">
+              <span class="checkbox-label-content">
+                <input type="checkbox" class="bed-filter" value="king" onchange="applyFilters()" />
+                <span>King bed</span>
+              </span>
+              <span class="filter-count">1120</span>
+            </label>
+            <label class="checkbox-option has-count">
+              <span class="checkbox-label-content">
+                <input type="checkbox" class="bed-filter" value="double" onchange="applyFilters()" />
+                <span>Double bed</span>
+              </span>
+              <span class="filter-count">1430</span>
+            </label>
+            <label class="checkbox-option has-count">
+              <span class="checkbox-label-content">
+                <input type="checkbox" class="bed-filter" value="single" onchange="applyFilters()" />
+                <span>Single beds</span>
+              </span>
+              <span class="filter-count">860</span>
+            </label>
+          </div>
+
+          <!-- Distance from center -->
+          <div class="filter-group">
+            <h3 class="filter-title">Distance from center</h3>
+            <label class="checkbox-option has-count">
+              <span class="checkbox-label-content">
+                <input type="checkbox" class="distance-filter" value="1" onchange="applyFilters()" />
+                <span>Less than 1 km</span>
+              </span>
+              <span class="filter-count">240</span>
+            </label>
+            <label class="checkbox-option has-count">
+              <span class="checkbox-label-content">
+                <input type="checkbox" class="distance-filter" value="3" onchange="applyFilters()" />
+                <span>Less than 3 km</span>
+              </span>
+              <span class="filter-count">680</span>
+            </label>
+            <label class="checkbox-option has-count">
+              <span class="checkbox-label-content">
+                <input type="checkbox" class="distance-filter" value="5" onchange="applyFilters()" />
+                <span>Less than 5 km</span>
+              </span>
+              <span class="filter-count">1430</span>
+            </label>
+          </div>
+
+          <!-- Reservation policy -->
+          <div class="filter-group">
+            <h3 class="filter-title">Reservation policy</h3>
+            <label class="checkbox-option has-count">
+              <span class="checkbox-label-content">
+                <input type="checkbox" class="policy-filter" value="cancellation" onchange="applyFilters()" />
+                <span>Free cancellation</span>
+              </span>
+              <span class="filter-count">4130</span>
+            </label>
+            <label class="checkbox-option has-count">
+              <span class="checkbox-label-content">
+                <input type="checkbox" class="policy-filter" value="noprepayment" onchange="applyFilters()" />
+                <span>No prepayment needed</span>
+              </span>
+              <span class="filter-count">3204</span>
+            </label>
+          </div>
+
+          <!-- Fun Things To Do -->
+          <div class="filter-group">
+            <h3 class="filter-title">Fun Things To Do</h3>
+            <label class="checkbox-option has-count">
+              <span class="checkbox-label-content">
+                <input type="checkbox" class="fun-filter" value="fitness" onchange="applyFilters()" />
+                <span>Fitness center</span>
+              </span>
+              <span class="filter-count">2394</span>
+            </label>
+            <label class="checkbox-option has-count">
+              <span class="checkbox-label-content">
+                <input type="checkbox" class="fun-filter" value="beach" onchange="applyFilters()" />
+                <span>Beach access</span>
+              </span>
+              <span class="filter-count">143</span>
+            </label>
+            <label class="checkbox-option has-count">
+              <span class="checkbox-label-content">
+                <input type="checkbox" class="fun-filter" value="golf" onchange="applyFilters()" />
+                <span>Golf course</span>
+              </span>
+              <span class="filter-count">12</span>
+            </label>
+          </div>
+
+          <!-- Landmarks -->
+          <div class="filter-group">
+            <h3 class="filter-title">Landmarks</h3>
+            <label class="checkbox-option has-count">
+              <span class="checkbox-label-content">
+                <input type="checkbox" class="landmark-filter" value="Burj Khalifa" onchange="applyFilters()" />
+                <span>Burj Khalifa</span>
+              </span>
+              <span class="filter-count">87</span>
+            </label>
+            <label class="checkbox-option has-count">
+              <span class="checkbox-label-content">
+                <input type="checkbox" class="landmark-filter" value="Dubai Mall" onchange="applyFilters()" />
+                <span>Dubai Mall</span>
+              </span>
+              <span class="filter-count">143</span>
+            </label>
+            <label class="checkbox-option has-count">
+              <span class="checkbox-label-content">
+                <input type="checkbox" class="landmark-filter" value="Burj Al Arab" onchange="applyFilters()" />
+                <span>Burj Al Arab</span>
+              </span>
+              <span class="filter-count">26</span>
+            </label>
+          </div>
+
+          <!-- Brands of hotels name -->
+          <div class="filter-group">
+            <h3 class="filter-title">Brands of hotels name</h3>
+            <label class="checkbox-option has-count">
+              <span class="checkbox-label-content">
+                <input type="checkbox" class="brand-filter" value="Hyatt" onchange="applyFilters()" />
+                <span>Hyatt Resorts</span>
+              </span>
+              <span class="filter-count">15</span>
+            </label>
+            <label class="checkbox-option has-count">
+              <span class="checkbox-label-content">
+                <input type="checkbox" class="brand-filter" value="Marriott" onchange="applyFilters()" />
+                <span>Marriott Portfolio</span>
+              </span>
+              <span class="filter-count">22</span>
+            </label>
+            <label class="checkbox-option has-count">
+              <span class="checkbox-label-content">
+                <input type="checkbox" class="brand-filter" value="Hilton" onchange="applyFilters()" />
+                <span>Hilton Hotels</span>
+              </span>
+              <span class="filter-count">34</span>
+            </label>
+          </div>
+
+          <!-- Facilities -->
+          <div class="filter-group">
+            <h3 class="filter-title">Facilities</h3>
+            <label class="checkbox-option has-count">
+              <span class="checkbox-label-content">
+                <input type="checkbox" class="facility-filter" value="parking" onchange="applyFilters()" />
+                <span>Free parking</span>
+              </span>
+              <span class="filter-count">1240</span>
+            </label>
+            <label class="checkbox-option has-count">
+              <span class="checkbox-label-content">
+                <input type="checkbox" class="facility-filter" value="pool" onchange="applyFilters()" />
+                <span>Swimming pool</span>
+              </span>
+              <span class="filter-count">3933</span>
+            </label>
+            <label class="checkbox-option has-count">
+              <span class="checkbox-label-content">
+                <input type="checkbox" class="facility-filter" value="spa" onchange="applyFilters()" />
+                <span>Spa &amp; wellness centre</span>
+              </span>
+              <span class="filter-count">850</span>
+            </label>
+            <label class="checkbox-option has-count">
+              <span class="checkbox-label-content">
+                <input type="checkbox" class="facility-filter" value="wifi" onchange="applyFilters()" />
+                <span>Free WiFi</span>
+              </span>
+              <span class="filter-count">4072</span>
+            </label>
+            <label class="checkbox-option has-count">
+              <span class="checkbox-label-content">
+                <input type="checkbox" class="facility-filter" value="fitness" onchange="applyFilters()" />
+                <span>Fitness center</span>
+              </span>
+              <span class="filter-count">2394</span>
+            </label>
+            <label class="checkbox-option has-count">
+              <span class="checkbox-label-content">
+                <input type="checkbox" class="facility-filter" value="shuttle" onchange="applyFilters()" />
+                <span>Airport shuttle</span>
+              </span>
+              <span class="filter-count">1100</span>
+            </label>
+          </div>
+
+          <!-- Room facilities -->
+          <div class="filter-group">
+            <h3 class="filter-title">Room facilities</h3>
+            <label class="checkbox-option has-count">
+              <span class="checkbox-label-content">
+                <input type="checkbox" class="room-filter" value="ac" onchange="applyFilters()" />
+                <span>Air conditioning</span>
+              </span>
+              <span class="filter-count">4020</span>
+            </label>
+            <label class="checkbox-option has-count">
+              <span class="checkbox-label-content">
+                <input type="checkbox" class="room-filter" value="private-pool" onchange="applyFilters()" />
+                <span>Private pool</span>
+              </span>
+              <span class="filter-count">45</span>
+            </label>
+            <label class="checkbox-option has-count">
+              <span class="checkbox-label-content">
+                <input type="checkbox" class="room-filter" value="sea-view" onchange="applyFilters()" />
+                <span>Sea view</span>
+              </span>
+              <span class="filter-count">680</span>
+            </label>
+            <label class="checkbox-option has-count">
+              <span class="checkbox-label-content">
+                <input type="checkbox" class="room-filter" value="balcony" onchange="applyFilters()" />
+                <span>Balcony</span>
+              </span>
+              <span class="filter-count">1430</span>
+            </label>
+            <label class="checkbox-option has-count">
+              <span class="checkbox-label-content">
+                <input type="checkbox" class="room-filter" value="bathroom" onchange="applyFilters()" />
+                <span>Private bathroom</span>
+              </span>
+              <span class="filter-count">4072</span>
+            </label>
+            <label class="checkbox-option has-count">
+              <span class="checkbox-label-content">
+                <input type="checkbox" class="room-filter" value="kitchen" onchange="applyFilters()" />
+                <span>Kitchen/Kitchenette</span>
+              </span>
+              <span class="filter-count">3844</span>
+            </label>
+          </div>
+
+          <!-- Travel Group -->
+          <div class="filter-group">
+            <h3 class="filter-title">Travel Group</h3>
+            <label class="checkbox-option has-count">
+              <span class="checkbox-label-content">
+                <input type="checkbox" class="group-filter" value="solo" onchange="applyFilters()" />
+                <span>Solo travellers</span>
+              </span>
+              <span class="filter-count">850</span>
+            </label>
+            <label class="checkbox-option has-count">
+              <span class="checkbox-label-content">
+                <input type="checkbox" class="group-filter" value="couple" onchange="applyFilters()" />
+                <span>Couples</span>
+              </span>
+              <span class="filter-count">1940</span>
+            </label>
+            <label class="checkbox-option has-count">
+              <span class="checkbox-label-content">
+                <input type="checkbox" class="group-filter" value="family" onchange="applyFilters()" />
+                <span>Families</span>
+              </span>
+              <span class="filter-count">1240</span>
+            </label>
+            <label class="checkbox-option has-count">
+              <span class="checkbox-label-content">
+                <input type="checkbox" class="group-filter" value="group" onchange="applyFilters()" />
+                <span>Groups of friends</span>
+              </span>
+              <span class="filter-count">450</span>
+            </label>
+          </div>
+
+          <!-- Accepts online payments -->
+          <div class="filter-group">
+            <h3 class="filter-title">Payment Options</h3>
+            <label class="checkbox-option has-count">
+              <span class="checkbox-label-content">
+                <input type="checkbox" class="payment-filter" value="online" onchange="applyFilters()" />
+                <span>Accepts online payments</span>
+              </span>
+              <span class="filter-count">3940</span>
+            </label>
+          </div>
+
+          <!-- Property & Room Accessibility -->
+          <div class="filter-group">
+            <h3 class="filter-title">Accessibility Facilities</h3>
+            <label class="checkbox-option has-count">
+              <span class="checkbox-label-content">
+                <input type="checkbox" class="access-filter" value="wheelchair" onchange="applyFilters()" />
+                <span>Wheelchair accessible</span>
+              </span>
+              <span class="filter-count">727</span>
+            </label>
+            <label class="checkbox-option has-count">
+              <span class="checkbox-label-content">
+                <input type="checkbox" class="access-filter" value="emergency-cord" onchange="applyFilters()" />
+                <span>Emergency cord in bathroom</span>
+              </span>
+              <span class="filter-count">110</span>
+            </label>
+            <label class="checkbox-option has-count">
+              <span class="checkbox-label-content">
+                <input type="checkbox" class="access-filter" value="shower" onchange="applyFilters()" />
+                <span>Walk-in shower</span>
+              </span>
+              <span class="filter-count">680</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- CAB SPECIFIC FILTERS (Dynamic display) -->
+        <div id="filter-cab-blocks" style="display: none;">
+          
+          <!-- Vehicle Class -->
+          <div class="filter-group">
+            <h3 class="filter-title">Vehicle Class</h3>
+            <label class="checkbox-option has-count">
+              <span class="checkbox-label-content">
+                <input type="checkbox" class="cab-class-filter" value="Economy" onchange="applyFilters()" />
+                <span>Economy Class</span>
+              </span>
+              <span class="filter-count">12</span>
+            </label>
+            <label class="checkbox-option has-count">
+              <span class="checkbox-label-content">
+                <input type="checkbox" class="cab-class-filter" value="Minivan" onchange="applyFilters()" />
+                <span>Minivan / Family</span>
+              </span>
+              <span class="filter-count">8</span>
+            </label>
+            <label class="checkbox-option has-count">
+              <span class="checkbox-label-content">
+                <input type="checkbox" class="cab-class-filter" value="SUV" onchange="applyFilters()" />
+                <span>Comfort SUV</span>
+              </span>
+              <span class="filter-count">6</span>
+            </label>
+            <label class="checkbox-option has-count">
+              <span class="checkbox-label-content">
+                <input type="checkbox" class="cab-class-filter" value="Business" onchange="applyFilters()" />
+                <span>Business Sedan</span>
+              </span>
+              <span class="filter-count">4</span>
+            </label>
+            <label class="checkbox-option has-count">
+              <span class="checkbox-label-content">
+                <input type="checkbox" class="cab-class-filter" value="Minibus" onchange="applyFilters()" />
+                <span>Large Minibus</span>
+              </span>
+              <span class="filter-count">2</span>
+            </label>
+          </div>
+
+          <!-- Transfer Options / Extras -->
+          <div class="filter-group">
+            <h3 class="filter-title">Transfer Options</h3>
+            <label class="checkbox-option has-count">
+              <span class="checkbox-label-content">
+                <input type="checkbox" class="cab-extra-filter" value="child-seat" onchange="applyFilters()" />
+                <span>Child seat available</span>
+              </span>
+              <span class="filter-count">28</span>
+            </label>
+            <label class="checkbox-option has-count">
+              <span class="checkbox-label-content">
+                <input type="checkbox" class="cab-extra-filter" value="english-driver" onchange="applyFilters()" />
+                <span>English-speaking driver</span>
+              </span>
+              <span class="filter-count">30</span>
+            </label>
+            <label class="checkbox-option has-count">
+              <span class="checkbox-label-content">
+                <input type="checkbox" class="cab-extra-filter" value="meet-greet" onchange="applyFilters()" />
+                <span>Meet &amp; Greet included</span>
+              </span>
+              <span class="filter-count">32</span>
+            </label>
+          </div>
+
+          <!-- Reservation Policy -->
+          <div class="filter-group">
+            <h3 class="filter-title">Cancellation Policy</h3>
+            <label class="checkbox-option has-count">
+              <span class="checkbox-label-content">
+                <input type="checkbox" class="cab-policy-filter" value="free-cancellation" onchange="applyFilters()" />
+                <span>Free cancellation</span>
+              </span>
+              <span class="filter-count">32</span>
+            </label>
+          </div>
+
+          <!-- Payment Options -->
+          <div class="filter-group">
+            <h3 class="filter-title">Payment Options</h3>
+            <label class="checkbox-option has-count">
+              <span class="checkbox-label-content">
+                <input type="checkbox" class="cab-payment-filter" value="online" onchange="applyFilters()" />
+                <span>Pay online</span>
+              </span>
+              <span class="filter-count">24</span>
+            </label>
+            <label class="checkbox-option has-count">
+              <span class="checkbox-label-content">
+                <input type="checkbox" class="cab-payment-filter" value="cash" onchange="applyFilters()" />
+                <span>Pay cash to driver</span>
+              </span>
+              <span class="filter-count">10</span>
+            </label>
+          </div>
+
+        </div>
+      </aside>
+      
+      <!-- Comparative Lists -->
+      <main class="results-list" id="search-results-list">
+        <!-- Result Cards Injected here via JS -->
+      </main>
+    </div>
+  </div>
+
+  <!-- ==================== AFFILIATE CONFIG DRAWER ==================== -->
+  <div class="drawer-overlay" id="affiliate-drawer">
+    <div class="drawer-card">
+      <div class="drawer-header">
+        <h3 class="drawer-title"><i class="fa-solid fa-sliders"></i> Affiliate Settings Panel</h3>
+        <button class="close-overlay-btn" onclick="closeAffiliateDrawer()" style="width: 32px; height: 32px; font-size: 14px;">&times;</button>
+      </div>
+      
+      <p style="font-size: 12.5px; color: var(--text-secondary); line-height: 1.5;">
+        Configure your Travel Affiliate partner details here. These tracking codes will be saved locally and automatically injected into all flight and hotel booking URLs.
+      </p>
+
+      <form id="affiliate-settings-form" onsubmit="saveAffiliateSettings(event)">
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">Settings Access PIN</label>
+            <input type="password" id="aff-settings-pin" class="form-input" style="padding-left: 14px;" placeholder="Enter PIN to unlock" required />
+          </div>
+
+          <div id="affiliate-inputs-block" style="display: none; flex-direction: column; gap: 16px; margin-top: 10px; border-top: 1px solid var(--border-color); padding-top: 16px;">
+            <div class="form-group">
+              <label class="form-label">Travelpayouts Partner Marker ID</label>
+              <input type="text" id="set-tp-marker" class="form-input" style="padding-left: 14px;" placeholder="e.g. 394982" />
+              <span style="font-size: 10px; color: var(--text-muted);">Marker code used for flights redirection searches.</span>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Booking.com Affiliate Label (AID)</label>
+              <input type="text" id="set-booking-aid" class="form-input" style="padding-left: 14px;" placeholder="e.g. 2194829" />
+              <span style="font-size: 10px; color: var(--text-muted);">Affiliate tracking ID for hotel stays links.</span>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Taxi Partner Affiliate ID (KiwiTaxi)</label>
+              <input type="text" id="set-taxi-marker" class="form-input" style="padding-left: 14px;" placeholder="e.g. 556677" />
+              <span style="font-size: 10px; color: var(--text-muted);">Affiliate tracking ID for cab/transfer bookings.</span>
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label">General Travel Redirect Domain</label>
+              <input type="text" id="set-redirect-domain" class="form-input" style="padding-left: 14px;" value="travelpayouts.com" />
+              <span style="font-size: 10px; color: var(--text-muted);">Root routing domain for custom booking queries.</span>
+            </div>
+
+            <button type="submit" class="btn-primary" style="justify-content: center; margin-top: 12px;">
+              <i class="fa-solid fa-floppy-disk"></i> Save Partner Configurations
+            </button>
+          </div>
+          
+          <button type="button" id="btn-unlock-settings" class="btn-secondary" onclick="unlockAffiliateSettings()" style="justify-content: center;">
+            <i class="fa-solid fa-key"></i> Verify Security PIN
+          </button>
+        </div>
+      </form>
+
+      <div style="margin-top: auto; border-top: 1px solid var(--border-color); padding-top: 16px; font-size: 11px; color: var(--text-muted); line-height: 1.4;">
+        * Note: The default security PIN is <strong>1234</strong>. You can change this code at any time by editing the configurations file.
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Application Logic Script -->
+  <script src="app.js"></script>
+</body>
+</html>
