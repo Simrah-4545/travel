@@ -4,9 +4,9 @@
 
 // --- DEFAULT SITE CONFIGURATIONS ---
 const TRAVEL_CONFIG = {
-  defaultTpMarker: "394982",
+  defaultTpMarker: "742255",
   defaultBookingAid: "2194829",
-  defaultTaxiMarker: "556677",
+  defaultTaxiMarker: "742255",
   defaultRedirectDomain: "travelpayouts.com",
   defaultSecurityPin: "1234"
 };
@@ -948,7 +948,7 @@ function generateAffiliateLink(type, item) {
     const destination = encodeURIComponent(state.searchParams.destination || "Dubai");
     const checkin = state.searchParams.dateIn || "";
     const checkout = state.searchParams.dateOut || "";
-    let url = `https://www.booking.com/index.html?ss=${destination}&aid=${aid}`;
+    let url = `https://www.booking.com/?ss=${destination}&aid=${aid}`;
     if (checkin) url += `&checkin=${checkin}`;
     if (checkout) url += `&checkout=${checkout}`;
     return url;
