@@ -857,8 +857,8 @@ function renderResultsList() {
         </div>
         <div class="ticket-pricing-col">
           <span class="ticket-price">₹${item.price.toLocaleString()}</span>
-          <span style="font-size:10px; color:var(--text-muted);">Total per traveler</span>
-          <a href="${redirectLink}" target="_blank" class="btn-primary" style="width:100%; justify-content:center; padding:8px 16px;">
+          <span style="font-size:10px; color:var(--text-secondary);">Total per traveler</span>
+          <a href="${redirectLink}" target="_blank" class="btn-primary" style="width:100%; justify-content:center; padding:10px 16px;">
             Book Flight <i class="fa-solid fa-chevron-right"></i>
           </a>
         </div>
@@ -880,7 +880,10 @@ function renderResultsList() {
             <h3 class="hotel-name">${item.name}</h3>
             <div class="hotel-rating-row">
               <span class="hotel-stars">${starsHtml}</span>
-              <span style="font-size:12px; color:var(--text-secondary);"><i class="fa-solid fa-star" style="color:var(--accent-gold); margin-right:4px;"></i><strong>${item.score}</strong> ${scoreText}</span>
+              <div style="display:flex; align-items:center; gap:8px;">
+                <span style="background:var(--accent-gradient); color:#fff; font-weight:700; font-size:12px; padding:2px 8px; border-radius:4px; box-shadow:0 2px 8px rgba(168, 85, 247, 0.2);">${item.score}</span>
+                <span style="font-size:12.5px; color:var(--text-secondary); font-weight:600;">${scoreText}</span>
+              </div>
             </div>
           </div>
           <div class="hotel-amenities-list">
@@ -889,8 +892,8 @@ function renderResultsList() {
         </div>
         <div class="ticket-pricing-col">
           <span class="ticket-price">₹${item.price.toLocaleString()}</span>
-          <span style="font-size:10px; color:var(--text-muted);">avg rate / night</span>
-          <a href="${redirectLink}" target="_blank" class="btn-primary" style="width:100%; justify-content:center; padding:8px 16px;">
+          <span style="font-size:10px; color:var(--text-secondary);">avg rate / night</span>
+          <a href="${redirectLink}" target="_blank" class="btn-primary" style="width:100%; justify-content:center; padding:10px 16px;">
             Reserve Stay <i class="fa-solid fa-chevron-right"></i>
           </a>
         </div>
@@ -920,8 +923,8 @@ function renderResultsList() {
         </div>
         <div class="ticket-pricing-col">
           <span class="ticket-price">₹${item.price.toLocaleString()}</span>
-          <span style="font-size:10px; color:var(--text-muted);">estimated transfer cost</span>
-          <a href="${redirectLink}" target="_blank" class="btn-primary" style="width:100%; justify-content:center; padding:8px 16px;">
+          <span style="font-size:10px; color:var(--text-secondary);">estimated transfer cost</span>
+          <a href="${redirectLink}" target="_blank" class="btn-primary" style="width:100%; justify-content:center; padding:10px 16px;">
             Book Transfer <i class="fa-solid fa-chevron-right"></i>
           </a>
         </div>
