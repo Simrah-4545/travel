@@ -346,225 +346,134 @@ function generateMockResults(type) {
       });
     });
   } else if (type === "hotels") {
-    // Generate hotel comparison cards with rich attributes matching Booking.com filters
-    const hotelBrands = [
-      { 
-        name: "Grand Hyatt Regency", 
-        stars: 5, 
-        score: 9.1, 
-        propertyType: "Hotels",
-        meals: "breakfast", 
-        facilities: ["parking", "pool", "spa", "wifi", "fitness"], 
-        roomFacilities: ["ac", "sea-view", "balcony", "bathroom"],
-        bedrooms: 2,
-        bathrooms: 2,
-        neighborhood: "Downtown Dubai",
-        bedPreference: "king",
-        distance: 0.8,
-        cancellation: true,
-        noPrepayment: true,
-        activities: ["fitness"],
-        landmarks: ["Burj Khalifa", "Dubai Mall"],
-        brand: "Hyatt",
-        onlinePayment: true,
-        accessibility: ["wheelchair", "shower"],
-        travelGroup: ["couple", "family"]
-      },
-      { 
-        name: "Marriott Luxury Suites", 
-        stars: 5, 
-        score: 8.8, 
-        propertyType: "Apartments",
-        meals: "kitchen", 
-        facilities: ["wifi", "pool", "parking"], 
-        roomFacilities: ["ac", "kitchen", "bathroom", "balcony"],
-        bedrooms: 3,
-        bathrooms: 2,
-        neighborhood: "Dubai Marina",
-        bedPreference: "double",
-        distance: 1.5,
-        cancellation: true,
-        noPrepayment: false,
-        activities: ["beach"],
-        landmarks: ["Dubai Mall"],
-        brand: "Marriott",
-        onlinePayment: true,
-        accessibility: ["wheelchair"],
-        travelGroup: ["family", "group"]
-      },
-      { 
-        name: "Hilton Heights Plaza", 
-        stars: 4, 
-        score: 8.5, 
-        propertyType: "Hotels",
-        meals: "breakfast-dinner", 
-        facilities: ["wifi", "pool", "spa", "fitness"], 
-        roomFacilities: ["ac", "bathroom"],
-        bedrooms: 1,
-        bathrooms: 1,
-        neighborhood: "Downtown Dubai",
-        bedPreference: "king",
-        distance: 2.1,
-        cancellation: false,
-        noPrepayment: true,
-        activities: ["fitness"],
-        landmarks: ["Burj Khalifa"],
-        brand: "Hilton",
-        onlinePayment: true,
-        accessibility: ["shower"],
-        travelGroup: ["solo", "couple"]
-      },
-      { 
-        name: "Ibis Smart Stay Inn", 
-        stars: 3, 
-        score: 7.9, 
-        propertyType: "Hotels",
-        meals: "none", 
-        facilities: ["wifi"], 
-        roomFacilities: ["ac", "bathroom"],
-        bedrooms: 1,
-        bathrooms: 1,
-        neighborhood: "Dubai Marina",
-        bedPreference: "single",
-        distance: 4.8,
-        cancellation: true,
-        noPrepayment: true,
-        activities: [],
-        landmarks: [],
-        brand: "Ibis",
-        onlinePayment: false,
-        accessibility: ["wheelchair"],
-        travelGroup: ["solo"]
-      },
-      { 
-        name: "Holiday Inn Express", 
-        stars: 3, 
-        score: 8.1, 
-        propertyType: "Hotels",
-        meals: "breakfast", 
-        facilities: ["wifi", "pool", "parking"], 
-        roomFacilities: ["ac", "bathroom"],
-        bedrooms: 1,
-        bathrooms: 1,
-        neighborhood: "Dubai Marina",
-        bedPreference: "double",
-        distance: 3.5,
-        cancellation: true,
-        noPrepayment: true,
-        activities: [],
-        landmarks: [],
-        brand: "Holiday Inn",
-        onlinePayment: true,
-        accessibility: [],
-        travelGroup: ["solo", "couple"]
-      },
-      { 
-        name: "Novotel Premium Towers", 
-        stars: 4, 
-        score: 8.6, 
-        propertyType: "Hotels",
-        meals: "breakfast", 
-        facilities: ["wifi", "pool", "spa", "fitness", "shuttle"], 
-        roomFacilities: ["ac", "bathroom", "balcony"],
-        bedrooms: 2,
-        bathrooms: 1,
-        neighborhood: "Downtown Dubai",
-        bedPreference: "double",
-        distance: 1.2,
-        cancellation: true,
-        noPrepayment: false,
-        activities: ["fitness"],
-        landmarks: ["Burj Khalifa", "Dubai Mall"],
-        brand: "Novotel",
-        onlinePayment: true,
-        accessibility: ["emergency-cord", "shower"],
-        travelGroup: ["couple", "family"]
-      },
-      { 
-        name: "Blue Lagoon Luxury Resort", 
-        stars: 5, 
-        score: 9.4, 
-        propertyType: "Resorts",
-        meals: "all-inclusive", 
-        facilities: ["pool", "spa", "wifi", "parking", "fitness", "shuttle"], 
-        roomFacilities: ["ac", "private-pool", "sea-view", "balcony", "bathroom"],
-        bedrooms: 4,
-        bathrooms: 3,
-        neighborhood: "Palm Jumeirah",
-        bedPreference: "king",
-        distance: 0.2,
-        cancellation: true,
-        noPrepayment: true,
-        activities: ["fitness", "beach", "golf"],
-        landmarks: ["Burj Al Arab"],
-        brand: "Hyatt",
-        onlinePayment: true,
-        accessibility: ["wheelchair", "emergency-cord", "shower"],
-        travelGroup: ["couple", "family", "group"]
-      },
-      { 
-        name: "Sea View Villa", 
-        stars: 4, 
-        score: 8.9, 
-        propertyType: "Villas",
-        meals: "kitchen", 
-        facilities: ["wifi", "parking", "pool"], 
-        roomFacilities: ["ac", "sea-view", "balcony", "kitchen", "bathroom"],
-        bedrooms: 3,
-        bathrooms: 2,
-        neighborhood: "Palm Jumeirah",
-        bedPreference: "king",
-        distance: 2.8,
-        cancellation: true,
-        noPrepayment: true,
-        activities: ["beach"],
-        landmarks: ["Burj Al Arab"],
-        brand: "Marriott",
-        onlinePayment: true,
-        accessibility: ["wheelchair"],
-        travelGroup: ["family", "group"]
-      }
-    ];
+    // Generate at least 50 hotel comparison cards with rich attributes
+    const neighborhoods = ["Dubai Marina", "Downtown Dubai", "Palm Jumeirah", "Business Bay", "Jumeirah Beach"];
+    const brands = ["Hyatt", "Marriott", "Hilton", "Ibis", "Sheraton", "Sofitel", "Ritz-Carlton", "Radisson"];
     
-    hotelBrands.forEach((hot, index) => {
-      const pricePerNight = 4000 + (index * 2500) + (hot.stars * 1000);
-      const imgUrls = [
-        "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=400&q=80",
-        "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=400&q=80",
-        "https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=400&q=80",
-        "https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?auto=format&fit=crop&w=400&q=80",
-        "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&w=400&q=80",
-        "https://images.unsplash.com/photo-1564507592333-c60657eea523?auto=format&fit=crop&w=400&q=80",
-        "https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=400&q=80",
-        "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=400&q=80"
-      ];
+    const hotelNames = [
+      "Regency Resort", "Luxury Suites", "Heights Plaza", "Smart Stay Inn", 
+      "Express Inn", "Premium Towers", "Resort & Spa", "Sea View Villa",
+      "Elite Palace", "Sunset Retreat", "Royal Garden", "Comfort Lodgings",
+      "Grand Central Hotel", "Oceanic Retreat", "Urban Lodge", "Exclusive Oasis",
+      "Serene Sanctuary", "Classic Hotel", "Golden Tulip", "Starlight Manor",
+      "Prestige Heights", "Panoramic Vista", "Heritage House", "Metro Oasis",
+      "Oasis Sands", "Blue Horizon", "Majestic Palm", "Capital Suites",
+      "Central Park", "Skyline Tower", "Marina Dream", "Coastal Haven",
+      "Sovereign House", "Signature Stay", "Aura Resort", "Lakeside Villa",
+      "Palace View", "Sanctuary Cove", "Zenith Hotel", "Infinity Suites",
+      "Paramount Inn", "Avenue Plaza", "Iconic Towers", "Seaside Pavilion",
+      "Amber Garden", "Tranquil Bay", "Summit Crest", "Sapphire Sands",
+      "Emerald Palace", "Meridian Suites"
+    ];
+
+    const imgUrls = [
+      "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=400&q=80",
+      "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=400&q=80",
+      "https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=400&q=80",
+      "https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?auto=format&fit=crop&w=400&q=80",
+      "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&w=400&q=80",
+      "https://images.unsplash.com/photo-1564507592333-c60657eea523?auto=format&fit=crop&w=400&q=80",
+      "https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=400&q=80",
+      "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=400&q=80"
+    ];
+
+    for (let i = 0; i < 50; i++) {
+      // Determine neighborhood to guarantee at least 10 properties per main neighborhood
+      let neighborhood = "";
+      if (i < 15) {
+        neighborhood = "Dubai Marina";
+      } else if (i < 30) {
+        neighborhood = "Downtown Dubai";
+      } else if (i < 40) {
+        neighborhood = "Palm Jumeirah";
+      } else {
+        neighborhood = neighborhoods[i % neighborhoods.length];
+      }
+
+      const brand = brands[i % brands.length];
+      const name = `${brand} ${hotelNames[i]}`;
+      const stars = (i % 3) + 3; // Stars: 3, 4, or 5
+      const score = parseFloat((7.5 + (i * 0.05) % 2.4).toFixed(1)); // Scores between 7.5 and 9.9
+      const propertyType = i % 10 === 0 ? "Resorts" : (i % 10 === 1 ? "Villas" : (i % 10 === 2 ? "Apartments" : "Hotels"));
+      const meals = i % 4 === 0 ? "breakfast" : (i % 4 === 1 ? "kitchen" : (i % 4 === 2 ? "breakfast-dinner" : "all-inclusive"));
       
+      const facilities = ["wifi"];
+      if (i % 2 === 0) facilities.push("pool");
+      if (i % 3 === 0) facilities.push("parking");
+      if (i % 4 === 0) facilities.push("spa");
+      if (i % 5 === 0) facilities.push("fitness");
+      if (i % 6 === 0) facilities.push("shuttle");
+
+      const roomFacilities = ["ac", "bathroom"];
+      if (i % 2 === 0) roomFacilities.push("balcony");
+      if (i % 3 === 0) roomFacilities.push("sea-view");
+      if (i % 4 === 0) roomFacilities.push("kitchen");
+      if (i % 5 === 0) roomFacilities.push("private-pool");
+
+      const bedrooms = (i % 3) + 1; // 1 to 3 bedrooms
+      const bathrooms = (i % 2) + 1; // 1 to 2 bathrooms
+      const distance = parseFloat((0.2 + (i * 0.1) % 4.5).toFixed(1)); // 0.2 to 4.7 km
+      const cancellation = i % 4 !== 0; // 75% free cancellation
+      const noPrepayment = i % 2 === 0; // 50% no prepayment
+      
+      const activities = [];
+      if (facilities.includes("fitness")) activities.push("fitness");
+      if (neighborhood === "Palm Jumeirah" || neighborhood === "Dubai Marina") activities.push("beach");
+      if (i % 8 === 0) activities.push("golf");
+
+      const landmarks = [];
+      if (neighborhood === "Downtown Dubai") {
+        landmarks.push("Burj Khalifa");
+        landmarks.push("Dubai Mall");
+      } else if (neighborhood === "Palm Jumeirah") {
+        landmarks.push("Burj Al Arab");
+      } else {
+        if (i % 2 === 0) landmarks.push("Dubai Mall");
+      }
+
+      const onlinePayment = i % 6 !== 0; // 83% accept online payment
+      
+      const accessibility = [];
+      if (i % 2 === 0) accessibility.push("wheelchair");
+      if (i % 3 === 0) accessibility.push("emergency-cord");
+      if (i % 4 === 0) accessibility.push("shower");
+
+      const travelGroup = ["couple"];
+      if (bedrooms > 1) travelGroup.push("family");
+      if (bedrooms > 2) travelGroup.push("group");
+      if (bedrooms === 1) travelGroup.push("solo");
+
+      // Calculate price per night to span ₹4,000 to ₹34,000 (perfectly fits inside the ₹35,000 slider limit)
+      const basePrice = 3000 + (i * 500) + (stars * 1000);
+      const pricePerNight = Math.round(basePrice);
+      const image = imgUrls[i % imgUrls.length];
+
       state.rawResults.push({
-        id: `HOTEL-${2000 + index}`,
-        name: hot.name,
-        stars: hot.stars,
-        score: hot.score,
-        propertyType: hot.propertyType,
-        meals: hot.meals,
-        facilities: hot.facilities,
-        roomFacilities: hot.roomFacilities,
-        bedrooms: hot.bedrooms,
-        bathrooms: hot.bathrooms,
-        neighborhood: hot.neighborhood,
-        bedPreference: hot.bedPreference,
-        distance: hot.distance,
-        cancellation: hot.cancellation,
-        noPrepayment: hot.noPrepayment,
-        activities: hot.activities,
-        landmarks: hot.landmarks,
-        brand: hot.brand,
-        onlinePayment: hot.onlinePayment,
-        accessibility: hot.accessibility,
-        travelGroup: hot.travelGroup,
+        id: `HOTEL-${2000 + i}`,
+        name: name,
+        stars: stars,
+        score: score,
+        propertyType: propertyType,
+        meals: meals,
+        facilities: facilities,
+        roomFacilities: roomFacilities,
+        bedrooms: bedrooms,
+        bathrooms: bathrooms,
+        neighborhood: neighborhood,
+        bedPreference: i % 3 === 0 ? "king" : (i % 3 === 1 ? "double" : "single"),
+        distance: distance,
+        cancellation: cancellation,
+        noPrepayment: noPrepayment,
+        activities: activities,
+        landmarks: landmarks,
+        brand: brand,
+        onlinePayment: onlinePayment,
+        accessibility: accessibility,
+        travelGroup: travelGroup,
         price: pricePerNight,
-        image: imgUrls[index]
+        image: image
       });
-    });
+    }
   } else if (type === "cabs") {
     // Generate 5 types of transfers
     const cabOptions = [
