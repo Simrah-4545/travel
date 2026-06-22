@@ -97,6 +97,54 @@ let state = {
       image: "https://images.unsplash.com/photo-1589308078059-be1415eab4c3?auto=format&fit=crop&w=600&q=80",
       origin: "DEL",
       destCode: "HKT"
+    },
+    {
+      id: "cdg",
+      city: "Paris",
+      country: "France",
+      tag: "Romance & Art",
+      rating: 4.8,
+      duration: "5 Days, 4 Nights",
+      price: 28499,
+      image: "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=600&q=80",
+      origin: "DEL",
+      destCode: "CDG"
+    },
+    {
+      id: "jfk",
+      city: "New York",
+      country: "USA",
+      tag: "Urban Adventure",
+      rating: 4.7,
+      duration: "6 Days, 5 Nights",
+      price: 41999,
+      image: "https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?auto=format&fit=crop&w=600&q=80",
+      origin: "DEL",
+      destCode: "JFK"
+    },
+    {
+      id: "mle",
+      city: "Maldives",
+      country: "South Asia",
+      tag: "Private Lagoon",
+      rating: 4.9,
+      duration: "4 Days, 3 Nights",
+      price: 32999,
+      image: "https://images.unsplash.com/photo-1514282401047-d79a71a590e8?auto=format&fit=crop&w=600&q=80",
+      origin: "DEL",
+      destCode: "MLE"
+    },
+    {
+      id: "syd",
+      city: "Sydney",
+      country: "Australia",
+      tag: "Coastal Harbor",
+      rating: 4.8,
+      duration: "7 Days, 6 Nights",
+      price: 46999,
+      image: "https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?auto=format&fit=crop&w=600&q=80",
+      origin: "DEL",
+      destCode: "SYD"
     }
   ]
 };
@@ -106,7 +154,24 @@ window.addEventListener("DOMContentLoaded", () => {
   initializeSettings();
   setupDefaultDates();
   renderFeaturedDeals();
+  
+  const newsForm = document.getElementById("newsletter-form");
+  if (newsForm) {
+    newsForm.addEventListener("submit", handleNewsletterSubmit);
+  }
 });
+
+function handleNewsletterSubmit(e) {
+  e.preventDefault();
+  const emailInput = document.getElementById("newsletter-email");
+  if (emailInput) {
+    const email = emailInput.value.trim();
+    if (email) {
+      showToast(`Subscription Successful! Deals will be sent to ${email}`);
+      emailInput.value = "";
+    }
+  }
+}
 
 function initializeSettings() {
   const saved = localStorage.getItem("budgetstayfly_settings");
