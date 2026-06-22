@@ -1039,7 +1039,10 @@ function generateAffiliateLink(type, item) {
     const destination = encodeURIComponent(state.searchParams.destination || "Dubai");
     const checkin = state.searchParams.dateIn || "";
     const checkout = state.searchParams.dateOut || "";
-    return `https://www.booking.com/searchresults.html?ss=${destination}&checkin=${checkin}&checkout=${checkout}&aid=${aid}`;
+    let url = `https://www.booking.com/index.html?ss=${destination}&aid=${aid}`;
+    if (checkin) url += `&checkin=${checkin}`;
+    if (checkout) url += `&checkout=${checkout}`;
+    return url;
   } else if (type === "cab") {
     const pickup = encodeURIComponent(state.searchParams.pickup || "Dubai Airport");
     const dropoff = encodeURIComponent(state.searchParams.dropoff || "Dubai Marina");
