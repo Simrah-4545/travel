@@ -50,6 +50,8 @@
           <li><button class="nav-link-btn" onclick="selectTab('flights')">Flights</button></li>
           <li><button class="nav-link-btn" onclick="selectTab('hotels')">Hotels</button></li>
           <li><button class="nav-link-btn" onclick="scrollToElement('deals-section')">Hot Deals</button></li>
+          <li><button class="nav-link-btn" onclick="openPageOverlay('about')">About Us</button></li>
+          <li><button class="nav-link-btn" onclick="openPageOverlay('contact')">Contact</button></li>
         </ul>
       </nav>
       
@@ -324,6 +326,57 @@
       </div>
     </section>
 
+    <!-- SECTION: TRAVEL GUIDES & BLOG CONTENT -->
+    <section id="guides-section" style="margin-top: 60px;">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">Travel Guides &amp; <span>Expert Tips</span></h2>
+          <p class="section-subtitle">Read our latest articles to save money, travel smart, and plan your next itinerary.</p>
+        </div>
+      </div>
+      
+      <div class="guides-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-top: 30px;">
+        <!-- Guide 1 -->
+        <div class="guide-card" onclick="openPageOverlay('guide-flights')" style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-md); overflow: hidden; cursor: pointer; transition: var(--transition-smooth); display: flex; flex-direction: column;">
+          <div style="height: 180px; overflow: hidden; position: relative;">
+            <img src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=600&q=80" alt="Cheapest flights" style="width: 100%; height: 100%; object-fit: cover; transition: var(--transition-smooth);" class="guide-img">
+            <span style="position: absolute; top: 12px; left: 12px; background: var(--accent-blue); color: white; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 20px; text-transform: uppercase;">Flight Hacks</span>
+          </div>
+          <div style="padding: 20px; display: flex; flex-direction: column; flex: 1; gap: 10px;">
+            <h3 style="font-family: var(--font-heading); font-size: 17px; font-weight: 700; color: #ffffff;">10 Smart Hacks to Find the Cheapest Flights</h3>
+            <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.5; flex: 1;">Unlock hidden secrets airlines don't want you to know. Learn how booking days, incognito searches, and tracking tools save thousands.</p>
+            <span style="color: var(--accent-blue); font-size: 12.5px; font-weight: 600; display: flex; align-items: center; gap: 6px;">Read Article <i class="fa-solid fa-arrow-right"></i></span>
+          </div>
+        </div>
+        
+        <!-- Guide 2 -->
+        <div class="guide-card" onclick="openPageOverlay('guide-hotels')" style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-md); overflow: hidden; cursor: pointer; transition: var(--transition-smooth); display: flex; flex-direction: column;">
+          <div style="height: 180px; overflow: hidden; position: relative;">
+            <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=600&q=80" alt="Luxury hotels" style="width: 100%; height: 100%; object-fit: cover; transition: var(--transition-smooth);" class="guide-img">
+            <span style="position: absolute; top: 12px; left: 12px; background: var(--accent-purple); color: white; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 20px; text-transform: uppercase;">Hotel Tips</span>
+          </div>
+          <div style="padding: 20px; display: flex; flex-direction: column; flex: 1; gap: 10px;">
+            <h3 style="font-family: var(--font-heading); font-size: 17px; font-weight: 700; color: #ffffff;">How to Book 5-Star Luxury Stays for Half the Price</h3>
+            <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.5; flex: 1;">You don't need a massive budget to stay in style. Discover how off-peak travel, direct booking perks, and secret sales slice hotel costs.</p>
+            <span style="color: var(--accent-purple); font-size: 12.5px; font-weight: 600; display: flex; align-items: center; gap: 6px;">Read Article <i class="fa-solid fa-arrow-right"></i></span>
+          </div>
+        </div>
+
+        <!-- Guide 3 -->
+        <div class="guide-card" onclick="openPageOverlay('guide-packing')" style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-md); overflow: hidden; cursor: pointer; transition: var(--transition-smooth); display: flex; flex-direction: column;">
+          <div style="height: 180px; overflow: hidden; position: relative;">
+            <img src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=600&q=80" alt="Packing guide" style="width: 100%; height: 100%; object-fit: cover; transition: var(--transition-smooth);" class="guide-img">
+            <span style="position: absolute; top: 12px; left: 12px; background: var(--accent-blue); color: white; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 20px; text-transform: uppercase;">Smart Travel</span>
+          </div>
+          <div style="padding: 20px; display: flex; flex-direction: column; flex: 1; gap: 10px;">
+            <h3 style="font-family: var(--font-heading); font-size: 17px; font-weight: 700; color: #ffffff;">The Ultimate Smart Packing Guide for Light Travel</h3>
+            <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.5; flex: 1;">Avoid baggage fees and travel light. Learn the compression packing methods, gear essentials, and digitizing checklists for stress-free trips.</p>
+            <span style="color: var(--accent-blue); font-size: 12.5px; font-weight: 600; display: flex; align-items: center; gap: 6px;">Read Article <i class="fa-solid fa-arrow-right"></i></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- SECTION: NEWSLETTER BANNER -->
     <section id="newsletter-section" style="margin-top: 60px;">
       <div class="newsletter-banner">
@@ -351,10 +404,31 @@
       </p>
       <ul class="footer-links">
         <li><button class="footer-link-btn" onclick="scrollToElement('navbar')">Home</button></li>
+        <li><button class="footer-link-btn" onclick="openPageOverlay('about')">About Us</button></li>
+        <li><button class="footer-link-btn" onclick="openPageOverlay('contact')">Contact Us</button></li>
+        <li><button class="footer-link-btn" onclick="openPageOverlay('privacy')">Privacy Policy</button></li>
         <li><button class="footer-link-btn" onclick="openAffiliateDrawer()">Partner Console</button></li>
-        <li><button class="footer-link-btn" onclick="alert('BudgetStayFly.com respects your privacy. All user search coordinates and cookies are stored locally in your browser.')">Privacy Policy</button></li>
       </ul>
     </footer>
+  </div>
+
+  <!-- ==================== GENERIC PAGE OVERLAY VIEW (ABOUT / PRIVACY / CONTACT / ARTICLES) ==================== -->
+  <div class="results-overlay" id="page-overlay-panel">
+    <div class="results-header" style="max-width: 900px; margin: 0 auto; width: 100%;">
+      <div class="results-summary-info">
+        <h2 id="page-overlay-title" style="font-family: var(--font-heading); font-size: 26px; font-weight: 800; color: #ffffff;">Page Title</h2>
+        <p id="page-overlay-subtitle" style="font-size: 13px; color: var(--text-secondary); margin-top: 4px;">Sub-heading text</p>
+      </div>
+      <button class="close-overlay-btn" onclick="closePageOverlay()" title="Close">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+    
+    <div style="max-width: 900px; margin: 40px auto; padding: 0 24px; overflow-y: visible;">
+      <div id="page-overlay-content" class="overlay-rich-content" style="color: var(--text-secondary); font-size: 14.5px; line-height: 1.8;">
+        <!-- Dynamically injected content -->
+      </div>
+    </div>
   </div>
 
   <!-- ==================== SEARCH RESULTS DRAWER VIEW ==================== -->
@@ -1155,6 +1229,12 @@
       </div>
     </div>
   </div>
+
+  <!-- ==================== FLOATING WHATSAPP BUTTON ==================== -->
+  <a href="https://wa.me/919911083423?text=Hi%20BudgetStayFly!%20I%20have%20a%20travel%20query." class="whatsapp-float" target="_blank" rel="noopener noreferrer" title="Chat on WhatsApp">
+    <i class="fa-brands fa-whatsapp whatsapp-icon"></i>
+    <span class="whatsapp-tooltip">Chat with us</span>
+  </a>
 
   <!-- Main Application Logic Script -->
   <script src="app.js"></script>

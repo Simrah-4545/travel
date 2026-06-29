@@ -1110,3 +1110,185 @@ function saveAffiliateSettings(e) {
   showToast("Configurations saved locally.");
   closeAffiliateDrawer();
 }
+
+// --- DYNAMIC PAGE OVERLAY CONTROLLER ---
+function openPageOverlay(pageId) {
+  const panel = document.getElementById("page-overlay-panel");
+  const titleEl = document.getElementById("page-overlay-title");
+  const subtitleEl = document.getElementById("page-overlay-subtitle");
+  const contentEl = document.getElementById("page-overlay-content");
+  
+  if (!panel || !titleEl || !subtitleEl || !contentEl) return;
+  
+  let title = "";
+  let subtitle = "";
+  let htmlContent = "";
+  
+  if (pageId === "about") {
+    title = "About BudgetStayFly.com";
+    subtitle = "Our mission, technology, and commitment to travelers.";
+    htmlContent = `
+      <div style="display:flex; flex-direction:column; gap:24px;">
+        <p>Welcome to <strong>BudgetStayFly.com</strong>. We are a next-generation travel meta-search engine designed to help modern explorers search, compare, and book the cheapest flights, top-rated stays, and airport transfers globally without hidden markups or service fees.</p>
+        
+        <h3 style="color:#ffffff; font-family:var(--font-heading); font-size:18px; margin-top:10px;">Our Mission</h3>
+        <p>At BudgetStayFly, we believe travel has the power to transform lives, and high booking costs should never stand in the way. Our mission is to make global travel accessible, affordable, and transparent for everyone. By using advanced aggregation algorithms, we filter through hundreds of airlines, accommodation portals, and transfer companies to curate the best price-to-comfort packages available.</p>
+        
+        <h3 style="color:#ffffff; font-family:var(--font-heading); font-size:18px; margin-top:10px;">How It Works</h3>
+        <p>Unlike traditional online travel agencies (OTAs), we don't sell flight tickets or hotel rooms directly. Instead, we query direct partner networks like Booking.com, KiwiTaxi, and JetRadar. When you click on a deal, we redirect you directly to their official secure servers to complete your purchase, ensuring you get the official rate with zero added service commissions.</p>
+        
+        <h3 style="color:#ffffff; font-family:var(--font-heading); font-size:18px; margin-top:10px;">Why Choose Us?</h3>
+        <ul style="padding-left:20px; display:flex; flex-direction:column; gap:10px;">
+          <li><strong>Zero Markups:</strong> The price you see is exactly what our partners provide. We never add booking fees.</li>
+          <li><strong>Direct Referrals:</strong> Secure transactions handled directly by global trusted platforms (e.g. Booking.com).</li>
+          <li><strong>Search Personalization:</strong> Set custom affiliate settings in our console to manage referrals.</li>
+        </ul>
+      </div>
+    `;
+  } else if (pageId === "privacy") {
+    title = "Privacy Policy";
+    subtitle = "Learn how we handle data and protect your travel search privacy.";
+    htmlContent = `
+      <div style="display:flex; flex-direction:column; gap:24px;">
+        <p>Last updated: June 2026</p>
+        <p>At BudgetStayFly.com, we prioritize the confidentiality and safety of our visitors' data. This Privacy Policy details how we collect, process, and protect your information when you browse or search on our website.</p>
+        
+        <h3 style="color:#ffffff; font-family:var(--font-heading); font-size:18px; margin-top:10px;">1. Information We Collect</h3>
+        <p>We believe in data minimization. We do not require user accounts, registration, or logins to search flights or hotels on our platform. All searches are anonymous.</p>
+        <ul style="padding-left:20px; display:flex; flex-direction:column; gap:10px;">
+          <li><strong>Search Coordinates:</strong> We process search parameters (departure cities, destination codes, check-in dates, cabin preferences) locally to request partner deals.</li>
+          <li><strong>Cookies & Local Storage:</strong> Your custom affiliate settings (partner console markers and preferences) are stored locally in your web browser's <code>localStorage</code>. We do not store them on our servers.</li>
+        </ul>
+        
+        <h3 style="color:#ffffff; font-family:var(--font-heading); font-size:18px; margin-top:10px;">2. Redirects and Third-Party Platforms</h3>
+        <p>Our website acts as an aggregator. When you click "Book Flight", "Compare Stays", or cab redirect links, you leave BudgetStayFly.com and are redirected to third-party platforms (like JetRadar, Booking.com, or KiwiTaxi). These external platforms maintain their own distinct privacy policies and secure servers. We encourage you to review their policies upon redirection.</p>
+        
+        <h3 style="color:#ffffff; font-family:var(--font-heading); font-size:18px; margin-top:10px;">3. Security</h3>
+        <p>All communication between your browser and our storefront is encrypted using industry-standard Secure Socket Layer (SSL) certificates over HTTPS. We protect our Partner Settings dashboard using a local security passcode lock.</p>
+      </div>
+    `;
+  } else if (pageId === "contact") {
+    title = "Contact Us";
+    subtitle = "Get in touch with the BudgetStayFly team for support, business inquiries, or feedback.";
+    htmlContent = `
+      <div style="display:flex; flex-direction:column; gap:24px; max-width:600px;">
+        <p>Have questions about travel deals, affiliate partnerships, or feedback? Send us a message below, and our support team will get back to you within 24-48 hours.</p>
+        
+        <!-- Direct Contact Details -->
+        <div style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-color); padding: 20px; border-radius: var(--radius-md); display: flex; flex-direction: column; gap: 12px; margin-top: 10px;">
+          <h4 style="color:#ffffff; font-family:var(--font-heading); font-size:16px; font-weight:700; margin:0 0 4px 0;"><i class="fa-solid fa-address-book" style="color:var(--accent-blue); margin-right:8px;"></i> Direct Contact Info</h4>
+          <div style="display:flex; flex-direction:column; gap:8px; font-size:13.5px;">
+            <div style="display:flex; align-items:center; gap:10px;">
+              <span style="width:24px; display:inline-block; text-align:center;"><i class="fa-solid fa-phone" style="color:var(--accent-blue);"></i></span>
+              <span>Phone: <a href="tel:+919911083423" style="color:var(--accent-blue); text-decoration:underline;">+91-9911083423</a></span>
+            </div>
+            <div style="display:flex; align-items:center; gap:10px;">
+              <span style="width:24px; display:inline-block; text-align:center;"><i class="fa-solid fa-envelope" style="color:var(--accent-blue);"></i></span>
+              <span>Email: <a href="mailto:ahmed.khan0503@gmail.com" style="color:var(--accent-blue); text-decoration:underline;">ahmed.khan0503@gmail.com</a></span>
+            </div>
+          </div>
+        </div>
+
+        <form onsubmit="handleContactSubmit(event)" style="display:flex; flex-direction:column; gap:16px; margin-top:10px;">
+          <div class="form-group">
+            <label class="form-label" style="color:#ffffff; font-weight: 500; font-size: 13.5px; margin-bottom: 6px; display: block;">Your Name</label>
+            <input type="text" id="contact-name" class="form-input" placeholder="Enter your full name" required style="background:rgba(255,255,255,0.02);" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" style="color:#ffffff; font-weight: 500; font-size: 13.5px; margin-bottom: 6px; display: block;">Email Address</label>
+            <input type="email" id="contact-email" class="form-input" placeholder="name@example.com" required style="background:rgba(255,255,255,0.02);" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" style="color:#ffffff; font-weight: 500; font-size: 13.5px; margin-bottom: 6px; display: block;">Message</label>
+            <textarea id="contact-message" class="form-input" style="height: 120px; resize: none; background:rgba(255,255,255,0.02);" placeholder="Write your message here..." required></textarea>
+          </div>
+          <button type="submit" class="btn-primary" style="align-self: flex-start; justify-content:center; margin-top: 10px;">
+            Send Message <i class="fa-solid fa-paper-plane"></i>
+          </button>
+        </form>
+      </div>
+    `;
+  } else if (pageId === "guide-flights") {
+    title = "10 Smart Hacks to Find the Cheapest Flights";
+    subtitle = "Flight Hacks &bull; 6 min read";
+    htmlContent = `
+      <div style="display:flex; flex-direction:column; gap:24px;">
+        <p>Finding cheap airfare can feel like a game of cat and mouse. Airlines use complex dynamic pricing algorithms that change ticket prices by the minute. However, with a few smart techniques, you can beat the system and lock in incredible rates.</p>
+        
+        <h3 style="color:#ffffff; font-family:var(--font-heading); font-size:18px; margin-top:10px;">1. Search Incognito</h3>
+        <p>Have you ever noticed flight prices increase after searching for them a couple of times in your browser? Airlines track your cookies and raise prices on routes you search frequently to create a sense of urgency. Always search for flights in incognito or private browsing mode to keep your history clean.</p>
+        
+        <h3 style="color:#ffffff; font-family:var(--font-heading); font-size:18px; margin-top:10px;">2. Use Meta-Search Aggregators</h3>
+        <p>Never buy tickets from the first airline website you open. Use meta-search engines like BudgetStayFly.com. We pull direct fares from multiple airline partners and consolidation hubs concurrently, showing you the absolute cheapest route options instantly.</p>
+        
+        <h3 style="color:#ffffff; font-family:var(--font-heading); font-size:18px; margin-top:10px;">3. Fly on Budget Days</h3>
+        <p>While there is no magic day to buy tickets, flying on mid-week days (Tuesdays, Wednesdays, and Thursdays) is generally significantly cheaper than weekend departures (Fridays and Sundays) when holiday and leisure traffic spikes.</p>
+        
+        <h3 style="color:#ffffff; font-family:var(--font-heading); font-size:18px; margin-top:10px;">4. Set Up Price Alerts</h3>
+        <p>If you have a future trip planned, don't buy immediately. Set up email price notifications. Monitoring the price trajectory over 2-3 weeks will give you a clear baseline of what a "good deal" looks like for that route.</p>
+      </div>
+    `;
+  } else if (pageId === "guide-hotels") {
+    title = "How to Book 5-Star Luxury Stays for Half the Price";
+    subtitle = "Hotel Tips &bull; 5 min read";
+    htmlContent = `
+      <div style="display:flex; flex-direction:column; gap:24px;">
+        <p>A luxurious hotel stay doesn't have to carry a four-figure price tag. Luxury hotels frequently have unsold room inventory and offer deep discounts through specific channels to keep their occupancy high.</p>
+        
+        <h3 style="color:#ffffff; font-family:var(--font-heading); font-size:18px; margin-top:10px;">1. Travel During the "Shoulder Season"</h3>
+        <p>The "shoulder season" is the sweet spot between peak season (expensive, crowded) and off-peak season (bad weather, closed attractions). Traveling to Europe in September/October or Southeast Asia in March/April offers pristine luxury stays at a fraction of summer or holiday rates.</p>
+        
+        <h3 style="color:#ffffff; font-family:var(--font-heading); font-size:18px; margin-top:10px;">2. Book Direct or Use Meta-Search</h3>
+        <p>Meta-search systems allow you to see price comparisons between booking agencies. Sometimes Booking.com has exclusive member rates or app-only mobile discounts that are 10-15% cheaper than desktop sites. Our redirects carry you directly to these secure discounted bookings.</p>
+        
+        <h3 style="color:#ffffff; font-family:var(--font-heading); font-size:18px; margin-top:10px;">3. Look for Newly Opened Properties</h3>
+        <p>New luxury hotels often offer massive "opening discounts" (up to 40% off) for their first few months to gather customer reviews and build brand momentum. Search for newly listed properties on hotel comparison grids to cash in on these offers.</p>
+      </div>
+    `;
+  } else if (pageId === "guide-packing") {
+    title = "The Ultimate Smart Packing Guide for Light Travel";
+    subtitle = "Smart Travel &bull; 4 min read";
+    htmlContent = `
+      <div style="display:flex; flex-direction:column; gap:24px;">
+        <p>Nothing slows a trip down like heavy, oversized luggage. Checking bags also adds significant fees on budget airlines and risks loss in transit. The solution is simple: learn to travel light and smart with just a carry-on.</p>
+        
+        <h3 style="color:#ffffff; font-family:var(--font-heading); font-size:18px; margin-top:10px;">1. Adopt the 5-4-3-2-1 Rule</h3>
+        <p>For a week-long trip, limit your clothing to: 5 pairs of socks and underwear, 4 tops/shirts, 3 bottoms (pants/shorts), 2 pairs of shoes, and 1 hat/jacket. Stick to neutral colors that you can easily mix and match.</p>
+        
+        <h3 style="color:#ffffff; font-family:var(--font-heading); font-size:18px; margin-top:10px;">2. Roll, Don't Fold</h3>
+        <p>Rolling clothes instead of folding them flat is a proven space saver. It compresses fabric and prevents creases. Even better, use compression packing cubes to squeeze extra air out of your luggage.</p>
+        
+        <h3 style="color:#ffffff; font-family:var(--font-heading); font-size:18px; margin-top:10px;">3. Go Digital with Documents</h3>
+        <p>Keep scanned copies of your passport, travel insurance, tickets, and reservations on a secure cloud folder (like Google Drive) accessible offline on your smartphone. Avoid carrying stacks of paper backups.</p>
+      </div>
+    `;
+  }
+  
+  titleEl.innerText = title;
+  subtitleEl.innerText = subtitle;
+  contentEl.innerHTML = htmlContent;
+  
+  panel.classList.add("active");
+  document.body.style.overflow = "hidden"; // Disable scroll
+}
+
+function closePageOverlay() {
+  const panel = document.getElementById("page-overlay-panel");
+  if (panel) panel.classList.remove("active");
+  document.body.style.overflow = "auto"; // Re-enable scroll
+}
+
+function handleContactSubmit(e) {
+  e.preventDefault();
+  const name = document.getElementById("contact-name").value;
+  const email = document.getElementById("contact-email").value;
+  const message = document.getElementById("contact-message").value;
+  
+  if (name && email && message) {
+    showToast("Message sent successfully! We will contact you soon.");
+    document.getElementById("contact-name").value = "";
+    document.getElementById("contact-email").value = "";
+    document.getElementById("contact-message").value = "";
+    closePageOverlay();
+  }
+}
