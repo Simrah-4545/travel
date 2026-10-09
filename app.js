@@ -1,24 +1,27 @@
 // ==========================================================================
-// BUDGETSTAYFLY.COM - APPLICATION CONTROLLER & SEARCH ENGINE
+// BUDGETSTAYFLY.COM - SKYSCANNER AFFILIATE CONTROLLER & META-SEARCH ENGINE
 // ==========================================================================
 
-// --- DEFAULT SITE CONFIGURATIONS ---
 const TRAVEL_CONFIG = {
-  defaultTpMarker: "742255",
+  defaultTpMarker: "394982",
   defaultBookingAid: "2194829",
-  defaultTaxiMarker: "742255",
-  defaultRedirectDomain: "travelpayouts.com",
-  defaultSecurityPin: "1234"
+  defaultTaxiMarker: "394982",
+  defaultRedirectDomain: "skyscanner.net",
+  defaultSecurityPin: "1234",
+  impactVerificationId: "68365de3-fa82-485f-8dab-15c1696d4c80"
 };
 
 // --- INITIAL APPLICATION STATE ---
 let state = {
   settings: {},
-  currentSearchType: "flights", // "flights", "hotels", or "cabs"
+  currentSearchType: "flights", // "flights", "hotels", "carhire", "everywhere"
+  currentCurrency: "INR",
+  currencySymbol: "₹",
+  currencyRate: 1.0, // Base INR
   searchParams: {},
   rawResults: [],
   filteredResults: [],
-  sortBy: "cheapest", // "cheapest", "quickest", "recommended"
+  sortBy: "cheapest",
   filters: {
     stops: ["0", "1", "2"],
     priceSliderLimit: 35000,
@@ -27,124 +30,76 @@ let state = {
   },
   destinations: [
     {
-      id: "dxb",
+      id: "skyscanner-london",
+      city: "London",
+      country: "United Kingdom",
+      tag: "Popular Skyscanner Route",
+      rating: 4.9,
+      duration: "Direct Flights Available",
+      price: 42999,
+      image: "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&w=600&q=80",
+      origin: "JFK",
+      destCode: "LHR"
+    },
+    {
+      id: "skyscanner-dubai",
       city: "Dubai",
-      country: "UAE",
-      tag: "Luxury & Desert",
+      country: "United Arab Emirates",
+      tag: "Top Skyscanner Deal",
       rating: 4.8,
-      duration: "4 Days, 3 Nights",
-      price: 24999,
+      duration: "Direct Flights Available",
+      price: 18499,
       image: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=600&q=80",
       origin: "DEL",
       destCode: "DXB"
     },
     {
-      id: "dps",
+      id: "skyscanner-paris",
+      city: "Paris",
+      country: "France",
+      tag: "Skyscanner Best Price",
+      rating: 4.9,
+      duration: "Direct Flights Available",
+      price: 32999,
+      image: "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=600&q=80",
+      origin: "JFK",
+      destCode: "CDG"
+    },
+    {
+      id: "skyscanner-tokyo",
+      city: "Tokyo",
+      country: "Japan",
+      tag: "Trending Skyscanner Destination",
+      rating: 4.9,
+      duration: "Direct Flights Available",
+      price: 49999,
+      image: "https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&w=600&q=80",
+      origin: "LAX",
+      destCode: "NRT"
+    },
+    {
+      id: "skyscanner-bali",
       city: "Bali",
       country: "Indonesia",
-      tag: "Exotic Beaches",
+      tag: "Budget Stay & Flight",
       rating: 4.7,
-      duration: "5 Days, 4 Nights",
-      price: 18499,
+      duration: "Connecting Flights",
+      price: 18999,
       image: "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=600&q=80",
       origin: "DEL",
       destCode: "DPS"
     },
     {
-      id: "fco",
-      city: "Rome",
-      country: "Italy",
-      tag: "Historic Ancient",
-      rating: 4.9,
-      duration: "6 Days, 5 Nights",
-      price: 35999,
-      image: "https://images.unsplash.com/photo-1552832230-c0197dd311b5?auto=format&fit=crop&w=600&q=80",
-      origin: "DEL",
-      destCode: "FCO"
-    },
-    {
-      id: "lhr",
-      city: "London",
-      country: "UK",
-      tag: "Royal Heritage",
-      rating: 4.6,
-      duration: "5 Days, 4 Nights",
-      price: 42999,
-      image: "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&w=600&q=80",
-      origin: "DEL",
-      destCode: "LHR"
-    },
-    {
-      id: "nrt",
-      city: "Tokyo",
-      country: "Japan",
-      tag: "Modern Neon",
-      rating: 4.9,
-      duration: "7 Days, 6 Nights",
-      price: 49999,
-      image: "https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&w=600&q=80",
-      origin: "DEL",
-      destCode: "NRT"
-    },
-    {
-      id: "hkt",
-      city: "Phuket",
-      country: "Thailand",
-      tag: "Tropical Paradise",
-      rating: 4.5,
-      duration: "4 Days, 3 Nights",
-      price: 12999,
-      image: "https://images.unsplash.com/photo-1589308078059-be1415eab4c3?auto=format&fit=crop&w=600&q=80",
-      origin: "DEL",
-      destCode: "HKT"
-    },
-    {
-      id: "cdg",
-      city: "Paris",
-      country: "France",
-      tag: "Romance & Art",
-      rating: 4.8,
-      duration: "5 Days, 4 Nights",
-      price: 28499,
-      image: "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=600&q=80",
-      origin: "DEL",
-      destCode: "CDG"
-    },
-    {
-      id: "jfk",
+      id: "skyscanner-newyork",
       city: "New York",
       country: "USA",
-      tag: "Urban Adventure",
-      rating: 4.7,
-      duration: "6 Days, 5 Nights",
-      price: 41999,
-      image: "https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?auto=format&fit=crop&w=600&q=80",
-      origin: "DEL",
-      destCode: "JFK"
-    },
-    {
-      id: "mle",
-      city: "Maldives",
-      country: "South Asia",
-      tag: "Private Lagoon",
-      rating: 4.9,
-      duration: "4 Days, 3 Nights",
-      price: 32999,
-      image: "https://images.unsplash.com/photo-1514282401047-d79a71a590e8?auto=format&fit=crop&w=600&q=80",
-      origin: "DEL",
-      destCode: "MLE"
-    },
-    {
-      id: "syd",
-      city: "Sydney",
-      country: "Australia",
-      tag: "Coastal Harbor",
+      tag: "Skyscanner Route Deal",
       rating: 4.8,
-      duration: "7 Days, 6 Nights",
-      price: 46999,
-      image: "https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?auto=format&fit=crop&w=600&q=80",
-      origin: "DEL",
-      destCode: "SYD"
+      duration: "Direct Flights Available",
+      price: 38999,
+      image: "https://images.unsplash.com/photo-1500916434205-0c77489c6cf7?auto=format&fit=crop&w=600&q=80",
+      origin: "LHR",
+      destCode: "JFK"
     }
   ]
 };
@@ -164,12 +119,9 @@ window.addEventListener("DOMContentLoaded", () => {
 function handleNewsletterSubmit(e) {
   e.preventDefault();
   const emailInput = document.getElementById("newsletter-email");
-  if (emailInput) {
-    const email = emailInput.value.trim();
-    if (email) {
-      showToast(`Subscription Successful! Deals will be sent to ${email}`);
-      emailInput.value = "";
-    }
+  if (emailInput && emailInput.value.trim()) {
+    showToast(`Skyscanner Fare Alerts Activated for ${emailInput.value.trim()}`);
+    emailInput.value = "";
   }
 }
 
@@ -177,8 +129,10 @@ function initializeSettings() {
   const saved = localStorage.getItem("budgetstayfly_settings");
   if (saved) {
     state.settings = JSON.parse(saved);
-    if (!state.settings.taxiMarker) {
+    if (!state.settings.tpMarker || state.settings.tpMarker === "742255") {
+      state.settings.tpMarker = TRAVEL_CONFIG.defaultTpMarker;
       state.settings.taxiMarker = TRAVEL_CONFIG.defaultTaxiMarker;
+      saveSettingsState();
     }
   } else {
     state.settings = {
@@ -196,10 +150,8 @@ function saveSettingsState() {
   localStorage.setItem("budgetstayfly_settings", JSON.stringify(state.settings));
 }
 
-// Automatically sets departure & check-in dates to next week
 function setupDefaultDates() {
   const today = new Date();
-  
   const depDate = new Date();
   depDate.setDate(today.getDate() + 7);
   const depStr = depDate.toISOString().split("T")[0];
@@ -211,6 +163,9 @@ function setupDefaultDates() {
   const flightDepInput = document.getElementById("flight-date-dep");
   if (flightDepInput) flightDepInput.value = depStr;
   
+  const flightRetInput = document.getElementById("flight-date-ret");
+  if (flightRetInput) flightRetInput.value = retStr;
+
   const hotelInInput = document.getElementById("hotel-date-in");
   if (hotelInInput) hotelInInput.value = depStr;
   
@@ -219,6 +174,41 @@ function setupDefaultDates() {
 
   const cabDateInput = document.getElementById("cab-date");
   if (cabDateInput) cabDateInput.value = depStr;
+
+  const cabDateDropInput = document.getElementById("cab-date-drop");
+  if (cabDateDropInput) cabDateDropInput.value = retStr;
+}
+
+// --- CURRENCY CONVERTER ---
+function changeCurrency(curr) {
+  state.currentCurrency = curr;
+  if (curr === "USD") {
+    state.currencySymbol = "$";
+    state.currencyRate = 0.012;
+  } else if (curr === "EUR") {
+    state.currencySymbol = "€";
+    state.currencyRate = 0.011;
+  } else if (curr === "GBP") {
+    state.currencySymbol = "£";
+    state.currencyRate = 0.0095;
+  } else if (curr === "AED") {
+    state.currencySymbol = "AED ";
+    state.currencyRate = 0.044;
+  } else {
+    state.currencySymbol = "₹";
+    state.currencyRate = 1.0;
+  }
+  
+  renderFeaturedDeals();
+  if (state.filteredResults.length > 0) {
+    renderResultsList();
+  }
+  showToast(`Currency changed to ${curr}`);
+}
+
+function formatPrice(valInInr) {
+  const converted = Math.round(valInInr * state.currencyRate);
+  return `${state.currencySymbol}${converted.toLocaleString()}`;
 }
 
 // --- NAVIGATION & DOM VIEW INTERACTIVITY ---
@@ -233,34 +223,29 @@ function scrollToElement(id) {
   if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
+function toggleReturnDate(show) {
+  const group = document.getElementById("group-flight-return");
+  if (group) {
+    group.style.opacity = show ? "1" : "0.5";
+    group.style.pointerEvents = show ? "auto" : "none";
+  }
+}
+
 function selectTab(type) {
   state.currentSearchType = type;
   
-  const tabFlights = document.getElementById("tab-flights");
-  const tabHotels = document.getElementById("tab-hotels");
-  const tabCabs = document.getElementById("tab-cabs");
-  const formFlights = document.getElementById("flights-search-form");
-  const formHotels = document.getElementById("hotels-search-form");
-  const formCabs = document.getElementById("cabs-search-form");
+  const tabs = ["flights", "hotels", "carhire", "everywhere"];
+  tabs.forEach(t => {
+    const tabBtn = document.getElementById(`tab-${t}`);
+    const formEl = document.getElementById(`${t}-search-form`);
+    if (tabBtn) tabBtn.classList.remove("active");
+    if (formEl) formEl.style.display = "none";
+  });
   
-  tabFlights.classList.remove("active");
-  tabHotels.classList.remove("active");
-  if (tabCabs) tabCabs.classList.remove("active");
-  
-  formFlights.style.display = "none";
-  formHotels.style.display = "none";
-  if (formCabs) formCabs.style.display = "none";
-  
-  if (type === "flights") {
-    tabFlights.classList.add("active");
-    formFlights.style.display = "block";
-  } else if (type === "hotels") {
-    tabHotels.classList.add("active");
-    formHotels.style.display = "block";
-  } else if (type === "cabs") {
-    if (tabCabs) tabCabs.classList.add("active");
-    if (formCabs) formCabs.style.display = "block";
-  }
+  const activeTab = document.getElementById(`tab-${type}`);
+  const activeForm = document.getElementById(`${type}-search-form`);
+  if (activeTab) activeTab.classList.add("active");
+  if (activeForm) activeForm.style.display = "block";
 }
 
 function showToast(message) {
@@ -273,7 +258,7 @@ function showToast(message) {
   }
 }
 
-// --- RENDER CURRENT POPULAR DEALS LIST ---
+// --- RENDER CURRENT POPULAR SKYSCANNER DEALS LIST ---
 function renderFeaturedDeals() {
   const container = document.getElementById("featured-deals-grid");
   if (!container) return;
@@ -295,12 +280,12 @@ function renderFeaturedDeals() {
           <span class="deal-rating"><i class="fa-solid fa-star"></i> ${d.rating}</span>
         </div>
         <div class="deal-meta">
-          <span><i class="fa-solid fa-clock"></i> ${d.duration}</span>
-          <span><i class="fa-solid fa-plane"></i> Direct flight</span>
+          <span><i class="fa-solid fa-plane"></i> ${d.duration}</span>
+          <span><i class="fa-solid fa-shield-halved" style="color:#00a698;"></i> Skyscanner Direct</span>
         </div>
         <div class="deal-price-row">
-          <span class="price-label">Packages starting from</span>
-          <span class="price-value">₹${d.price.toLocaleString()}</span>
+          <span class="price-label">Lowest fare from</span>
+          <span class="price-value">${formatPrice(d.price)}</span>
         </div>
       </div>
     `;
@@ -312,93 +297,122 @@ function selectAndRunDeal(deal) {
   selectTab("flights");
   document.getElementById("flight-origin").value = deal.origin;
   document.getElementById("flight-destination").value = deal.destCode;
-  
-  // Set date to 7 days from now
   setupDefaultDates();
-  
-  // Trigger search simulator
   executeSearch(null, "flights");
 }
 
-// --- MOCK RESULTS GENERATION MACHINE ---
-// --- MOCK RESULTS GENERATION MACHINE ---
+function getSkyscannerHotelUrl(customDest, customIn, customOut) {
+  const marker = state.settings.tpMarker || TRAVEL_CONFIG.defaultTpMarker || "394982";
+  const destVal = customDest || document.getElementById("hotel-destination")?.value || state.searchParams.destination || "Dubai";
+  const dateInVal = customIn || document.getElementById("hotel-date-in")?.value || state.searchParams.dateIn || "";
+  const dateOutVal = customOut || document.getElementById("hotel-date-out")?.value || state.searchParams.dateOut || "";
+  
+  const dest = encodeURIComponent(destVal);
+  let skyscannerTarget = `https://www.skyscanner.net/hotels/search?q=${dest}`;
+  if (dateInVal && dateOutVal) {
+    skyscannerTarget += `&sd=${dateInVal}&ed=${dateOutVal}`;
+  }
+  return `https://c.tp.media/r?marker=${marker}&p=4453&u=${encodeURIComponent(skyscannerTarget)}`;
+}
+
+function openSkyscannerHotelsDirect(e, customDest) {
+  if (e) e.preventDefault();
+  const url = getSkyscannerHotelUrl(customDest);
+  window.open(url, "_blank");
+}
+
+// --- SKYSCANNER RESULTS GENERATION MACHINE ---
 function executeSearch(e, type) {
   if (e) e.preventDefault();
   
   const loader = document.getElementById("search-loader");
   const loaderText = document.getElementById("loader-status-text");
   if (loader) {
-    loaderText.innerText = type === "flights" ? "Comparing live airline ticket tariffs..." : 
-                           (type === "hotels" ? "Scanning hotel room availability..." : "Aggregating airport transfer rates...");
+    if (type === "flights") {
+      loaderText.innerText = "Comparing 1,200+ airline ticket tariffs on Skyscanner...";
+    } else if (type === "hotels") {
+      loaderText.innerText = "Connecting directly to Skyscanner Hotels Engine...";
+    } else if (type === "carhire") {
+      loaderText.innerText = "Searching Skyscanner Car Hire at 30,000+ airport locations...";
+    } else {
+      loaderText.innerText = "Exploring cheapest flights everywhere on Skyscanner...";
+    }
     loader.classList.add("active");
   }
   
   // Extract inputs
   if (type === "flights") {
     state.searchParams = {
-      origin: document.getElementById("flight-origin").value.toUpperCase(),
-      destination: document.getElementById("flight-destination").value.toUpperCase(),
-      date: document.getElementById("flight-date-dep").value,
-      cabin: document.getElementById("flight-cabin").value
+      origin: (document.getElementById("flight-origin")?.value || "DEL").toUpperCase(),
+      destination: (document.getElementById("flight-destination")?.value || "DXB").toUpperCase(),
+      date: document.getElementById("flight-date-dep")?.value || "",
+      cabin: document.getElementById("flight-cabin")?.value || "economy"
     };
   } else if (type === "hotels") {
     state.searchParams = {
-      destination: document.getElementById("hotel-destination").value,
-      dateIn: document.getElementById("hotel-date-in").value,
-      dateOut: document.getElementById("hotel-date-out").value
+      destination: document.getElementById("hotel-destination")?.value || "Dubai",
+      dateIn: document.getElementById("hotel-date-in")?.value || "",
+      dateOut: document.getElementById("hotel-date-out")?.value || ""
     };
-  } else if (type === "cabs") {
+    
+    // Automatically launch Skyscanner Hotels in new tab with partner marker 394982
+    const directUrl = getSkyscannerHotelUrl(
+      state.searchParams.destination,
+      state.searchParams.dateIn,
+      state.searchParams.dateOut
+    );
+    window.open(directUrl, "_blank");
+  } else if (type === "carhire") {
     state.searchParams = {
-      pickup: document.getElementById("cab-pickup").value,
-      dropoff: document.getElementById("cab-dropoff").value,
-      date: document.getElementById("cab-date").value,
-      time: document.getElementById("cab-time").value,
-      transferType: document.querySelector('input[name="cab-transfer-type"]:checked').value
+      pickup: document.getElementById("cab-pickup")?.value || "Dubai Airport (DXB)",
+      dropoff: document.getElementById("cab-dropoff")?.value || "Dubai Airport (DXB)",
+      date: document.getElementById("cab-date")?.value || ""
+    };
+  } else if (type === "everywhere") {
+    state.searchParams = {
+      origin: (document.getElementById("everywhere-origin")?.value || "New York").toUpperCase(),
+      destination: "EVERYWHERE",
+      month: document.getElementById("everywhere-month")?.value || "anytime"
     };
   }
   
-  // Simulate network query
+  // Network simulation
   setTimeout(() => {
     generateMockResults(type);
-    
     if (loader) loader.classList.remove("active");
-    
-    // Open panel
     openResultsPanel(type);
-  }, 1500);
+  }, 1200);
 }
 
 function generateMockResults(type) {
   state.rawResults = [];
-  const baseMultiplier = state.searchParams.cabin === "business" ? 3.5 : (state.searchParams.cabin === "first" ? 6 : 1);
   
-  if (type === "flights") {
-    // Generate flights comparing 6 mock options
+  if (type === "flights" || type === "everywhere") {
     const carriers = [
       { name: "Emirates", code: "EK", score: 4.8 },
       { name: "Qatar Airways", code: "QR", score: 4.9 },
-      { name: "Air India", code: "AI", score: 4.0 },
-      { name: "IndiGo", code: "6E", score: 4.2 },
-      { name: "Etihad Airways", code: "EY", score: 4.7 },
-      { name: "Gulf Air", code: "GF", score: 4.1 }
+      { name: "British Airways", code: "BA", score: 4.7 },
+      { name: "Air India", code: "AI", score: 4.1 },
+      { name: "IndiGo", code: "6E", score: 4.3 },
+      { name: "Lufthansa", code: "LH", score: 4.7 },
+      { name: "Etihad Airways", code: "EY", score: 4.8 }
     ];
     
     carriers.forEach((car, index) => {
-      const durationHours = Math.floor(Math.random() * 5) + 3;
+      const durationHours = Math.floor(Math.random() * 4) + 3;
       const durationMins = Math.floor(Math.random() * 60);
       const stops = index % 3 === 0 ? 0 : (index % 3 === 1 ? 1 : 2);
       
-      // Calculate realistic base price
-      let basePrice = 12000 + (index * 2500) - (stops * 1500);
-      if (state.searchParams.destination === "DXB") basePrice = 18000 + (index * 2000) - (stops * 2000);
-      if (state.searchParams.destination === "LHR") basePrice = 45000 + (index * 5000) - (stops * 4000);
+      let basePrice = 14000 + (index * 2200) - (stops * 1200);
+      if (state.searchParams.destination === "DXB") basePrice = 17500 + (index * 1800);
+      if (state.searchParams.destination === "LHR") basePrice = 41000 + (index * 4500);
       
-      const price = Math.round(basePrice * baseMultiplier);
+      const price = Math.round(basePrice);
       const depHour = String(6 + index * 2).padStart(2, '0');
       const arrHour = String((6 + index * 2 + durationHours) % 24).padStart(2, '0');
       
       state.rawResults.push({
-        id: `FLIGHT-${1000 + index}`,
+        id: `SKY-FLIGHT-${1000 + index}`,
         carrier: car.name,
         code: car.code,
         score: car.score,
@@ -406,218 +420,55 @@ function generateMockResults(type) {
         arrTime: `${arrHour}:${durationMins === 0 ? '00' : durationMins}`,
         duration: `${durationHours}h ${durationMins}m`,
         stops: stops,
-        price: price,
-        recommended: car.score >= 4.7
+        price: price
       });
     });
   } else if (type === "hotels") {
-    // Generate at least 50 hotel comparison cards with rich attributes
-    const neighborhoods = ["Dubai Marina", "Downtown Dubai", "Palm Jumeirah", "Business Bay", "Jumeirah Beach"];
-    const brands = ["Hyatt", "Marriott", "Hilton", "Ibis", "Sheraton", "Sofitel", "Ritz-Carlton", "Radisson"];
-    
     const hotelNames = [
-      "Regency Resort", "Luxury Suites", "Heights Plaza", "Smart Stay Inn", 
-      "Express Inn", "Premium Towers", "Resort & Spa", "Sea View Villa",
-      "Elite Palace", "Sunset Retreat", "Royal Garden", "Comfort Lodgings",
-      "Grand Central Hotel", "Oceanic Retreat", "Urban Lodge", "Exclusive Oasis",
-      "Serene Sanctuary", "Classic Hotel", "Golden Tulip", "Starlight Manor",
-      "Prestige Heights", "Panoramic Vista", "Heritage House", "Metro Oasis",
-      "Oasis Sands", "Blue Horizon", "Majestic Palm", "Capital Suites",
-      "Central Park", "Skyline Tower", "Marina Dream", "Coastal Haven",
-      "Sovereign House", "Signature Stay", "Aura Resort", "Lakeside Villa",
-      "Palace View", "Sanctuary Cove", "Zenith Hotel", "Infinity Suites",
-      "Paramount Inn", "Avenue Plaza", "Iconic Towers", "Seaside Pavilion",
-      "Amber Garden", "Tranquil Bay", "Summit Crest", "Sapphire Sands",
-      "Emerald Palace", "Meridian Suites"
+      "Skyscanner Choice: Grand Hyatt Resort",
+      "Skyscanner Top Rated: Marriott Luxury Suites",
+      "Sheraton Beach Plaza",
+      "Ibis Style Central Inn",
+      "Hilton Resort & Spa",
+      "Sofitel City Center",
+      "Ritz-Carlton Reserve"
     ];
-
+    
     const imgUrls = [
       "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=400&q=80",
       "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=400&q=80",
       "https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=400&q=80",
-      "https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?auto=format&fit=crop&w=400&q=80",
-      "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&w=400&q=80",
-      "https://images.unsplash.com/photo-1564507592333-c60657eea523?auto=format&fit=crop&w=400&q=80",
-      "https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=400&q=80",
-      "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=400&q=80"
+      "https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?auto=format&fit=crop&w=400&q=80"
     ];
 
-    for (let i = 0; i < 50; i++) {
-      // Determine neighborhood to guarantee at least 10 properties per main neighborhood
-      let neighborhood = "";
-      if (i < 15) {
-        neighborhood = "Dubai Marina";
-      } else if (i < 30) {
-        neighborhood = "Downtown Dubai";
-      } else if (i < 40) {
-        neighborhood = "Palm Jumeirah";
-      } else {
-        neighborhood = neighborhoods[i % neighborhoods.length];
-      }
-
-      const brand = brands[i % brands.length];
-      const name = `${brand} ${hotelNames[i]}`;
-      const stars = (i % 3) + 3; // Stars: 3, 4, or 5
-      const score = parseFloat((7.5 + (i * 0.05) % 2.4).toFixed(1)); // Scores between 7.5 and 9.9
-      const propertyType = i % 10 === 0 ? "Resorts" : (i % 10 === 1 ? "Villas" : (i % 10 === 2 ? "Apartments" : "Hotels"));
-      const meals = i % 4 === 0 ? "breakfast" : (i % 4 === 1 ? "kitchen" : (i % 4 === 2 ? "breakfast-dinner" : "all-inclusive"));
-      
-      const facilities = ["wifi"];
-      if (i % 2 === 0) facilities.push("pool");
-      if (i % 3 === 0) facilities.push("parking");
-      if (i % 4 === 0) facilities.push("spa");
-      if (i % 5 === 0) facilities.push("fitness");
-      if (i % 6 === 0) facilities.push("shuttle");
-
-      const roomFacilities = ["ac", "bathroom"];
-      if (i % 2 === 0) roomFacilities.push("balcony");
-      if (i % 3 === 0) roomFacilities.push("sea-view");
-      if (i % 4 === 0) roomFacilities.push("kitchen");
-      if (i % 5 === 0) roomFacilities.push("private-pool");
-
-      const bedrooms = (i % 3) + 1; // 1 to 3 bedrooms
-      const bathrooms = (i % 2) + 1; // 1 to 2 bathrooms
-      const distance = parseFloat((0.2 + (i * 0.1) % 4.5).toFixed(1)); // 0.2 to 4.7 km
-      const cancellation = i % 4 !== 0; // 75% free cancellation
-      const noPrepayment = i % 2 === 0; // 50% no prepayment
-      
-      const activities = [];
-      if (facilities.includes("fitness")) activities.push("fitness");
-      if (neighborhood === "Palm Jumeirah" || neighborhood === "Dubai Marina") activities.push("beach");
-      if (i % 8 === 0) activities.push("golf");
-
-      const landmarks = [];
-      if (neighborhood === "Downtown Dubai") {
-        landmarks.push("Burj Khalifa");
-        landmarks.push("Dubai Mall");
-      } else if (neighborhood === "Palm Jumeirah") {
-        landmarks.push("Burj Al Arab");
-      } else {
-        if (i % 2 === 0) landmarks.push("Dubai Mall");
-      }
-
-      const onlinePayment = i % 6 !== 0; // 83% accept online payment
-      
-      const accessibility = [];
-      if (i % 2 === 0) accessibility.push("wheelchair");
-      if (i % 3 === 0) accessibility.push("emergency-cord");
-      if (i % 4 === 0) accessibility.push("shower");
-
-      const travelGroup = ["couple"];
-      if (bedrooms > 1) travelGroup.push("family");
-      if (bedrooms > 2) travelGroup.push("group");
-      if (bedrooms === 1) travelGroup.push("solo");
-
-      // Calculate price per night to span ₹4,000 to ₹34,000 (perfectly fits inside the ₹35,000 slider limit)
-      const basePrice = 3000 + (i * 500) + (stars * 1000);
-      const pricePerNight = Math.round(basePrice);
-      const image = imgUrls[i % imgUrls.length];
-
+    hotelNames.forEach((name, i) => {
       state.rawResults.push({
-        id: `HOTEL-${2000 + i}`,
+        id: `SKY-HOTEL-${2000 + i}`,
         name: name,
-        stars: stars,
-        score: score,
-        propertyType: propertyType,
-        meals: meals,
-        facilities: facilities,
-        roomFacilities: roomFacilities,
-        bedrooms: bedrooms,
-        bathrooms: bathrooms,
-        neighborhood: neighborhood,
-        bedPreference: i % 3 === 0 ? "king" : (i % 3 === 1 ? "double" : "single"),
-        distance: distance,
-        cancellation: cancellation,
-        noPrepayment: noPrepayment,
-        activities: activities,
-        landmarks: landmarks,
-        brand: brand,
-        onlinePayment: onlinePayment,
-        accessibility: accessibility,
-        travelGroup: travelGroup,
-        price: pricePerNight,
-        image: image
+        stars: (i % 3) + 3,
+        score: parseFloat((8.2 + (i * 0.2)).toFixed(1)),
+        propertyType: "Hotel",
+        price: 4500 + (i * 1200),
+        image: imgUrls[i % imgUrls.length]
       });
-    }
-  } else if (type === "cabs") {
-    // Generate 5 types of transfers
-    const cabOptions = [
-      {
-        name: "Standard Sedan",
-        class: "Economy",
-        price: 1200,
-        passengers: 4,
-        luggage: 3,
-        meetGreet: true,
-        cancellation: true,
-        payment: "cash",
-        extras: ["english-driver", "meet-greet"],
-        image: "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&w=400&q=80"
-      },
-      {
-        name: "Comfort Minivan",
-        class: "Minivan",
-        price: 1800,
-        passengers: 6,
-        luggage: 5,
-        meetGreet: true,
-        cancellation: true,
-        payment: "online",
-        extras: ["child-seat", "meet-greet"],
-        image: "https://images.unsplash.com/photo-1609521263047-f8f205293f24?auto=format&fit=crop&w=400&q=80"
-      },
-      {
-        name: "Luxury SUV transfer",
-        class: "SUV",
-        price: 2400,
-        passengers: 4,
-        luggage: 4,
-        meetGreet: true,
-        cancellation: true,
-        payment: "online",
-        extras: ["child-seat", "english-driver", "meet-greet"],
-        image: "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=400&q=80"
-      },
-      {
-        name: "Executive Business Sedan",
-        class: "Business",
-        price: 3200,
-        passengers: 3,
-        luggage: 2,
-        meetGreet: true,
-        cancellation: true,
-        payment: "online",
-        extras: ["english-driver", "meet-greet"],
-        image: "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=400&q=80"
-      },
-      {
-        name: "Large Group Minibus",
-        class: "Minibus",
-        price: 4800,
-        passengers: 16,
-        luggage: 16,
-        meetGreet: true,
-        cancellation: true,
-        payment: "online",
-        extras: ["english-driver", "meet-greet"],
-        image: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=400&q=80"
-      }
+    });
+  } else if (type === "carhire") {
+    const carOptions = [
+      { name: "Economy Sedan (Hertz)", class: "Economy", price: 1500, passengers: 4, luggage: 2 },
+      { name: "Compact SUV (Avis)", class: "SUV", price: 2200, passengers: 5, luggage: 4 },
+      { name: "Family Minivan (Sixt)", class: "Minivan", price: 3100, passengers: 7, luggage: 5 },
+      { name: "Luxury Executive (Europcar)", class: "Luxury", price: 4200, passengers: 4, luggage: 3 }
     ];
-
-    cabOptions.forEach((cab, index) => {
+    
+    carOptions.forEach((car, i) => {
       state.rawResults.push({
-        id: `CAB-${3000 + index}`,
-        name: cab.name,
-        class: cab.class,
-        price: cab.price,
-        passengers: cab.passengers,
-        luggage: cab.luggage,
-        meetGreet: cab.meetGreet,
-        cancellation: cab.cancellation,
-        payment: cab.payment,
-        extras: cab.extras,
-        image: cab.image,
-        score: 4.8 // All transfers score well
+        id: `SKY-CAR-${3000 + i}`,
+        name: car.name,
+        class: car.class,
+        price: car.price,
+        passengers: car.passengers,
+        luggage: car.luggage,
+        score: 4.8
       });
     });
   }
@@ -625,220 +476,8 @@ function generateMockResults(type) {
   applyFilters();
 }
 
-// --- FILTERING & SORTING REDIRECT MATRIX ---
-// --- INTERACTIVE FILTER STATE HELPERS ---
-function updatePriceFilter(val) {
-  state.filters.priceSliderLimit = parseInt(val);
-  const lbl = document.getElementById("price-slider-val");
-  if (lbl) {
-    lbl.innerText = `₹3,000 - ₹${parseInt(val).toLocaleString()}+`;
-  }
-  applyFilters();
-}
-
-function adjustCounter(type, delta) {
-  if (type === 'rooms-bed') {
-    state.filters.bedrooms = Math.max(0, Math.min(10, state.filters.bedrooms + delta));
-    const lbl = document.getElementById("lbl-counter-rooms-bed");
-    if (lbl) lbl.innerText = state.filters.bedrooms;
-  } else if (type === 'rooms-bath') {
-    state.filters.bathrooms = Math.max(0, Math.min(10, state.filters.bathrooms + delta));
-    const lbl = document.getElementById("lbl-counter-rooms-bath");
-    if (lbl) lbl.innerText = state.filters.bathrooms;
-  }
-  applyFilters();
-}
-
-// Recalculates dynamic count badges in the sidebar
-function updateFilterCounts() {
-  const type = state.currentSearchType;
-  if (type === "flights") return;
-  
-  const updateCountForSelector = (selector, testFn) => {
-    const checkboxes = document.querySelectorAll(selector);
-    checkboxes.forEach(cb => {
-      const val = cb.value;
-      const count = state.rawResults.filter(item => testFn(item, val)).length;
-      const parent = cb.closest(".checkbox-option");
-      if (parent) {
-        const badge = parent.querySelector(".filter-count");
-        if (badge) badge.innerText = count;
-      }
-    });
-  };
-
-  if (type === "hotels") {
-    updateCountForSelector(".pop-filter", (item, val) => {
-      if (val === "breakfast") return item.meals === "breakfast";
-      if (val === "stars5") return item.stars === 5;
-      if (val === "resorts") return item.propertyType === "Resorts";
-      if (val === "hotels") return item.propertyType === "Hotels";
-      if (val === "score8") return item.score >= 8.0;
-      if (val === "pool") return item.facilities.includes("pool");
-      if (val === "apartments") return item.propertyType === "Apartments";
-      return false;
-    });
-
-    updateCountForSelector(".prop-filter", (item, val) => item.propertyType === val);
-    updateCountForSelector(".meal-filter", (item, val) => item.meals === val);
-    updateCountForSelector(".facility-filter", (item, val) => item.facilities.includes(val));
-    updateCountForSelector(".room-filter", (item, val) => item.roomFacilities.includes(val));
-    updateCountForSelector(".score-filter", (item, val) => item.score >= parseFloat(val));
-    updateCountForSelector(".rating-filter", (item, val) => item.stars === parseInt(val));
-    updateCountForSelector(".neighborhood-filter", (item, val) => item.neighborhood === val);
-    updateCountForSelector(".bed-filter", (item, val) => item.bedPreference === val);
-    updateCountForSelector(".distance-filter", (item, val) => item.distance <= parseFloat(val));
-    updateCountForSelector(".policy-filter", (item, val) => {
-      if (val === "cancellation") return item.cancellation;
-      if (val === "noprepayment") return item.noPrepayment;
-      return false;
-    });
-    updateCountForSelector(".fun-filter", (item, val) => item.activities.includes(val));
-    updateCountForSelector(".landmark-filter", (item, val) => item.landmarks.includes(val));
-    updateCountForSelector(".brand-filter", (item, val) => item.brand === val);
-    updateCountForSelector(".payment-filter", (item, val) => val === "online" && item.onlinePayment);
-    updateCountForSelector(".access-filter", (item, val) => item.accessibility.includes(val));
-    updateCountForSelector(".group-filter", (item, val) => item.travelGroup.includes(val));
-    
-  } else if (type === "cabs") {
-    updateCountForSelector(".cab-class-filter", (item, val) => item.class === val);
-    updateCountForSelector(".cab-extra-filter", (item, val) => item.extras.includes(val));
-    updateCountForSelector(".cab-policy-filter", (item, val) => val === "free-cancellation" && item.cancellation);
-    updateCountForSelector(".cab-payment-filter", (item, val) => item.payment === val);
-  }
-}
-
-// --- FILTERING & SORTING REDIRECT MATRIX ---
 function applyFilters() {
-  const type = state.currentSearchType;
-  
-  if (type === "flights") {
-    const stopCheckboxes = document.querySelectorAll(".stop-filter:checked");
-    const activeStops = Array.from(stopCheckboxes).map(c => parseInt(c.value));
-    
-    state.filteredResults = state.rawResults.filter(item => {
-      return activeStops.includes(item.stops) || (item.stops >= 2 && activeStops.includes(2));
-    });
-  } else if (type === "hotels") {
-    const popCheckboxes = document.querySelectorAll(".pop-filter:checked");
-    const activePops = Array.from(popCheckboxes).map(c => c.value);
-
-    const propCheckboxes = document.querySelectorAll(".prop-filter:checked");
-    const activeProps = Array.from(propCheckboxes).map(c => c.value);
-
-    const mealCheckboxes = document.querySelectorAll(".meal-filter:checked");
-    const activeMeals = Array.from(mealCheckboxes).map(c => c.value);
-
-    const facilityCheckboxes = document.querySelectorAll(".facility-filter:checked");
-    const activeFacilities = Array.from(facilityCheckboxes).map(c => c.value);
-
-    const roomCheckboxes = document.querySelectorAll(".room-filter:checked");
-    const activeRooms = Array.from(roomCheckboxes).map(c => c.value);
-
-    const scoreCheckboxes = document.querySelectorAll(".score-filter:checked");
-    const activeScores = Array.from(scoreCheckboxes).map(c => parseFloat(c.value));
-
-    const ratingCheckboxes = document.querySelectorAll(".rating-filter:checked");
-    const activeRatings = Array.from(ratingCheckboxes).map(c => parseInt(c.value));
-
-    const neighborhoodCheckboxes = document.querySelectorAll(".neighborhood-filter:checked");
-    const activeNeighborhoods = Array.from(neighborhoodCheckboxes).map(c => c.value);
-
-    const bedCheckboxes = document.querySelectorAll(".bed-filter:checked");
-    const activeBeds = Array.from(bedCheckboxes).map(c => c.value);
-
-    const distanceCheckboxes = document.querySelectorAll(".distance-filter:checked");
-    const activeDistances = Array.from(distanceCheckboxes).map(c => parseFloat(c.value));
-
-    const policyCheckboxes = document.querySelectorAll(".policy-filter:checked");
-    const activePolicies = Array.from(policyCheckboxes).map(c => c.value);
-
-    const funCheckboxes = document.querySelectorAll(".fun-filter:checked");
-    const activeFuns = Array.from(funCheckboxes).map(c => c.value);
-
-    const landmarkCheckboxes = document.querySelectorAll(".landmark-filter:checked");
-    const activeLandmarks = Array.from(landmarkCheckboxes).map(c => c.value);
-
-    const brandCheckboxes = document.querySelectorAll(".brand-filter:checked");
-    const activeBrands = Array.from(brandCheckboxes).map(c => c.value);
-
-    const paymentCheckboxes = document.querySelectorAll(".payment-filter:checked");
-    const activePayments = Array.from(paymentCheckboxes).map(c => c.value);
-
-    const accessCheckboxes = document.querySelectorAll(".access-filter:checked");
-    const activeAccessibilities = Array.from(accessCheckboxes).map(c => c.value);
-
-    const groupCheckboxes = document.querySelectorAll(".group-filter:checked");
-    const activeGroups = Array.from(groupCheckboxes).map(c => c.value);
-
-    state.filteredResults = state.rawResults.filter(item => {
-      // 1. Price Limit
-      if (item.price > state.filters.priceSliderLimit) return false;
-
-      // 2. Room Counters
-      if (item.bedrooms < state.filters.bedrooms) return false;
-      if (item.bathrooms < state.filters.bathrooms) return false;
-
-      // 3. Checkboxes
-      if (activeProps.length > 0 && !activeProps.includes(item.propertyType)) return false;
-      if (activeMeals.length > 0 && !activeMeals.includes(item.meals)) return false;
-      if (activeFacilities.length > 0 && !activeFacilities.every(f => item.facilities.includes(f))) return false;
-      if (activeRooms.length > 0 && !activeRooms.every(r => item.roomFacilities.includes(r))) return false;
-      if (activeScores.length > 0 && !activeScores.some(limit => item.score >= limit)) return false;
-      if (activeRatings.length > 0 && !activeRatings.includes(item.stars)) return false;
-      if (activeNeighborhoods.length > 0 && !activeNeighborhoods.includes(item.neighborhood)) return false;
-      if (activeBeds.length > 0 && !activeBeds.includes(item.bedPreference)) return false;
-      if (activeDistances.length > 0 && !activeDistances.some(limit => item.distance <= limit)) return false;
-      if (activePolicies.length > 0) {
-        if (activePolicies.includes("cancellation") && !item.cancellation) return false;
-        if (activePolicies.includes("noprepayment") && !item.noPrepayment) return false;
-      }
-      if (activeFuns.length > 0 && !activeFuns.every(f => item.activities.includes(f))) return false;
-      if (activeLandmarks.length > 0 && !activeLandmarks.every(l => item.landmarks.includes(l))) return false;
-      if (activeBrands.length > 0 && !activeBrands.includes(item.brand)) return false;
-      if (activePayments.length > 0 && activePayments.includes("online") && !item.onlinePayment) return false;
-      if (activeAccessibilities.length > 0 && !activeAccessibilities.every(a => item.accessibility.includes(a))) return false;
-      if (activeGroups.length > 0 && !activeGroups.every(g => item.travelGroup.includes(g))) return false;
-
-      // 4. Popular filters
-      if (activePops.length > 0) {
-        return activePops.every(p => {
-          if (p === "breakfast" && item.meals !== "breakfast") return false;
-          if (p === "stars5" && item.stars !== 5) return false;
-          if (p === "resorts" && item.propertyType !== "Resorts") return false;
-          if (p === "hotels" && item.propertyType !== "Hotels") return false;
-          if (p === "score8" && item.score < 8.0) return false;
-          if (p === "pool" && !item.facilities.includes("pool")) return false;
-          if (p === "apartments" && item.propertyType !== "Apartments") return false;
-          return true;
-        });
-      }
-
-      return true;
-    });
-  } else if (type === "cabs") {
-    const classCheckboxes = document.querySelectorAll(".cab-class-filter:checked");
-    const activeClasses = Array.from(classCheckboxes).map(c => c.value);
-
-    const extraCheckboxes = document.querySelectorAll(".cab-extra-filter:checked");
-    const activeExtras = Array.from(extraCheckboxes).map(c => c.value);
-
-    const policyCheckboxes = document.querySelectorAll(".cab-policy-filter:checked");
-    const activePolicies = Array.from(policyCheckboxes).map(c => c.value);
-
-    const paymentCheckboxes = document.querySelectorAll(".cab-payment-filter:checked");
-    const activePayments = Array.from(paymentCheckboxes).map(c => c.value);
-
-    state.filteredResults = state.rawResults.filter(item => {
-      if (activeClasses.length > 0 && !activeClasses.includes(item.class)) return false;
-      if (activeExtras.length > 0 && !activeExtras.every(e => item.extras.includes(e))) return false;
-      if (activePolicies.length > 0 && activePolicies.includes("free-cancellation") && !item.cancellation) return false;
-      if (activePayments.length > 0 && !activePayments.includes(item.payment)) return false;
-      return true;
-    });
-  }
-  
-  updateFilterCounts();
+  state.filteredResults = [...state.rawResults];
   sortResults();
 }
 
@@ -848,22 +487,13 @@ function handleSortChange(val) {
 }
 
 function sortResults() {
-  const sortBy = state.sortBy;
-  
-  if (sortBy === "cheapest") {
+  if (state.sortBy === "cheapest") {
     state.filteredResults.sort((a,b) => a.price - b.price);
-  } else if (sortBy === "quickest") {
-    if (state.currentSearchType === "flights") {
-      state.filteredResults.sort((a,b) => a.stops - b.stops);
-    } else if (state.currentSearchType === "cabs") {
-      state.filteredResults.sort((a,b) => b.passengers - a.passengers);
-    } else {
-      state.filteredResults.sort((a,b) => b.stars - a.stars);
-    }
+  } else if (state.sortBy === "quickest") {
+    state.filteredResults.sort((a,b) => (a.stops || 0) - (b.stops || 0));
   } else {
     state.filteredResults.sort((a,b) => b.score - a.score);
   }
-  
   renderResultsList();
 }
 
@@ -874,24 +504,13 @@ function renderResultsList() {
   
   const type = state.currentSearchType;
   
-  if (state.filteredResults.length === 0) {
-    listContainer.innerHTML = `
-      <div style="text-align:center; padding:48px; border:1px dashed var(--border-color); border-radius:12px; background:var(--bg-card);">
-        <i class="fa-solid fa-magnifying-glass-chart" style="font-size:32px; color:var(--text-muted); margin-bottom:16px;"></i>
-        <h3 style="margin-bottom:8px;">No options match your filter selections</h3>
-        <p style="font-size:13px; color:var(--text-secondary);">Try clearing some filter checkmarks to see details.</p>
-      </div>
-    `;
-    return;
-  }
-  
   state.filteredResults.forEach(item => {
     const card = document.createElement("div");
+    const skyscannerLink = generateSkyscannerAffiliateLink(type, item);
     
-    if (type === "flights") {
+    if (type === "flights" || type === "everywhere") {
       card.className = "result-ticket-card";
-      const stopText = item.stops === 0 ? "Non-stop" : (item.stops === 1 ? "1 Stop" : `${item.stops} Stops`);
-      const redirectLink = generateAffiliateLink("flight", item);
+      const stopText = item.stops === 0 ? "Non-stop" : `${item.stops} Stop`;
       
       card.innerHTML = `
         <div class="ticket-itinerary-col">
@@ -900,174 +519,133 @@ function renderResultsList() {
               <div class="airline-logo-block">${item.code}</div>
               <div>
                 <span class="airline-name">${item.carrier}</span>
-                <span class="airline-code">${item.code}-704</span>
+                <span class="airline-code"><i class="fa-solid fa-circle-check" style="color:#00a698;"></i> Skyscanner Verified</span>
               </div>
             </div>
             <div class="flight-time-block">
               <span class="time-val">${item.depTime}</span>
-              <span class="airport-code">${state.searchParams.origin}</span>
+              <span class="airport-code">${state.searchParams.origin || 'DEL'}</span>
             </div>
             <div class="flight-duration-block">
               <span class="duration-lbl">${item.duration}</span>
-              <div class="stops-line-visual">
-                ${item.stops > 0 ? '<div class="stops-dot"></div>' : ''}
-              </div>
-              <span class="stops-lbl" style="color:${item.stops === 0 ? 'var(--status-success)' : 'var(--accent-gold)'}">${stopText}</span>
+              <div class="stops-line-visual"></div>
+              <span class="stops-lbl" style="color:${item.stops === 0 ? '#10b981' : '#f59e0b'}">${stopText}</span>
             </div>
             <div class="flight-time-block">
               <span class="time-val">${item.arrTime}</span>
-              <span class="airport-code">${state.searchParams.destination}</span>
+              <span class="airport-code">${state.searchParams.destination || 'DXB'}</span>
             </div>
           </div>
         </div>
         <div class="ticket-pricing-col">
-          <span class="ticket-price">₹${item.price.toLocaleString()}</span>
-          <span style="font-size:10px; color:var(--text-secondary);">Total per traveler</span>
-          <a href="${redirectLink}" target="_blank" class="btn-primary" style="width:100%; justify-content:center; padding:10px 16px;">
-            Book Flight <i class="fa-solid fa-chevron-right"></i>
+          <span class="ticket-price">${formatPrice(item.price)}</span>
+          <span style="font-size:10px; color:var(--text-secondary);">Direct Skyscanner Rate</span>
+          <a href="${skyscannerLink}" target="_blank" class="btn-primary btn-skyscanner" style="width:100%; justify-content:center; padding:10px 16px;">
+            Book on Skyscanner <i class="fa-solid fa-up-right-from-square"></i>
           </a>
         </div>
       `;
     } else if (type === "hotels") {
       card.className = "hotel-result-card";
-      const redirectLink = generateAffiliateLink("hotel", item);
-      const starsHtml = '<i class="fa-solid fa-star"></i>'.repeat(item.stars);
-      const displayBadges = [item.propertyType, ...item.facilities.slice(0, 3)];
-      const badgesHtml = displayBadges.map(b => `<span class="amenity-badge">${b.replace('-', ' ').toUpperCase()}</span>`).join("");
-      const scoreText = item.score >= 9.0 ? 'Exceptional' : (item.score >= 8.5 ? 'Very Good' : (item.score >= 8.0 ? 'Fabulous' : 'Good'));
-      
       card.innerHTML = `
         <div class="hotel-img-block">
           <img class="hotel-result-image" src="${item.image}" alt="${item.name}" />
         </div>
         <div class="hotel-details-block">
-          <div>
-            <h3 class="hotel-name">${item.name}</h3>
-            <div class="hotel-rating-row">
-              <span class="hotel-stars">${starsHtml}</span>
-              <div style="display:flex; align-items:center; gap:8px;">
-                <span style="background:var(--accent-gradient); color:#fff; font-weight:700; font-size:12px; padding:2px 8px; border-radius:4px; box-shadow:0 2px 8px rgba(168, 85, 247, 0.2);">${item.score}</span>
-                <span style="font-size:12.5px; color:var(--text-secondary); font-weight:600;">${scoreText}</span>
-              </div>
-            </div>
-          </div>
-          <div class="hotel-amenities-list">
-            ${badgesHtml}
+          <h3 class="hotel-name">${item.name}</h3>
+          <div class="hotel-rating-row">
+            <span style="color:#f59e0b;">★ ${item.stars} Stars</span>
+            <span style="background:rgba(0,166,152,0.2); color:#00a698; font-weight:700; padding:2px 8px; border-radius:4px;">${item.score} Rating</span>
           </div>
         </div>
         <div class="ticket-pricing-col">
-          <span class="ticket-price">₹${item.price.toLocaleString()}</span>
-          <span style="font-size:10px; color:var(--text-secondary);">avg rate / night</span>
-          <a href="${redirectLink}" target="_blank" class="btn-primary" style="width:100%; justify-content:center; padding:10px 16px;">
-            Reserve Stay <i class="fa-solid fa-chevron-right"></i>
+          <span class="ticket-price">${formatPrice(item.price)}</span>
+          <span style="font-size:10px; color:var(--text-secondary);">per night</span>
+          <a href="${skyscannerLink}" target="_blank" class="btn-primary btn-skyscanner" style="width:100%; justify-content:center; padding:10px 16px;">
+            View on Skyscanner <i class="fa-solid fa-up-right-from-square"></i>
           </a>
         </div>
       `;
-    } else if (type === "cabs") {
-      card.className = "hotel-result-card cab-result-card";
-      const redirectLink = generateAffiliateLink("cab", item);
-      const meetGreetHtml = item.meetGreet ? `<div style="font-size:12.5px; color:var(--status-success); font-weight:600; margin-top:8px;"><i class="fa-solid fa-circle-check"></i> Meet &amp; Greet Included</div>` : '';
-      const badgHtml = item.extras.map(e => `<span class="amenity-badge">${e.replace('-', ' ').toUpperCase()}</span>`).join("");
-      
+    } else if (type === "carhire") {
+      card.className = "hotel-result-card";
       card.innerHTML = `
-        <div class="hotel-img-block">
-          <img class="hotel-result-image" src="${item.image}" alt="${item.name}" />
-        </div>
-        <div class="hotel-details-block">
-          <div>
-            <h3 class="hotel-name">${item.name} (${item.class} Class)</h3>
-            <div style="display:flex; align-items:center; gap:16px; margin: 8px 0; color:var(--text-secondary); font-size:13.5px; font-weight:600;">
-              <span><i class="fa-solid fa-user" style="color:var(--accent-blue); margin-right:4px;"></i> Max ${item.passengers} Passengers</span>
-              <span><i class="fa-solid fa-suitcase" style="color:var(--accent-blue); margin-right:4px;"></i> Max ${item.luggage} Bags</span>
-            </div>
-            ${meetGreetHtml}
-          </div>
-          <div class="hotel-amenities-list">
-            ${badgHtml}
+        <div class="hotel-details-block" style="padding:20px;">
+          <h3 class="hotel-name">${item.name}</h3>
+          <div style="margin-top:8px; color:var(--text-secondary); font-size:13px;">
+            <span><i class="fa-solid fa-user"></i> ${item.passengers} Passengers</span> &bull; 
+            <span><i class="fa-solid fa-suitcase"></i> ${item.luggage} Bags</span>
           </div>
         </div>
         <div class="ticket-pricing-col">
-          <span class="ticket-price">₹${item.price.toLocaleString()}</span>
-          <span style="font-size:10px; color:var(--text-secondary);">estimated transfer cost</span>
-          <a href="${redirectLink}" target="_blank" class="btn-primary" style="width:100%; justify-content:center; padding:10px 16px;">
-            Book Transfer <i class="fa-solid fa-chevron-right"></i>
+          <span class="ticket-price">${formatPrice(item.price)}</span>
+          <span style="font-size:10px; color:var(--text-secondary);">estimated rental/day</span>
+          <a href="${skyscannerLink}" target="_blank" class="btn-primary btn-skyscanner" style="width:100%; justify-content:center; padding:10px 16px;">
+            Book Car on Skyscanner <i class="fa-solid fa-up-right-from-square"></i>
           </a>
         </div>
       `;
     }
-    
     listContainer.appendChild(card);
   });
 }
 
-// --- AFFILIATE ROUTING DEEP LINK BUILDER ---
-function generateAffiliateLink(type, item) {
+// --- SKYSCANNER AFFILIATE DEEP LINK GENERATOR ---
+function generateSkyscannerAffiliateLink(type, item) {
   const marker = state.settings.tpMarker || TRAVEL_CONFIG.defaultTpMarker;
-  const aid = state.settings.bookingAid || TRAVEL_CONFIG.defaultBookingAid;
-  const taxiMarker = state.settings.taxiMarker || TRAVEL_CONFIG.defaultTaxiMarker;
   
-  if (type === "flight") {
-    const origin = state.searchParams.origin || "DEL";
-    const dest = state.searchParams.destination || "DXB";
-    const date = state.searchParams.date || new Date().toISOString().split("T")[0];
-    const destinationUrl = `https://jetradar.com/searches/new?origin_iata=${origin}&destination_iata=${dest}&depart_date=${date}&marker=${marker}&sdk=true`;
-    return `https://c.tp.media/r?marker=${marker}&p=4453&u=${encodeURIComponent(destinationUrl)}`;
-  } else if (type === "hotel") {
-    const destination = encodeURIComponent(state.searchParams.destination || "Dubai");
-    const checkin = state.searchParams.dateIn || "";
-    const checkout = state.searchParams.dateOut || "";
-    let url = `https://www.booking.com/?ss=${destination}&aid=${aid}`;
-    if (checkin) url += `&checkin=${checkin}`;
-    if (checkout) url += `&checkout=${checkout}`;
-    return url;
-  } else if (type === "cab") {
+  if (type === "flights" || type === "everywhere") {
+    const origin = (state.searchParams.origin || "DEL").toLowerCase();
+    const dest = (state.searchParams.destination || "DXB").toLowerCase();
+    const skyscannerTarget = `https://www.skyscanner.net/transport/flights/${origin}/${dest}/`;
+    return `https://c.tp.media/r?marker=${marker}&p=4453&u=${encodeURIComponent(skyscannerTarget)}`;
+  } else if (type === "hotels") {
+    const queryTerm = item && item.name ? item.name : (state.searchParams.destination || "Dubai");
+    const dest = encodeURIComponent(queryTerm);
+    const dateIn = state.searchParams.dateIn || "";
+    const dateOut = state.searchParams.dateOut || "";
+    let skyscannerTarget = `https://www.skyscanner.net/hotels/search?q=${dest}`;
+    if (dateIn && dateOut) {
+      skyscannerTarget += `&sd=${dateIn}&ed=${dateOut}`;
+    }
+    return `https://c.tp.media/r?marker=${marker}&p=4453&u=${encodeURIComponent(skyscannerTarget)}`;
+  } else {
     const pickup = encodeURIComponent(state.searchParams.pickup || "Dubai Airport");
-    const dropoff = encodeURIComponent(state.searchParams.dropoff || "Dubai Marina");
-    return `https://kiwitaxi.com/en/search?start=${pickup}&end=${dropoff}&marker=${taxiMarker}`;
+    const skyscannerTarget = `https://www.skyscanner.net/carhire`;
+    return `https://c.tp.media/r?marker=${marker}&p=4453&u=${encodeURIComponent(skyscannerTarget)}`;
   }
 }
 
-// --- OPEN / CLOSE RESULTS DRAWER ---
+// --- DRAWER & DIALOG HELPERS ---
 function openResultsPanel(type) {
   const panel = document.getElementById("search-results-panel");
   const title = document.getElementById("res-header-title");
   const subtitle = document.getElementById("res-header-subtitle");
   
-  const stopsBlock = document.getElementById("filter-stops-block");
-  const hotelFilterBlock = document.getElementById("filter-hotel-blocks");
-  const cabFilterBlock = document.getElementById("filter-cab-blocks");
-  
   if (type === "flights") {
-    title.innerText = `Flights: ${state.searchParams.origin} to ${state.searchParams.destination}`;
-    subtitle.innerText = `Found ${state.filteredResults.length} routes &bull; Depart: ${state.searchParams.date} &bull; Class: ${state.searchParams.cabin.toUpperCase()}`;
-    stopsBlock.style.display = "block";
-    hotelFilterBlock.style.display = "none";
-    if (cabFilterBlock) cabFilterBlock.style.display = "none";
+    title.innerText = `Skyscanner Flights: ${state.searchParams.origin} to ${state.searchParams.destination}`;
+    subtitle.innerText = `Found ${state.filteredResults.length} live routes &bull; Depart: ${state.searchParams.date}`;
   } else if (type === "hotels") {
-    title.innerText = `Stays in ${state.searchParams.destination}`;
-    subtitle.innerText = `Comparing ${state.filteredResults.length} properties &bull; Dates: ${state.searchParams.dateIn} to ${state.searchParams.dateOut}`;
-    stopsBlock.style.display = "none";
-    hotelFilterBlock.style.display = "block";
-    if (cabFilterBlock) cabFilterBlock.style.display = "none";
-  } else if (type === "cabs") {
-    title.innerText = `Transfers: ${state.searchParams.pickup} to ${state.searchParams.dropoff}`;
-    subtitle.innerText = `Comparing ${state.filteredResults.length} vehicle options &bull; Date: ${state.searchParams.date} &bull; Time: ${state.searchParams.time}`;
-    stopsBlock.style.display = "none";
-    hotelFilterBlock.style.display = "none";
-    if (cabFilterBlock) cabFilterBlock.style.display = "block";
+    const directHotelLink = generateSkyscannerAffiliateLink('hotels', null);
+    title.innerText = `Skyscanner Hotels in ${state.searchParams.destination}`;
+    subtitle.innerHTML = `Comparing top properties across Booking.com & Agoda &bull; <a href="${directHotelLink}" target="_blank" style="color:#00a698; font-weight:700; text-decoration:underline;">Search Directly on Skyscanner Hotels <i class="fa-solid fa-up-right-from-square"></i></a>`;
+  } else if (type === "carhire") {
+    title.innerText = `Skyscanner Car Hire: ${state.searchParams.pickup}`;
+    subtitle.innerText = `Comparing Hertz, Avis, Sixt & Europcar`;
+  } else {
+    title.innerText = `Skyscanner 'Everywhere' Flight Comparison`;
+    subtitle.innerText = `Explore cheapest destinations worldwide`;
   }
   
   if (panel) panel.classList.add("active");
-  document.body.style.overflow = "hidden"; // Disable scroll
+  document.body.style.overflow = "hidden";
 }
 
 function closeResultsPanel() {
   const panel = document.getElementById("search-results-panel");
   if (panel) panel.classList.remove("active");
-  document.body.style.overflow = "auto"; // Re-enable scroll
+  document.body.style.overflow = "auto";
 }
 
-// --- PARTNER CONSOLE CONFIG DRAWERS ---
 function openAffiliateDrawer() {
   const drawer = document.getElementById("affiliate-drawer");
   if (drawer) drawer.classList.add("active");
@@ -1083,16 +661,12 @@ function closeAffiliateDrawer() {
 
 function unlockAffiliateSettings() {
   const pinInput = document.getElementById("aff-settings-pin").value;
-  
   if (pinInput === state.settings.securityPin) {
     showToast("Access Authorized.");
     document.getElementById("affiliate-inputs-block").style.display = "flex";
     document.getElementById("btn-unlock-settings").style.display = "none";
-    
     document.getElementById("set-tp-marker").value = state.settings.tpMarker;
     document.getElementById("set-booking-aid").value = state.settings.bookingAid;
-    document.getElementById("set-taxi-marker").value = state.settings.taxiMarker || TRAVEL_CONFIG.defaultTaxiMarker;
-    document.getElementById("set-redirect-domain").value = state.settings.redirectDomain || "travelpayouts.com";
   } else {
     showToast("Error: Incorrect Security PIN.");
   }
@@ -1100,195 +674,9 @@ function unlockAffiliateSettings() {
 
 function saveAffiliateSettings(e) {
   e.preventDefault();
-  
-  state.settings.tpMarker = document.getElementById("set-tp-marker").value.trim() || TRAVEL_CONFIG.defaultTpMarker;
-  state.settings.bookingAid = document.getElementById("set-booking-aid").value.trim() || TRAVEL_CONFIG.defaultBookingAid;
-  state.settings.taxiMarker = document.getElementById("set-taxi-marker").value.trim() || TRAVEL_CONFIG.defaultTaxiMarker;
-  state.settings.redirectDomain = document.getElementById("set-redirect-domain").value.trim() || "travelpayouts.com";
-  
+  state.settings.tpMarker = document.getElementById("set-tp-marker").value || TRAVEL_CONFIG.defaultTpMarker;
+  state.settings.bookingAid = document.getElementById("set-booking-aid").value || TRAVEL_CONFIG.defaultBookingAid;
   saveSettingsState();
-  showToast("Configurations saved locally.");
+  showToast("Skyscanner Partner Configurations Saved.");
   closeAffiliateDrawer();
-}
-
-// --- DYNAMIC PAGE OVERLAY CONTROLLER ---
-function openPageOverlay(pageId) {
-  const panel = document.getElementById("page-overlay-panel");
-  const titleEl = document.getElementById("page-overlay-title");
-  const subtitleEl = document.getElementById("page-overlay-subtitle");
-  const contentEl = document.getElementById("page-overlay-content");
-  
-  if (!panel || !titleEl || !subtitleEl || !contentEl) return;
-  
-  let title = "";
-  let subtitle = "";
-  let htmlContent = "";
-  
-  if (pageId === "about") {
-    title = "About BudgetStayFly.com";
-    subtitle = "Our mission, technology, and commitment to travelers.";
-    htmlContent = `
-      <div style="display:flex; flex-direction:column; gap:24px;">
-        <p>Welcome to <strong>BudgetStayFly.com</strong>. We are a next-generation travel meta-search engine designed to help modern explorers search, compare, and book the cheapest flights, top-rated stays, and airport transfers globally without hidden markups or service fees.</p>
-        
-        <h3 style="color:#ffffff; font-family:var(--font-heading); font-size:18px; margin-top:10px;">Our Mission</h3>
-        <p>At BudgetStayFly, we believe travel has the power to transform lives, and high booking costs should never stand in the way. Our mission is to make global travel accessible, affordable, and transparent for everyone. By using advanced aggregation algorithms, we filter through hundreds of airlines, accommodation portals, and transfer companies to curate the best price-to-comfort packages available.</p>
-        
-        <h3 style="color:#ffffff; font-family:var(--font-heading); font-size:18px; margin-top:10px;">How It Works</h3>
-        <p>Unlike traditional online travel agencies (OTAs), we don't sell flight tickets or hotel rooms directly. Instead, we query direct partner networks like Booking.com, KiwiTaxi, and JetRadar. When you click on a deal, we redirect you directly to their official secure servers to complete your purchase, ensuring you get the official rate with zero added service commissions.</p>
-        
-        <h3 style="color:#ffffff; font-family:var(--font-heading); font-size:18px; margin-top:10px;">Why Choose Us?</h3>
-        <ul style="padding-left:20px; display:flex; flex-direction:column; gap:10px;">
-          <li><strong>Zero Markups:</strong> The price you see is exactly what our partners provide. We never add booking fees.</li>
-          <li><strong>Direct Referrals:</strong> Secure transactions handled directly by global trusted platforms (e.g. Booking.com).</li>
-          <li><strong>Search Personalization:</strong> Set custom affiliate settings in our console to manage referrals.</li>
-        </ul>
-      </div>
-    `;
-  } else if (pageId === "privacy") {
-    title = "Privacy Policy";
-    subtitle = "Learn how we handle data and protect your travel search privacy.";
-    htmlContent = `
-      <div style="display:flex; flex-direction:column; gap:24px;">
-        <p>Last updated: June 2026</p>
-        <p>At BudgetStayFly.com, we prioritize the confidentiality and safety of our visitors' data. This Privacy Policy details how we collect, process, and protect your information when you browse or search on our website.</p>
-        
-        <h3 style="color:#ffffff; font-family:var(--font-heading); font-size:18px; margin-top:10px;">1. Information We Collect</h3>
-        <p>We believe in data minimization. We do not require user accounts, registration, or logins to search flights or hotels on our platform. All searches are anonymous.</p>
-        <ul style="padding-left:20px; display:flex; flex-direction:column; gap:10px;">
-          <li><strong>Search Coordinates:</strong> We process search parameters (departure cities, destination codes, check-in dates, cabin preferences) locally to request partner deals.</li>
-          <li><strong>Cookies & Local Storage:</strong> Your custom affiliate settings (partner console markers and preferences) are stored locally in your web browser's <code>localStorage</code>. We do not store them on our servers.</li>
-        </ul>
-        
-        <h3 style="color:#ffffff; font-family:var(--font-heading); font-size:18px; margin-top:10px;">2. Redirects and Third-Party Platforms</h3>
-        <p>Our website acts as an aggregator. When you click "Book Flight", "Compare Stays", or cab redirect links, you leave BudgetStayFly.com and are redirected to third-party platforms (like JetRadar, Booking.com, or KiwiTaxi). These external platforms maintain their own distinct privacy policies and secure servers. We encourage you to review their policies upon redirection.</p>
-        
-        <h3 style="color:#ffffff; font-family:var(--font-heading); font-size:18px; margin-top:10px;">3. Security</h3>
-        <p>All communication between your browser and our storefront is encrypted using industry-standard Secure Socket Layer (SSL) certificates over HTTPS. We protect our Partner Settings dashboard using a local security passcode lock.</p>
-      </div>
-    `;
-  } else if (pageId === "contact") {
-    title = "Contact Us";
-    subtitle = "Get in touch with the BudgetStayFly team for support, business inquiries, or feedback.";
-    htmlContent = `
-      <div style="display:flex; flex-direction:column; gap:24px; max-width:600px;">
-        <p>Have questions about travel deals, affiliate partnerships, or feedback? Send us a message below, and our support team will get back to you within 24-48 hours.</p>
-        
-        <!-- Direct Contact Details -->
-        <div style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-color); padding: 20px; border-radius: var(--radius-md); display: flex; flex-direction: column; gap: 12px; margin-top: 10px;">
-          <h4 style="color:#ffffff; font-family:var(--font-heading); font-size:16px; font-weight:700; margin:0 0 4px 0;"><i class="fa-solid fa-address-book" style="color:var(--accent-blue); margin-right:8px;"></i> Direct Contact Info</h4>
-          <div style="display:flex; flex-direction:column; gap:8px; font-size:13.5px;">
-            <div style="display:flex; align-items:center; gap:10px;">
-              <span style="width:24px; display:inline-block; text-align:center;"><i class="fa-solid fa-phone" style="color:var(--accent-blue);"></i></span>
-              <span>Phone: <a href="tel:+919911083423" style="color:var(--accent-blue); text-decoration:underline;">+91-9911083423</a></span>
-            </div>
-            <div style="display:flex; align-items:center; gap:10px;">
-              <span style="width:24px; display:inline-block; text-align:center;"><i class="fa-solid fa-envelope" style="color:var(--accent-blue);"></i></span>
-              <span>Email: <a href="mailto:ahmed.khan0503@gmail.com" style="color:var(--accent-blue); text-decoration:underline;">ahmed.khan0503@gmail.com</a></span>
-            </div>
-          </div>
-        </div>
-
-        <form onsubmit="handleContactSubmit(event)" style="display:flex; flex-direction:column; gap:16px; margin-top:10px;">
-          <div class="form-group">
-            <label class="form-label" style="color:#ffffff; font-weight: 500; font-size: 13.5px; margin-bottom: 6px; display: block;">Your Name</label>
-            <input type="text" id="contact-name" class="form-input" placeholder="Enter your full name" required style="background:rgba(255,255,255,0.02);" />
-          </div>
-          <div class="form-group">
-            <label class="form-label" style="color:#ffffff; font-weight: 500; font-size: 13.5px; margin-bottom: 6px; display: block;">Email Address</label>
-            <input type="email" id="contact-email" class="form-input" placeholder="name@example.com" required style="background:rgba(255,255,255,0.02);" />
-          </div>
-          <div class="form-group">
-            <label class="form-label" style="color:#ffffff; font-weight: 500; font-size: 13.5px; margin-bottom: 6px; display: block;">Message</label>
-            <textarea id="contact-message" class="form-input" style="height: 120px; resize: none; background:rgba(255,255,255,0.02);" placeholder="Write your message here..." required></textarea>
-          </div>
-          <button type="submit" class="btn-primary" style="align-self: flex-start; justify-content:center; margin-top: 10px;">
-            Send Message <i class="fa-solid fa-paper-plane"></i>
-          </button>
-        </form>
-      </div>
-    `;
-  } else if (pageId === "guide-flights") {
-    title = "10 Smart Hacks to Find the Cheapest Flights";
-    subtitle = "Flight Hacks &bull; 6 min read";
-    htmlContent = `
-      <div style="display:flex; flex-direction:column; gap:24px;">
-        <p>Finding cheap airfare can feel like a game of cat and mouse. Airlines use complex dynamic pricing algorithms that change ticket prices by the minute. However, with a few smart techniques, you can beat the system and lock in incredible rates.</p>
-        
-        <h3 style="color:#ffffff; font-family:var(--font-heading); font-size:18px; margin-top:10px;">1. Search Incognito</h3>
-        <p>Have you ever noticed flight prices increase after searching for them a couple of times in your browser? Airlines track your cookies and raise prices on routes you search frequently to create a sense of urgency. Always search for flights in incognito or private browsing mode to keep your history clean.</p>
-        
-        <h3 style="color:#ffffff; font-family:var(--font-heading); font-size:18px; margin-top:10px;">2. Use Meta-Search Aggregators</h3>
-        <p>Never buy tickets from the first airline website you open. Use meta-search engines like BudgetStayFly.com. We pull direct fares from multiple airline partners and consolidation hubs concurrently, showing you the absolute cheapest route options instantly.</p>
-        
-        <h3 style="color:#ffffff; font-family:var(--font-heading); font-size:18px; margin-top:10px;">3. Fly on Budget Days</h3>
-        <p>While there is no magic day to buy tickets, flying on mid-week days (Tuesdays, Wednesdays, and Thursdays) is generally significantly cheaper than weekend departures (Fridays and Sundays) when holiday and leisure traffic spikes.</p>
-        
-        <h3 style="color:#ffffff; font-family:var(--font-heading); font-size:18px; margin-top:10px;">4. Set Up Price Alerts</h3>
-        <p>If you have a future trip planned, don't buy immediately. Set up email price notifications. Monitoring the price trajectory over 2-3 weeks will give you a clear baseline of what a "good deal" looks like for that route.</p>
-      </div>
-    `;
-  } else if (pageId === "guide-hotels") {
-    title = "How to Book 5-Star Luxury Stays for Half the Price";
-    subtitle = "Hotel Tips &bull; 5 min read";
-    htmlContent = `
-      <div style="display:flex; flex-direction:column; gap:24px;">
-        <p>A luxurious hotel stay doesn't have to carry a four-figure price tag. Luxury hotels frequently have unsold room inventory and offer deep discounts through specific channels to keep their occupancy high.</p>
-        
-        <h3 style="color:#ffffff; font-family:var(--font-heading); font-size:18px; margin-top:10px;">1. Travel During the "Shoulder Season"</h3>
-        <p>The "shoulder season" is the sweet spot between peak season (expensive, crowded) and off-peak season (bad weather, closed attractions). Traveling to Europe in September/October or Southeast Asia in March/April offers pristine luxury stays at a fraction of summer or holiday rates.</p>
-        
-        <h3 style="color:#ffffff; font-family:var(--font-heading); font-size:18px; margin-top:10px;">2. Book Direct or Use Meta-Search</h3>
-        <p>Meta-search systems allow you to see price comparisons between booking agencies. Sometimes Booking.com has exclusive member rates or app-only mobile discounts that are 10-15% cheaper than desktop sites. Our redirects carry you directly to these secure discounted bookings.</p>
-        
-        <h3 style="color:#ffffff; font-family:var(--font-heading); font-size:18px; margin-top:10px;">3. Look for Newly Opened Properties</h3>
-        <p>New luxury hotels often offer massive "opening discounts" (up to 40% off) for their first few months to gather customer reviews and build brand momentum. Search for newly listed properties on hotel comparison grids to cash in on these offers.</p>
-      </div>
-    `;
-  } else if (pageId === "guide-packing") {
-    title = "The Ultimate Smart Packing Guide for Light Travel";
-    subtitle = "Smart Travel &bull; 4 min read";
-    htmlContent = `
-      <div style="display:flex; flex-direction:column; gap:24px;">
-        <p>Nothing slows a trip down like heavy, oversized luggage. Checking bags also adds significant fees on budget airlines and risks loss in transit. The solution is simple: learn to travel light and smart with just a carry-on.</p>
-        
-        <h3 style="color:#ffffff; font-family:var(--font-heading); font-size:18px; margin-top:10px;">1. Adopt the 5-4-3-2-1 Rule</h3>
-        <p>For a week-long trip, limit your clothing to: 5 pairs of socks and underwear, 4 tops/shirts, 3 bottoms (pants/shorts), 2 pairs of shoes, and 1 hat/jacket. Stick to neutral colors that you can easily mix and match.</p>
-        
-        <h3 style="color:#ffffff; font-family:var(--font-heading); font-size:18px; margin-top:10px;">2. Roll, Don't Fold</h3>
-        <p>Rolling clothes instead of folding them flat is a proven space saver. It compresses fabric and prevents creases. Even better, use compression packing cubes to squeeze extra air out of your luggage.</p>
-        
-        <h3 style="color:#ffffff; font-family:var(--font-heading); font-size:18px; margin-top:10px;">3. Go Digital with Documents</h3>
-        <p>Keep scanned copies of your passport, travel insurance, tickets, and reservations on a secure cloud folder (like Google Drive) accessible offline on your smartphone. Avoid carrying stacks of paper backups.</p>
-      </div>
-    `;
-  }
-  
-  titleEl.innerText = title;
-  subtitleEl.innerText = subtitle;
-  contentEl.innerHTML = htmlContent;
-  
-  panel.classList.add("active");
-  document.body.style.overflow = "hidden"; // Disable scroll
-}
-
-function closePageOverlay() {
-  const panel = document.getElementById("page-overlay-panel");
-  if (panel) panel.classList.remove("active");
-  document.body.style.overflow = "auto"; // Re-enable scroll
-}
-
-function handleContactSubmit(e) {
-  e.preventDefault();
-  const name = document.getElementById("contact-name").value;
-  const email = document.getElementById("contact-email").value;
-  const message = document.getElementById("contact-message").value;
-  
-  if (name && email && message) {
-    showToast("Message sent successfully! We will contact you soon.");
-    document.getElementById("contact-name").value = "";
-    document.getElementById("contact-email").value = "";
-    document.getElementById("contact-message").value = "";
-    closePageOverlay();
-  }
 }

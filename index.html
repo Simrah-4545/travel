@@ -3,15 +3,24 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BudgetStayFly.com | Compare &amp; Book Cheap Flights and Hotels</title>
   
-  <!-- FontAwesome Icons for visuals -->
+  <!-- Skyscanner / Impact.com Site Verification Meta Tags -->
+  <meta name="impact-site-verification" value="68365de3-fa82-485f-8dab-15c1696d4c80">
+  <meta name="impact-site-verification" content="68365de3-fa82-485f-8dab-15c1696d4c80">
+  
+  <title>BudgetStayFly.com | Compare Cheap Flights, Hotels & Car Hire with Skyscanner</title>
+  <meta name="description" content="Classic Skyscanner travel meta-search engine. Compare low cost flights, top hotel deals, and airport car rentals worldwide. Zero hidden fees. Direct Skyscanner referral rates.">
+  
+  <!-- Favicon & Touch Icons -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+
+  <!-- FontAwesome Icons & Google Fonts -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  
-  <!-- Styling Sheet -->
   <link rel="stylesheet" href="style.css">
   
-  <!-- Travelpayouts Drive Script Integration -->
+  <!-- Travelpayouts / Skyscanner Affiliate Script Integration -->
   <script nowprocket data-noptimize="1" data-cfasync="false" data-wpfc-render="false" seraph-accel-crit="1" data-no-defer="1">
   (function () {
     var script = document.createElement("script");
@@ -23,52 +32,67 @@
 </head>
 <body>
 
-  <!-- ==================== TOAST NOTIFICATION ==================== -->
+  <!-- TOAST NOTIFICATION -->
   <div class="toast-notice" id="system-toast">
     <i class="fa-solid fa-bell toast-icon"></i>
-    <span id="system-toast-msg">Database loaded successfully.</span>
+    <span id="system-toast-msg">Skyscanner search engine active.</span>
   </div>
 
-  <!-- ==================== LOADER SCREEN ==================== -->
+  <!-- LOADER SCREEN -->
   <div class="loader-overlay" id="search-loader">
     <div class="loader-spinner"></div>
-    <div class="loader-text" id="loader-status-text">Comparing flight fares...</div>
+    <div class="loader-text" id="loader-status-text">Scanning Skyscanner live fares...</div>
   </div>
 
-  <!-- ==================== MAIN SHELL WRAPPER ==================== -->
+  <!-- MAIN SHELL WRAPPER -->
   <div class="app-shell">
     
     <!-- TOP NAVIGATION BAR -->
-    <header class="navbar">
+    <header class="navbar" id="navbar">
       <div class="brand-wrapper" onclick="goHome()">
-        <i class="fa-solid fa-plane-departure brand-icon"></i>
-        <span class="brand-name">BudgetStayFly<span>.com</span></span>
+        <img src="logo.png" alt="BudgetStayFly Logo" class="brand-logo-img" />
+        <div style="display: flex; flex-direction: column;">
+          <span class="brand-tagline"><i class="fa-solid fa-circle-check"></i> Official Skyscanner Affiliate Partner</span>
+        </div>
       </div>
       
       <nav>
         <ul class="nav-links">
-          <li><button class="nav-link-btn" onclick="selectTab('flights')">Flights</button></li>
-          <li><button class="nav-link-btn" onclick="selectTab('hotels')">Hotels</button></li>
-          <li><button class="nav-link-btn" onclick="scrollToElement('deals-section')">Hot Deals</button></li>
-          <li><button class="nav-link-btn" onclick="openPageOverlay('about')">About Us</button></li>
-          <li><button class="nav-link-btn" onclick="openPageOverlay('contact')">Contact</button></li>
+          <li><button class="nav-link-btn active" onclick="selectTab('flights')"><i class="fa-solid fa-plane"></i> Flights</button></li>
+          <li><button class="nav-link-btn" onclick="selectTab('hotels')"><i class="fa-solid fa-hotel"></i> Hotels</button></li>
+          <li><button class="nav-link-btn" onclick="selectTab('carhire')"><i class="fa-solid fa-car"></i> Car Hire</button></li>
+          <li><button class="nav-link-btn" onclick="selectTab('everywhere')"><i class="fa-solid fa-earth-americas"></i> Explore Everywhere</button></li>
+          <li><button class="nav-link-btn" onclick="scrollToElement('live-deals-table-section')">Live Fares</button></li>
         </ul>
       </nav>
-      
+
       <div class="nav-actions">
-        <button class="btn-secondary" onclick="openAffiliateDrawer()" title="Affiliate Partner Dashboard">
-          <i class="fa-solid fa-gear"></i> Partner Settings
+        <select id="currency-selector" onchange="changeCurrency(this.value)" class="currency-select">
+          <option value="INR" selected>₹ INR</option>
+          <option value="USD">$ USD</option>
+          <option value="EUR">€ EUR</option>
+          <option value="GBP">£ GBP</option>
+          <option value="AED">AED</option>
+        </select>
+        <button class="btn-partner-console" onclick="openAffiliateDrawer()">
+          <i class="fa-solid fa-sliders"></i> Partner Console
         </button>
       </div>
     </header>
 
-    <!-- HERO PANEL WITH SEARCH CARD -->
+    <!-- HERO PANEL WITH CLASSIC SKYSCANNER SEARCH CONTAINER -->
     <section class="hero-section">
-      <h1 class="hero-title">Fly Smarter, Stay Better, <span>Pay Less</span></h1>
-      <p class="hero-subtitle">Search, compare, and lock in the cheapest flight routes and top-rated stays. Zero hidden fees. Direct booking with your favorite partners.</p>
+      <div class="hero-badge">
+        <i class="fa-solid fa-bolt"></i> Powered by <strong>Skyscanner</strong> Global Meta-Search Engine
+      </div>
       
-      <!-- Unified Search Container -->
+      <h1 class="hero-title">Compare Flights, Hotels & Car Hire with <span>Skyscanner</span></h1>
+      <p class="hero-subtitle">Instantly search over 1,200+ airlines, top global hotel chains, and 30,000+ car hire locations. Zero hidden fees. 100% free to search.</p>
+      
+      <!-- Unified Classic Search Container -->
       <div class="search-container-card">
+        
+        <!-- SEARCH TABS -->
         <div class="search-tabs">
           <button class="tab-btn active" id="tab-flights" onclick="selectTab('flights')">
             <i class="fa-solid fa-plane"></i> Search Flights
@@ -76,27 +100,45 @@
           <button class="tab-btn" id="tab-hotels" onclick="selectTab('hotels')">
             <i class="fa-solid fa-hotel"></i> Search Hotels
           </button>
-          <button class="tab-btn" id="tab-cabs" onclick="selectTab('cabs')">
-            <i class="fa-solid fa-car"></i> Search Cabs
+          <button class="tab-btn" id="tab-carhire" onclick="selectTab('carhire')">
+            <i class="fa-solid fa-car"></i> Search Car Hire
+          </button>
+          <button class="tab-btn" id="tab-everywhere" onclick="selectTab('everywhere')">
+            <i class="fa-solid fa-compass"></i> Explore Everywhere
           </button>
         </div>
         
-        <!-- FLIGHTS FORM PANEL -->
+        <!-- 1. FLIGHTS FORM PANEL -->
         <form id="flights-search-form" onsubmit="executeSearch(event, 'flights')">
+          <div class="search-trip-type">
+            <label class="radio-option">
+              <input type="radio" name="flight-trip-type" value="roundtrip" checked onchange="toggleReturnDate(true)" /> Round-trip
+            </label>
+            <label class="radio-option">
+              <input type="radio" name="flight-trip-type" value="oneway" onchange="toggleReturnDate(false)" /> One-way
+            </label>
+            <label class="radio-option">
+              <input type="radio" name="flight-trip-type" value="multicity" onchange="toggleReturnDate(false)" /> Multi-city
+            </label>
+            <label class="checkbox-option-inline">
+              <input type="checkbox" id="direct-flights-only" /> Direct flights only
+            </label>
+          </div>
+
           <div class="search-form-grid">
             <div class="form-group">
-              <label class="form-label">Origin Airport</label>
+              <label class="form-label">From (Origin Airport)</label>
               <div class="input-wrapper">
                 <i class="fa-solid fa-plane-departure input-icon"></i>
-                <input type="text" id="flight-origin" class="form-input" placeholder="City or Airport (e.g. DEL)" required value="DEL" />
+                <input type="text" id="flight-origin" class="form-input" placeholder="City or Airport (e.g. DEL, JFK, LHR)" required value="DEL" />
               </div>
             </div>
             
             <div class="form-group">
-              <label class="form-label">Destination City</label>
+              <label class="form-label">To (Destination or Everywhere)</label>
               <div class="input-wrapper">
                 <i class="fa-solid fa-plane-arrival input-icon"></i>
-                <input type="text" id="flight-destination" class="form-input" placeholder="Where to? (e.g. DXB)" required value="DXB" />
+                <input type="text" id="flight-destination" class="form-input" placeholder="Where to? (e.g. DXB, Everywhere)" required value="DXB" />
               </div>
             </div>
             
@@ -107,36 +149,48 @@
                 <input type="date" id="flight-date-dep" class="form-input" required />
               </div>
             </div>
+
+            <div class="form-group" id="group-flight-return">
+              <label class="form-label">Return Date</label>
+              <div class="input-wrapper">
+                <i class="fa-solid fa-calendar-check input-icon"></i>
+                <input type="date" id="flight-date-ret" class="form-input" />
+              </div>
+            </div>
             
             <div class="form-group">
-              <label class="form-label">Cabin Class</label>
+              <label class="form-label">Cabin Class & Travelers</label>
               <div class="input-wrapper">
-                <i class="fa-solid fa-couch input-icon"></i>
-                <select id="flight-cabin" class="form-input" style="padding-left: 40px; cursor: pointer;">
-                  <option value="economy">Economy Class</option>
-                  <option value="premium">Premium Economy</option>
-                  <option value="business">Business Class</option>
-                  <option value="first">First Class</option>
+                <i class="fa-solid fa-user-group input-icon"></i>
+                <select id="flight-cabin" class="form-input">
+                  <option value="economy">1 Adult, Economy</option>
+                  <option value="premium">1 Adult, Premium Economy</option>
+                  <option value="business">1 Adult, Business Class</option>
+                  <option value="first">1 Adult, First Class</option>
+                  <option value="family">Family (2 Adults, 2 Kids), Economy</option>
                 </select>
               </div>
             </div>
           </div>
           
-          <div style="display:flex; justify-content:flex-end;">
-            <button type="submit" class="btn-primary">
-              Find Cheap Flights <i class="fa-solid fa-arrow-right"></i>
+          <div class="form-submit-row">
+            <div class="skyscanner-guarantee-note">
+              <i class="fa-solid fa-shield-halved"></i> Compares 1,200+ flight sites on Skyscanner
+            </div>
+            <button type="submit" class="btn-primary btn-skyscanner">
+              Search Flights on Skyscanner <i class="fa-solid fa-arrow-right"></i>
             </button>
           </div>
         </form>
 
-        <!-- HOTELS FORM PANEL (Hidden by Default) -->
+        <!-- 2. HOTELS FORM PANEL -->
         <form id="hotels-search-form" onsubmit="executeSearch(event, 'hotels')" style="display: none;">
           <div class="search-form-grid">
             <div class="form-group" style="grid-column: span 2;">
-              <label class="form-label">Destination City / Hotel Name</label>
+              <label class="form-label">Destination / Hotel Name</label>
               <div class="input-wrapper">
                 <i class="fa-solid fa-location-dot input-icon"></i>
-                <input type="text" id="hotel-destination" class="form-input" placeholder="Enter city or area (e.g. Dubai)" required value="Dubai" />
+                <input type="text" id="hotel-destination" class="form-input" placeholder="City, landmark, or hotel name (e.g. Dubai, London)" required value="Dubai" />
               </div>
             </div>
             
@@ -155,23 +209,44 @@
                 <input type="date" id="hotel-date-out" class="form-input" required />
               </div>
             </div>
+
+            <div class="form-group">
+              <label class="form-label">Guests & Rooms</label>
+              <div class="input-wrapper">
+                <i class="fa-solid fa-bed input-icon"></i>
+                <select id="hotel-guests" class="form-input">
+                  <option value="1">1 Room, 1 Guest</option>
+                  <option value="2" selected>1 Room, 2 Guests</option>
+                  <option value="family">1 Room, Family (2+2)</option>
+                  <option value="multi">2 Rooms, 4 Guests</option>
+                </select>
+              </div>
+            </div>
           </div>
           
-          <div style="display:flex; justify-content:flex-end;">
-            <button type="submit" class="btn-primary">
-              Compare Stays <i class="fa-solid fa-arrow-right"></i>
-            </button>
+          <div class="form-submit-row">
+            <div class="skyscanner-guarantee-note">
+              <i class="fa-solid fa-building-circle-check"></i> Connected to Official Skyscanner Hotels Engine
+            </div>
+            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+              <button type="submit" class="btn-primary btn-skyscanner">
+                Search Hotels on Skyscanner <i class="fa-solid fa-arrow-right"></i>
+              </button>
+              <button type="button" onclick="openSkyscannerHotelsDirect(event)" class="btn-secondary" style="border-color: #00a698; color: #00a698; background: #ffffff;">
+                Direct Skyscanner Launch <i class="fa-solid fa-up-right-from-square"></i>
+              </button>
+            </div>
           </div>
         </form>
 
-        <!-- CABS FORM PANEL (Hidden by Default) -->
-        <form id="cabs-search-form" onsubmit="executeSearch(event, 'cabs')" style="display: none;">
+        <!-- 3. CAR HIRE FORM PANEL -->
+        <form id="carhire-search-form" onsubmit="executeSearch(event, 'cabs')" style="display: none;">
           <div class="search-form-grid">
             <div class="form-group">
-              <label class="form-label">Pick-up Location</label>
+              <label class="form-label">Pick-up Location / Airport</label>
               <div class="input-wrapper">
-                <i class="fa-solid fa-location-dot input-icon"></i>
-                <input type="text" id="cab-pickup" class="form-input" placeholder="Airport, hotel, address" required value="Dubai Airport (DXB)" />
+                <i class="fa-solid fa-car-side input-icon"></i>
+                <input type="text" id="cab-pickup" class="form-input" placeholder="Airport or City (e.g. Dubai DXB, London LHR)" required value="Dubai Airport (DXB)" />
               </div>
             </div>
             
@@ -179,7 +254,7 @@
               <label class="form-label">Drop-off Location</label>
               <div class="input-wrapper">
                 <i class="fa-solid fa-location-arrow input-icon"></i>
-                <input type="text" id="cab-dropoff" class="form-input" placeholder="Where to? (e.g. Dubai Marina)" required value="Dubai Marina" />
+                <input type="text" id="cab-dropoff" class="form-input" placeholder="Same as pick-up or specify city" required value="Dubai Airport (DXB)" />
               </div>
             </div>
             
@@ -192,69 +267,337 @@
             </div>
             
             <div class="form-group">
-              <label class="form-label">Pick-up Time</label>
+              <label class="form-label">Drop-off Date</label>
               <div class="input-wrapper">
-                <i class="fa-solid fa-clock input-icon"></i>
-                <input type="time" id="cab-time" class="form-input" required value="12:00" />
+                <i class="fa-solid fa-calendar-check input-icon"></i>
+                <input type="date" id="cab-date-drop" class="form-input" />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Driver Age</label>
+              <div class="input-wrapper">
+                <i class="fa-solid fa-id-card input-icon"></i>
+                <select id="cab-driver-age" class="form-input">
+                  <option value="25-70" selected>Age 25 – 70</option>
+                  <option value="18-24">Age 18 – 24 (Young Driver)</option>
+                  <option value="70+">Age 70+</option>
+                </select>
               </div>
             </div>
           </div>
           
-          <div style="display:flex; justify-content:space-between; align-items:center;">
-            <div style="display:flex; gap:16px;">
-              <label class="checkbox-option" style="margin-bottom:0; cursor:pointer;">
-                <input type="radio" name="cab-transfer-type" value="oneway" checked /> One-way transfer
-              </label>
-              <label class="checkbox-option" style="margin-bottom:0; cursor:pointer;">
-                <input type="radio" name="cab-transfer-type" value="roundtrip" /> Return transfer
-              </label>
+          <div class="form-submit-row">
+            <div class="skyscanner-guarantee-note">
+              <i class="fa-solid fa-key"></i> Compares Hertz, Avis, Sixt & Europcar on Skyscanner
             </div>
-            <button type="submit" class="btn-primary">
-              Find Transfers <i class="fa-solid fa-arrow-right"></i>
+            <button type="submit" class="btn-primary btn-skyscanner">
+              Search Car Hire on Skyscanner <i class="fa-solid fa-arrow-right"></i>
             </button>
           </div>
         </form>
+
+        <!-- 4. EXPLORE EVERYWHERE FORM PANEL -->
+        <form id="everywhere-search-form" onsubmit="executeSearch(event, 'everywhere')" style="display: none;">
+          <div class="search-form-grid">
+            <div class="form-group" style="grid-column: span 2;">
+              <label class="form-label">Your Origin Airport / City</label>
+              <div class="input-wrapper">
+                <i class="fa-solid fa-compass input-icon"></i>
+                <input type="text" id="everywhere-origin" class="form-input" placeholder="Where are you flying from? (e.g. New York, Delhi, London)" required value="New York (JFK)" />
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label">Destination</label>
+              <div class="input-wrapper">
+                <i class="fa-solid fa-globe input-icon"></i>
+                <input type="text" id="everywhere-dest" class="form-input" value="Everywhere" readonly style="background: #e6f7f5; color: #00a698; font-weight: 700;" />
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label">Travel Month</label>
+              <div class="input-wrapper">
+                <i class="fa-solid fa-calendar-days input-icon"></i>
+                <select id="everywhere-month" class="form-input">
+                  <option value="anytime" selected>Cheapest Month</option>
+                  <option value="this-month">This Month</option>
+                  <option value="next-month">Next Month</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          
+          <div class="form-submit-row">
+            <div class="skyscanner-guarantee-note">
+              <i class="fa-solid fa-sparkles"></i> Discover cheapest worldwide flight deals instantly
+            </div>
+            <button type="submit" class="btn-primary btn-skyscanner">
+              Explore Everywhere on Skyscanner <i class="fa-solid fa-arrow-right"></i>
+            </button>
+          </div>
+        </form>
+
       </div>
     </section>
 
-    <!-- SECTION: WHY CHOOSE US -->
-    <section id="why-choose-us" class="features-section">
-      <div class="section-header" style="margin-top: 20px;">
-        <div>
-          <h2 class="section-title">Why Book With <span>BudgetStayFly</span></h2>
-          <p class="section-subtitle">We compare values across multiple airlines and hotel platforms to deliver maximum utility.</p>
-        </div>
-      </div>
-      <div class="features-grid">
-        <div class="feature-card">
-          <div class="feature-icon-wrapper"><i class="fa-solid fa-magnifying-glass-dollar"></i></div>
-          <h3 class="feature-card-title">Direct Partner Fares</h3>
-          <p class="feature-card-desc">Redirection deep links lead directly to Booking.com, KiwiTaxi, and JetRadar servers for direct purchase.</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon-wrapper"><i class="fa-solid fa-percent"></i></div>
-          <h3 class="feature-card-title">Zero Markup Fees</h3>
-          <p class="feature-card-desc">We never apply hidden service charges, additional booking markups, or session tracking cookies to inflate rates.</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon-wrapper"><i class="fa-solid fa-sliders"></i></div>
-          <h3 class="feature-card-title">Unified Search Engine</h3>
-          <p class="feature-card-desc">Instantly compare flight classes, hotel attributes, and cab vehicle sizing options from a single console.</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon-wrapper"><i class="fa-solid fa-user-shield"></i></div>
-          <h3 class="feature-card-title">Secure Affiliate Routing</h3>
-          <p class="feature-card-desc">Passcode-locked partner configurations dashboard lets you manage and track affiliate marker identifiers safely.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- SECTION: FEATURED BUDGET DEALS -->
-    <section id="deals-section">
+    <!-- SECTION: LIVE SKYSCANNER FARES TABLE (FULLY VISIBLE ON HOMEPAGE) -->
+    <section id="live-deals-table-section" class="classic-section">
       <div class="section-header">
         <div>
-          <h2 class="section-title">Trending <span>Global Destinations</span></h2>
-          <p class="section-subtitle">Specially curated packages matching high comfort and budget prices.</p>
+          <h2 class="section-title">Live Skyscanner <span>Flight Tariffs & Comparison</span></h2>
+          <p class="section-subtitle">Real-time meta-search pricing preview for popular domestic &amp; international flight routes.</p>
+        </div>
+        <div class="skyscanner-badge-tag">
+          <i class="fa-solid fa-circle-check"></i> Live Data Feed
+        </div>
+      </div>
+
+      <div class="classic-table-container">
+        <table class="classic-deals-table">
+          <thead>
+            <tr>
+              <th>Airline &amp; Carrier</th>
+              <th>Flight Route</th>
+              <th>Departure / Arrival</th>
+              <th>Duration / Type</th>
+              <th>Skyscanner Price</th>
+              <th>Direct Booking Link</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <div class="table-carrier-cell">
+                  <span class="carrier-badge-code">EK</span>
+                  <strong>Emirates</strong>
+                </div>
+              </td>
+              <td>Delhi (DEL) ➔ Dubai (DXB)</td>
+              <td>08:00 AM ➔ 11:30 AM</td>
+              <td><span class="tag-nonstop">Non-stop (4h 00m)</span></td>
+              <td><strong class="table-price">₹18,499</strong></td>
+              <td><a href="https://www.skyscanner.net/transport/flights/del/dxb/" target="_blank" class="btn-table-book">Book on Skyscanner <i class="fa-solid fa-up-right-from-square"></i></a></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="table-carrier-cell">
+                  <span class="carrier-badge-code" style="background:#0770e3;">BA</span>
+                  <strong>British Airways</strong>
+                </div>
+              </td>
+              <td>New York (JFK) ➔ London (LHR)</td>
+              <td>06:30 PM ➔ 06:45 AM</td>
+              <td><span class="tag-nonstop">Non-stop (7h 15m)</span></td>
+              <td><strong class="table-price">₹42,999</strong></td>
+              <td><a href="https://www.skyscanner.net/transport/flights/jfk/lhr/" target="_blank" class="btn-table-book">Book on Skyscanner <i class="fa-solid fa-up-right-from-square"></i></a></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="table-carrier-cell">
+                  <span class="carrier-badge-code" style="background:#d97706;">QR</span>
+                  <strong>Qatar Airways</strong>
+                </div>
+              </td>
+              <td>London (LHR) ➔ Paris (CDG)</td>
+              <td>10:15 AM ➔ 12:30 PM</td>
+              <td><span class="tag-nonstop">Non-stop (1h 15m)</span></td>
+              <td><strong class="table-price">₹12,499</strong></td>
+              <td><a href="https://www.skyscanner.net/transport/flights/lhr/cdg/" target="_blank" class="btn-table-book">Book on Skyscanner <i class="fa-solid fa-up-right-from-square"></i></a></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="table-carrier-cell">
+                  <span class="carrier-badge-code" style="background:#16a34a;">6E</span>
+                  <strong>IndiGo Airlines</strong>
+                </div>
+              </td>
+              <td>Mumbai (BOM) ➔ Bangkok (BKK)</td>
+              <td>01:20 AM ➔ 07:10 AM</td>
+              <td><span class="tag-nonstop">Non-stop (4h 20m)</span></td>
+              <td><strong class="table-price">₹14,899</strong></td>
+              <td><a href="https://www.skyscanner.net/transport/flights/bom/bkk/" target="_blank" class="btn-table-book">Book on Skyscanner <i class="fa-solid fa-up-right-from-square"></i></a></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="table-carrier-cell">
+                  <span class="carrier-badge-code" style="background:#dc2626;">AI</span>
+                  <strong>Air India</strong>
+                </div>
+              </td>
+              <td>Delhi (DEL) ➔ Tokyo (NRT)</td>
+              <td>09:15 PM ➔ 08:45 AM</td>
+              <td><span class="tag-nonstop">Non-stop (8h 00m)</span></td>
+              <td><strong class="table-price">₹49,999</strong></td>
+              <td><a href="https://www.skyscanner.net/transport/flights/del/nrt/" target="_blank" class="btn-table-book">Book on Skyscanner <i class="fa-solid fa-up-right-from-square"></i></a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- SECTION: LIVE SKYSCANNER HOTEL DEALS TABLE -->
+    <section id="live-hotels-table-section" class="classic-section" style="padding-top: 10px;">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">Live Skyscanner <span>Hotel Rates &amp; Stays</span></h2>
+          <p class="section-subtitle">Compare room rates across Booking.com, Agoda, and Hotels.com directly via Skyscanner.</p>
+        </div>
+        <div class="skyscanner-badge-tag">
+          <i class="fa-solid fa-hotel"></i> Skyscanner Hotel Engine
+        </div>
+      </div>
+
+      <div class="classic-table-container">
+        <table class="classic-deals-table">
+          <thead>
+            <tr>
+              <th>Hotel &amp; Resort</th>
+              <th>Destination City</th>
+              <th>Star Rating &amp; Amenities</th>
+              <th>Guest Rating</th>
+              <th>Nightly Rate</th>
+              <th>Skyscanner Hotel Link</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <div class="table-carrier-cell">
+                  <span class="carrier-badge-code" style="background:#00a698;">HYATT</span>
+                  <strong>Grand Hyatt Resort</strong>
+                </div>
+              </td>
+              <td>Dubai, UAE</td>
+              <td><span class="tag-nonstop" style="background:#fef3c7; color:#b45309;">5★ Luxury Spa &amp; Pool</span></td>
+              <td><strong>9.2 Superb</strong></td>
+              <td><strong class="table-price">₹12,499</strong></td>
+              <td><a href="https://c.tp.media/r?marker=394982&p=4453&u=https%3A%2F%2Fwww.skyscanner.net%2Fhotels%2Fsearch%3Fq%3DDubai" target="_blank" class="btn-table-book">Book Hotel on Skyscanner <i class="fa-solid fa-up-right-from-square"></i></a></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="table-carrier-cell">
+                  <span class="carrier-badge-code" style="background:#0770e3;">MAR</span>
+                  <strong>JW Marriott Grosvenor House</strong>
+                </div>
+              </td>
+              <td>London, United Kingdom</td>
+              <td><span class="tag-nonstop" style="background:#fef3c7; color:#b45309;">5★ Central Hyde Park</span></td>
+              <td><strong>9.4 Exceptional</strong></td>
+              <td><strong class="table-price">₹22,999</strong></td>
+              <td><a href="https://c.tp.media/r?marker=394982&p=4453&u=https%3A%2F%2Fwww.skyscanner.net%2Fhotels%2Fsearch%3Fq%3DLondon" target="_blank" class="btn-table-book">Book Hotel on Skyscanner <i class="fa-solid fa-up-right-from-square"></i></a></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="table-carrier-cell">
+                  <span class="carrier-badge-code" style="background:#d97706;">ACCOR</span>
+                  <strong>Sofitel Paris Le Faubourg</strong>
+                </div>
+              </td>
+              <td>Paris, France</td>
+              <td><span class="tag-nonstop" style="background:#fef3c7; color:#b45309;">5★ Luxury Boutique</span></td>
+              <td><strong>9.1 Superb</strong></td>
+              <td><strong class="table-price">₹19,499</strong></td>
+              <td><a href="https://c.tp.media/r?marker=394982&p=4453&u=https%3A%2F%2Fwww.skyscanner.net%2Fhotels%2Fsearch%3Fq%3DParis" target="_blank" class="btn-table-book">Book Hotel on Skyscanner <i class="fa-solid fa-up-right-from-square"></i></a></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="table-carrier-cell">
+                  <span class="carrier-badge-code" style="background:#16a34a;">HILT</span>
+                  <strong>Hilton Tokyo Shinjuku</strong>
+                </div>
+              </td>
+              <td>Tokyo, Japan</td>
+              <td><span class="tag-nonstop" style="background:#e0f2fe; color:#0369a1;">4★ City Center View</span></td>
+              <td><strong>8.9 Excellent</strong></td>
+              <td><strong class="table-price">₹15,899</strong></td>
+              <td><a href="https://c.tp.media/r?marker=394982&p=4453&u=https%3A%2F%2Fwww.skyscanner.net%2Fhotels%2Fsearch%3Fq%3DTokyo" target="_blank" class="btn-table-book">Book Hotel on Skyscanner <i class="fa-solid fa-up-right-from-square"></i></a></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="table-carrier-cell">
+                  <span class="carrier-badge-code" style="background:#dc2626;">BALI</span>
+                  <strong>The Mulia Beach Resort</strong>
+                </div>
+              </td>
+              <td>Nusa Dua, Bali</td>
+              <td><span class="tag-nonstop" style="background:#fef3c7; color:#b45309;">5★ Oceanfront Villa</span></td>
+              <td><strong>9.5 Outstanding</strong></td>
+              <td><strong class="table-price">₹14,299</strong></td>
+              <td><a href="https://c.tp.media/r?marker=394982&p=4453&u=https%3A%2F%2Fwww.skyscanner.net%2Fhotels%2Fsearch%3Fq%3DBali" target="_blank" class="btn-table-book">Book Hotel on Skyscanner <i class="fa-solid fa-up-right-from-square"></i></a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- SECTION: SKYSCANNER PRODUCTS SHOWCASE (3 CARDS) -->
+    <section id="skyscanner-products-section" class="classic-section">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">Explore All <span>Skyscanner Products</span></h2>
+          <p class="section-subtitle">Official Skyscanner travel search suite for flights, accommodations, and vehicle rentals.</p>
+        </div>
+        <div class="skyscanner-badge-tag">
+          <i class="fa-solid fa-circle-check"></i> Official Skyscanner Network
+        </div>
+      </div>
+      
+      <div class="products-grid">
+        <!-- Skyscanner Flights -->
+        <div class="product-card">
+          <div class="product-icon-wrapper icon-blue">
+            <i class="fa-solid fa-plane"></i>
+          </div>
+          <h3 class="product-title">Skyscanner Flights</h3>
+          <p class="product-desc">Search and compare ticket prices across 1,200+ airlines and online travel agencies worldwide. Zero markups.</p>
+          <ul class="product-features-list">
+            <li><i class="fa-solid fa-check"></i> Search 'Everywhere' for cheap travel deals</li>
+            <li><i class="fa-solid fa-check"></i> Live Price Alerts &amp; Price Calendar Graphs</li>
+            <li><i class="fa-solid fa-check"></i> Filter by Direct Flights &amp; Low Emission routes</li>
+          </ul>
+          <button class="btn-secondary" onclick="selectTab('flights'); scrollToElement('navbar');">Search Flights Now</button>
+        </div>
+
+        <!-- Skyscanner Hotels -->
+        <div class="product-card">
+          <div class="product-icon-wrapper icon-purple">
+            <i class="fa-solid fa-hotel"></i>
+          </div>
+          <h3 class="product-title">Skyscanner Hotels</h3>
+          <p class="product-desc">Compare hotel room rates across Booking.com, Agoda, Expedia, and TripAdvisor. Find luxury resorts and budget apartments.</p>
+          <ul class="product-features-list">
+            <li><i class="fa-solid fa-check"></i> Aggregated guest review score ratings</li>
+            <li><i class="fa-solid fa-check"></i> Interactive location map &amp; neighborhood search</li>
+            <li><i class="fa-solid fa-check"></i> Free cancellation &amp; pay-at-property filters</li>
+          </ul>
+          <button class="btn-secondary" onclick="selectTab('hotels'); scrollToElement('navbar');">Search Hotels Now</button>
+        </div>
+
+        <!-- Skyscanner Car Hire -->
+        <div class="product-card">
+          <div class="product-icon-wrapper icon-gold">
+            <i class="fa-solid fa-car"></i>
+          </div>
+          <h3 class="product-title">Skyscanner Car Hire</h3>
+          <p class="product-desc">Airport transfers and self-drive car rentals at 30,000+ airport locations. Compare Hertz, Avis, Sixt, Europcar, and Budget.</p>
+          <ul class="product-features-list">
+            <li><i class="fa-solid fa-check"></i> Fair fuel policy &amp; clean car assurances</li>
+            <li><i class="fa-solid fa-check"></i> Free cancellation up to 48 hours prior to pickup</li>
+            <li><i class="fa-solid fa-check"></i> Economy, SUV, Minivan &amp; Luxury vehicle sizing</li>
+          </ul>
+          <button class="btn-secondary" onclick="selectTab('carhire'); scrollToElement('navbar');">Search Car Hire Now</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION: FEATURED TRENDING GLOBAL DEALS -->
+    <section id="deals-section" class="classic-section">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">Trending <span>Global Skyscanner Routes</span></h2>
+          <p class="section-subtitle">Curated high-demand flight packages and popular worldwide destinations.</p>
         </div>
       </div>
       
@@ -263,126 +606,73 @@
       </div>
     </section>
 
-    <!-- SECTION: CUSTOMER TESTIMONIALS -->
-    <section id="testimonials-section">
+    <!-- SECTION: WHY BOOK WITH US -->
+    <section id="why-choose-us" class="classic-section">
       <div class="section-header">
         <div>
-          <h2 class="section-title">What Travelers <span>Say About Us</span></h2>
-          <p class="section-subtitle">Real experiences shared by global travelers booking through our platform.</p>
+          <h2 class="section-title">Why Book With <span>BudgetStayFly &amp; Skyscanner</span></h2>
+          <p class="section-subtitle">Independent travel meta-search engine built for complete transparency and savings.</p>
         </div>
       </div>
-      <div class="testimonials-grid">
-        <div class="testimonial-card">
-          <div class="testimonial-rating">
-            <i class="fa-solid fa-star"></i>
-            <i class="fa-solid fa-star"></i>
-            <i class="fa-solid fa-star"></i>
-            <i class="fa-solid fa-star"></i>
-            <i class="fa-solid fa-star"></i>
-          </div>
-          <p class="testimonial-text">"Saved over ₹8,000 on my family trip to Dubai. Finding hotels in Dubai Marina and booking direct on Booking.com was extremely smooth!"</p>
-          <div class="testimonial-author">
-            <div class="author-avatar"><i class="fa-solid fa-circle-user"></i></div>
-            <div>
-              <div class="author-name">Rohan Sharma</div>
-              <div class="author-location">Delhi, India</div>
-            </div>
-          </div>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon-wrapper"><i class="fa-solid fa-magnifying-glass-dollar"></i></div>
+          <h3 class="feature-card-title">100% Free Search</h3>
+          <p class="feature-card-desc">No hidden charges or booking markups. We compare rates so you always get the best price.</p>
         </div>
-        <div class="testimonial-card">
-          <div class="testimonial-rating">
-            <i class="fa-solid fa-star"></i>
-            <i class="fa-solid fa-star"></i>
-            <i class="fa-solid fa-star"></i>
-            <i class="fa-solid fa-star"></i>
-            <i class="fa-solid fa-star"></i>
-          </div>
-          <p class="testimonial-text">"The airport transfer search is a game changer. Booked a Minivan cab for 6 passengers directly. Excellent service and zero hidden charges!"</p>
-          <div class="testimonial-author">
-            <div class="author-avatar"><i class="fa-solid fa-circle-user"></i></div>
-            <div>
-              <div class="author-name">Clara Mendonca</div>
-              <div class="author-location">Goa, India</div>
-            </div>
-          </div>
+        <div class="feature-card">
+          <div class="feature-icon-wrapper"><i class="fa-solid fa-percent"></i></div>
+          <h3 class="feature-card-title">Direct Supplier Rates</h3>
+          <p class="feature-card-desc">Referral links connect directly to Skyscanner servers and official provider checkout pages.</p>
         </div>
-        <div class="testimonial-card">
-          <div class="testimonial-rating">
-            <i class="fa-solid fa-star"></i>
-            <i class="fa-solid fa-star"></i>
-            <i class="fa-solid fa-star"></i>
-            <i class="fa-solid fa-star"></i>
-            <i class="fa-solid fa-star-half-stroke"></i>
-          </div>
-          <p class="testimonial-text">"I love the premium dark UI. Comparing flight ticket tariffs is super fast and redirect links carry tracking details accurately. Highly recommended!"</p>
-          <div class="testimonial-author">
-            <div class="author-avatar"><i class="fa-solid fa-circle-user"></i></div>
-            <div>
-              <div class="author-name">David Miller</div>
-              <div class="author-location">London, UK</div>
-            </div>
-          </div>
+        <div class="feature-card">
+          <div class="feature-icon-wrapper"><i class="fa-solid fa-sliders"></i></div>
+          <h3 class="feature-card-title">Unified Travel Suite</h3>
+          <p class="feature-card-desc">Compare flights, hotels, and car rentals in a single, easy-to-use classic interface.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon-wrapper"><i class="fa-solid fa-user-shield"></i></div>
+          <h3 class="feature-card-title">Verified Impact Affiliate</h3>
+          <p class="feature-card-desc">Official Impact site verification ensures verified partner tracking and security compliance.</p>
         </div>
       </div>
     </section>
 
-    <!-- SECTION: TRAVEL GUIDES & BLOG CONTENT -->
-    <section id="guides-section" style="margin-top: 60px;">
+    <!-- SECTION: FREQUENTLY ASKED QUESTIONS (FAQ) -->
+    <section id="faq-section" class="classic-section">
       <div class="section-header">
         <div>
-          <h2 class="section-title">Travel Guides &amp; <span>Expert Tips</span></h2>
-          <p class="section-subtitle">Read our latest articles to save money, travel smart, and plan your next itinerary.</p>
+          <h2 class="section-title">Frequently Asked <span>Questions</span></h2>
+          <p class="section-subtitle">Answers to common traveler questions regarding Skyscanner comparison &amp; booking.</p>
         </div>
       </div>
       
-      <div class="guides-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-top: 30px;">
-        <!-- Guide 1 -->
-        <div class="guide-card" onclick="openPageOverlay('guide-flights')" style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-md); overflow: hidden; cursor: pointer; transition: var(--transition-smooth); display: flex; flex-direction: column;">
-          <div style="height: 180px; overflow: hidden; position: relative;">
-            <img src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=600&q=80" alt="Cheapest flights" style="width: 100%; height: 100%; object-fit: cover; transition: var(--transition-smooth);" class="guide-img">
-            <span style="position: absolute; top: 12px; left: 12px; background: var(--accent-blue); color: white; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 20px; text-transform: uppercase;">Flight Hacks</span>
-          </div>
-          <div style="padding: 20px; display: flex; flex-direction: column; flex: 1; gap: 10px;">
-            <h3 style="font-family: var(--font-heading); font-size: 17px; font-weight: 700; color: #ffffff;">10 Smart Hacks to Find the Cheapest Flights</h3>
-            <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.5; flex: 1;">Unlock hidden secrets airlines don't want you to know. Learn how booking days, incognito searches, and tracking tools save thousands.</p>
-            <span style="color: var(--accent-blue); font-size: 12.5px; font-weight: 600; display: flex; align-items: center; gap: 6px;">Read Article <i class="fa-solid fa-arrow-right"></i></span>
-          </div>
+      <div class="faq-grid">
+        <div class="faq-item">
+          <h4 class="faq-question"><i class="fa-solid fa-circle-question"></i> How does Skyscanner search work on BudgetStayFly?</h4>
+          <p class="faq-answer">BudgetStayFly connects directly to Skyscanner's meta-search engine. When you perform a search for flights, hotels, or car hire, we query over 1,200+ airlines and travel sites to show you the lowest available fares.</p>
         </div>
-        
-        <!-- Guide 2 -->
-        <div class="guide-card" onclick="openPageOverlay('guide-hotels')" style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-md); overflow: hidden; cursor: pointer; transition: var(--transition-smooth); display: flex; flex-direction: column;">
-          <div style="height: 180px; overflow: hidden; position: relative;">
-            <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=600&q=80" alt="Luxury hotels" style="width: 100%; height: 100%; object-fit: cover; transition: var(--transition-smooth);" class="guide-img">
-            <span style="position: absolute; top: 12px; left: 12px; background: var(--accent-purple); color: white; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 20px; text-transform: uppercase;">Hotel Tips</span>
-          </div>
-          <div style="padding: 20px; display: flex; flex-direction: column; flex: 1; gap: 10px;">
-            <h3 style="font-family: var(--font-heading); font-size: 17px; font-weight: 700; color: #ffffff;">How to Book 5-Star Luxury Stays for Half the Price</h3>
-            <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.5; flex: 1;">You don't need a massive budget to stay in style. Discover how off-peak travel, direct booking perks, and secret sales slice hotel costs.</p>
-            <span style="color: var(--accent-purple); font-size: 12.5px; font-weight: 600; display: flex; align-items: center; gap: 6px;">Read Article <i class="fa-solid fa-arrow-right"></i></span>
-          </div>
+        <div class="faq-item">
+          <h4 class="faq-question"><i class="fa-solid fa-circle-question"></i> Are there any hidden fees or extra costs?</h4>
+          <p class="faq-answer">No. BudgetStayFly and Skyscanner are 100% free to use. We do not add any commissions or extra fees to your ticket price. You pay the exact amount displayed by the airline or hotel.</p>
         </div>
-
-        <!-- Guide 3 -->
-        <div class="guide-card" onclick="openPageOverlay('guide-packing')" style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-md); overflow: hidden; cursor: pointer; transition: var(--transition-smooth); display: flex; flex-direction: column;">
-          <div style="height: 180px; overflow: hidden; position: relative;">
-            <img src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=600&q=80" alt="Packing guide" style="width: 100%; height: 100%; object-fit: cover; transition: var(--transition-smooth);" class="guide-img">
-            <span style="position: absolute; top: 12px; left: 12px; background: var(--accent-blue); color: white; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 20px; text-transform: uppercase;">Smart Travel</span>
-          </div>
-          <div style="padding: 20px; display: flex; flex-direction: column; flex: 1; gap: 10px;">
-            <h3 style="font-family: var(--font-heading); font-size: 17px; font-weight: 700; color: #ffffff;">The Ultimate Smart Packing Guide for Light Travel</h3>
-            <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.5; flex: 1;">Avoid baggage fees and travel light. Learn the compression packing methods, gear essentials, and digitizing checklists for stress-free trips.</p>
-            <span style="color: var(--accent-blue); font-size: 12.5px; font-weight: 600; display: flex; align-items: center; gap: 6px;">Read Article <i class="fa-solid fa-arrow-right"></i></span>
-          </div>
+        <div class="faq-item">
+          <h4 class="faq-question"><i class="fa-solid fa-circle-question"></i> How do I search for flights 'Everywhere'?</h4>
+          <p class="faq-answer">Click on the 'Explore Everywhere' tab in the main search box, type your departure city, and click search. Skyscanner will rank destinations worldwide from cheapest to most expensive.</p>
+        </div>
+        <div class="faq-item">
+          <h4 class="faq-question"><i class="fa-solid fa-circle-question"></i> What happens when I click 'Book on Skyscanner'?</h4>
+          <p class="faq-answer">You will be redirected directly to Skyscanner's secure referral portal or the official provider site (such as Emirates, Booking.com, or Hertz) to complete your booking safely.</p>
         </div>
       </div>
     </section>
 
-    <!-- SECTION: NEWSLETTER BANNER -->
-    <section id="newsletter-section" style="margin-top: 60px;">
+    <!-- SECTION: NEWSLETTER SUBSCRIPTION -->
+    <section id="newsletter-section" style="margin-top: 40px;">
       <div class="newsletter-banner">
         <div class="newsletter-content">
-          <h2 class="newsletter-title">Unlock Exclusive <span>Travel Deals</span></h2>
-          <p class="newsletter-desc">Subscribe to our weekly newsletter and receive the cheapest flight notifications and hotel packages directly in your inbox.</p>
+          <h2 class="newsletter-title">Subscribe to <span>Skyscanner Price Alerts</span></h2>
+          <p class="newsletter-desc">Receive weekly cheap flight notifications and secret hotel discount deals directly in your inbox.</p>
         </div>
         <form id="newsletter-form" class="newsletter-form">
           <div class="input-wrapper" style="flex: 1;">
@@ -396,49 +686,31 @@
       </div>
     </section>
 
-    <!-- FOOTER WITH COMMISSION DISCLOSURE -->
+    <!-- FOOTER WITH SKYSCANNER AFFILIATE DISCLOSURE -->
     <footer class="footer">
+      <div style="display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 12px;">
+        <img src="logo.png" alt="BudgetStayFly.com" style="height: 36px; width: auto; filter: brightness(0) invert(1);" />
+      </div>
       <p>&copy; 2026 BudgetStayFly.com. All rights reserved.</p>
-      <p style="font-size: 11px; max-width: 800px; margin: 8px auto 20px auto; line-height: 1.6; color: var(--text-muted);">
-        Disclaimer: BudgetStayFly.com is a travel meta-search engine and aggregator. We compare prices from multiple airlines and booking providers to find you the best deals. When you make a booking through our referral links, we may earn a small affiliate commission at absolutely no additional cost to you.
+      <p style="font-size: 11.5px; max-width: 850px; margin: 12px auto 20px auto; line-height: 1.6; color: #94a3b8;">
+        Disclaimer: BudgetStayFly.com is an independent travel aggregator and official affiliate partner of Skyscanner &amp; Travelpayouts. We compare prices across airlines, hotel chains, and car rental providers. When you click referral links on our site and complete a booking, we may receive an affiliate referral commission at no additional cost to you.
       </p>
       <ul class="footer-links">
         <li><button class="footer-link-btn" onclick="scrollToElement('navbar')">Home</button></li>
-        <li><button class="footer-link-btn" onclick="openPageOverlay('about')">About Us</button></li>
-        <li><button class="footer-link-btn" onclick="openPageOverlay('contact')">Contact Us</button></li>
-        <li><button class="footer-link-btn" onclick="openPageOverlay('privacy')">Privacy Policy</button></li>
+        <li><button class="footer-link-btn" onclick="alert('BudgetStayFly.com respects your privacy. Search inputs are processed securely.')">Privacy Policy</button></li>
         <li><button class="footer-link-btn" onclick="openAffiliateDrawer()">Partner Console</button></li>
       </ul>
     </footer>
   </div>
 
-  <!-- ==================== GENERIC PAGE OVERLAY VIEW (ABOUT / PRIVACY / CONTACT / ARTICLES) ==================== -->
-  <div class="results-overlay" id="page-overlay-panel">
-    <div class="results-header" style="max-width: 900px; margin: 0 auto; width: 100%;">
-      <div class="results-summary-info">
-        <h2 id="page-overlay-title" style="font-family: var(--font-heading); font-size: 26px; font-weight: 800; color: #ffffff;">Page Title</h2>
-        <p id="page-overlay-subtitle" style="font-size: 13px; color: var(--text-secondary); margin-top: 4px;">Sub-heading text</p>
-      </div>
-      <button class="close-overlay-btn" onclick="closePageOverlay()" title="Close">
-        <i class="fa-solid fa-xmark"></i>
-      </button>
-    </div>
-    
-    <div style="max-width: 900px; margin: 40px auto; padding: 0 24px; overflow-y: visible;">
-      <div id="page-overlay-content" class="overlay-rich-content" style="color: var(--text-secondary); font-size: 14.5px; line-height: 1.8;">
-        <!-- Dynamically injected content -->
-      </div>
-    </div>
-  </div>
-
-  <!-- ==================== SEARCH RESULTS DRAWER VIEW ==================== -->
+  <!-- SEARCH RESULTS DRAWER VIEW -->
   <div class="results-overlay" id="search-results-panel">
     <div class="results-header">
       <div class="results-summary-info">
-        <h2 id="res-header-title">Flights Delhi (DEL) to Dubai (DXB)</h2>
-        <p id="res-header-subtitle">Found 12 matching options &bull; sorted by cheapest</p>
+        <h2 id="res-header-title">Skyscanner Search Results</h2>
+        <p id="res-header-subtitle">Found matching options &bull; sorted by cheapest</p>
       </div>
-      <button class="close-overlay-btn" onclick="closeResultsPanel()" title="Back to Search">
+      <button class="close-overlay-btn" onclick="closeResultsPanel()" title="Close Search Results">
         <i class="fa-solid fa-xmark"></i>
       </button>
     </div>
@@ -447,18 +719,18 @@
       <!-- Sidebar Filters -->
       <aside class="filter-card">
         <div class="filter-group">
-          <h3 class="filter-title"><i class="fa-solid fa-filter"></i> Sort By</h3>
+          <h3 class="filter-title"><i class="fa-solid fa-filter"></i> Sort Results</h3>
           <label class="checkbox-option">
             <input type="radio" name="sort-by" value="cheapest" checked onchange="handleSortChange(this.value)" />
-            Cheapest Price
+            Cheapest Fares
           </label>
           <label class="checkbox-option">
             <input type="radio" name="sort-by" value="quickest" onchange="handleSortChange(this.value)" />
-            Quickest/Direct
+            Quickest / Non-stop
           </label>
           <label class="checkbox-option">
             <input type="radio" name="sort-by" value="recommended" onchange="handleSortChange(this.value)" />
-            Top Recommended
+            Best Rated
           </label>
         </div>
         
@@ -478,687 +750,13 @@
           </label>
         </div>
 
-        <!-- HOTEL SPECIFIC FILTERS (Dynamic display) -->
+        <!-- HOTEL SPECIFIC FILTERS -->
         <div id="filter-hotel-blocks" style="display: none;">
-          
-          <!-- Your budget (per night) -->
           <div class="filter-group">
-            <h3 class="filter-title">Your budget (per night)</h3>
-            <div id="price-slider-val" style="font-size: 13.5px; font-weight: 700; color: var(--accent-blue); margin-bottom: 12px;">₹2,000 - ₹35,000+</div>
-            
-            <!-- Simple Pure HTML Histogram Visual -->
-            <div class="price-histogram" style="display:flex; align-items:flex-end; gap:2px; height:32px; margin-bottom:8px; padding:0 4px;">
-              <div style="flex:1; background:#e2e8f0; height:8px; border-radius:1px 1px 0 0;"></div>
-              <div style="flex:1; background:#cbd5e1; height:14px; border-radius:1px 1px 0 0;"></div>
-              <div style="flex:1; background:#cbd5e1; height:18px; border-radius:1px 1px 0 0;"></div>
-              <div style="flex:1; background:#94a3b8; height:26px; border-radius:1px 1px 0 0;"></div>
-              <div style="flex:1; background:#64748b; height:32px; border-radius:1px 1px 0 0;"></div>
-              <div style="flex:1; background:#475569; height:28px; border-radius:1px 1px 0 0;"></div>
-              <div style="flex:1; background:#334155; height:22px; border-radius:1px 1px 0 0;"></div>
-              <div style="flex:1; background:#1e293b; height:16px; border-radius:1px 1px 0 0;"></div>
-              <div style="flex:1; background:#0f172a; height:10px; border-radius:1px 1px 0 0;"></div>
-              <div style="flex:1; background:#cbd5e1; height:14px; border-radius:1px 1px 0 0;"></div>
-              <div style="flex:1; background:#94a3b8; height:22px; border-radius:1px 1px 0 0;"></div>
-              <div style="flex:1; background:#475569; height:30px; border-radius:1px 1px 0 0;"></div>
-              <div style="flex:1; background:#1e293b; height:12px; border-radius:1px 1px 0 0;"></div>
-            </div>
-            
-            <input type="range" id="filter-price-slider" min="3000" max="35000" value="35000" step="1000" oninput="updatePriceFilter(this.value)" style="width:100%; accent-color:var(--accent-blue); cursor:pointer;" />
+            <h3 class="filter-title">Budget Limit (per night)</h3>
+            <div id="price-slider-val" style="font-size: 13.5px; font-weight: 700; color: #00a698; margin-bottom: 12px;">₹3,000 - ₹35,000+</div>
+            <input type="range" id="filter-price-slider" min="3000" max="35000" value="35000" step="1000" oninput="updatePriceFilter(this.value)" style="width:100%; accent-color:#00a698; cursor:pointer;" />
           </div>
-
-          <!-- Popular filters -->
-          <div class="filter-group">
-            <h3 class="filter-title">Popular filters</h3>
-            <label class="checkbox-option has-count">
-              <span class="checkbox-label-content">
-                <input type="checkbox" class="pop-filter" value="breakfast" onchange="applyFilters()" />
-                <span>Breakfast included</span>
-              </span>
-              <span class="filter-count">621</span>
-            </label>
-            <label class="checkbox-option has-count">
-              <span class="checkbox-label-content">
-                <input type="checkbox" class="pop-filter" value="stars5" onchange="applyFilters()" />
-                <span>5 stars</span>
-              </span>
-              <span class="filter-count">531</span>
-            </label>
-            <label class="checkbox-option has-count">
-              <span class="checkbox-label-content">
-                <input type="checkbox" class="pop-filter" value="resorts" onchange="applyFilters()" />
-                <span>Resorts</span>
-              </span>
-              <span class="filter-count">53</span>
-            </label>
-            <label class="checkbox-option has-count">
-              <span class="checkbox-label-content">
-                <input type="checkbox" class="pop-filter" value="hotels" onchange="applyFilters()" />
-                <span>Hotels</span>
-              </span>
-              <span class="filter-count">669</span>
-            </label>
-            <label class="checkbox-option has-count" style="align-items: flex-start;">
-              <span class="checkbox-label-content">
-                <input type="checkbox" class="pop-filter" value="score8" onchange="applyFilters()" style="margin-top: 3px;" />
-                <span style="display:flex; flex-direction:column; line-height:1.2;">
-                  <span>Very Good: 8+</span>
-                  <span style="font-size: 10px; color: var(--text-muted); font-weight: 400; text-transform: none; letter-spacing: 0;">Based on guest reviews</span>
-                </span>
-              </span>
-              <span class="filter-count" style="margin-top: 3px;">1942</span>
-            </label>
-            <label class="checkbox-option has-count">
-              <span class="checkbox-label-content">
-                <input type="checkbox" class="pop-filter" value="pool" onchange="applyFilters()" />
-                <span>Swimming pool</span>
-              </span>
-              <span class="filter-count">3933</span>
-            </label>
-            <label class="checkbox-option has-count">
-              <span class="checkbox-label-content">
-                <input type="checkbox" class="pop-filter" value="apartments" onchange="applyFilters()" />
-                <span>Apartments</span>
-              </span>
-              <span class="filter-count">3844</span>
-            </label>
-          </div>
-
-          <!-- Property Type -->
-          <div class="filter-group">
-            <h3 class="filter-title">Property Type</h3>
-            <label class="checkbox-option has-count">
-              <span class="checkbox-label-content">
-                <input type="checkbox" class="prop-filter" value="Hotels" onchange="applyFilters()" />
-                <span>Hotels</span>
-              </span>
-              <span class="filter-count">669</span>
-            </label>
-            <label class="checkbox-option has-count">
-              <span class="checkbox-label-content">
-                <input type="checkbox" class="prop-filter" value="Apartments" onchange="applyFilters()" />
-                <span>Apartments</span>
-              </span>
-              <span class="filter-count">3844</span>
-            </label>
-            <label class="checkbox-option has-count">
-              <span class="checkbox-label-content">
-                <input type="checkbox" class="prop-filter" value="Resorts" onchange="applyFilters()" />
-                <span>Resorts</span>
-              </span>
-              <span class="filter-count">53</span>
-            </label>
-            <label class="checkbox-option has-count">
-              <span class="checkbox-label-content">
-                <input type="checkbox" class="prop-filter" value="Villas" onchange="applyFilters()" />
-                <span>Villas</span>
-              </span>
-              <span class="filter-count">62</span>
-            </label>
-            <label class="checkbox-option has-count">
-              <span class="checkbox-label-content">
-                <input type="checkbox" class="prop-filter" value="Hostels" onchange="applyFilters()" />
-                <span>Hostels</span>
-              </span>
-              <span class="filter-count">1</span>
-            </label>
-          </div>
-
-          <!-- Bedrooms and bathrooms -->
-          <div class="filter-group">
-            <h3 class="filter-title">Bedrooms and bathrooms</h3>
-            <div style="display:flex; flex-direction:column; gap:12px; margin-top:10px;">
-              <div style="display:flex; justify-content:space-between; align-items:center;">
-                <span style="font-size:13.5px; color:var(--text-secondary);">Bedrooms</span>
-                <div style="display:flex; align-items:center; gap:12px;">
-                  <button type="button" class="btn-counter" onclick="adjustCounter('rooms-bed', -1)">-</button>
-                  <span id="lbl-counter-rooms-bed" style="font-size:14px; font-weight:600; width:12px; text-align:center;">0</span>
-                  <button type="button" class="btn-counter" onclick="adjustCounter('rooms-bed', 1)">+</button>
-                </div>
-              </div>
-              <div style="display:flex; justify-content:space-between; align-items:center;">
-                <span style="font-size:13.5px; color:var(--text-secondary);">Bathrooms</span>
-                <div style="display:flex; align-items:center; gap:12px;">
-                  <button type="button" class="btn-counter" onclick="adjustCounter('rooms-bath', -1)">-</button>
-                  <span id="lbl-counter-rooms-bath" style="font-size:14px; font-weight:600; width:12px; text-align:center;">0</span>
-                  <button type="button" class="btn-counter" onclick="adjustCounter('rooms-bath', 1)">+</button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Meals -->
-          <div class="filter-group">
-            <h3 class="filter-title">Meals</h3>
-            <label class="checkbox-option has-count">
-              <span class="checkbox-label-content">
-                <input type="checkbox" class="meal-filter" value="breakfast" onchange="applyFilters()" />
-                <span>Breakfast included</span>
-              </span>
-              <span class="filter-count">621</span>
-            </label>
-            <label class="checkbox-option has-count">
-              <span class="checkbox-label-content">
-                <input type="checkbox" class="meal-filter" value="all-inclusive" onchange="applyFilters()" />
-                <span>All-inclusive</span>
-              </span>
-              <span class="filter-count">19</span>
-            </label>
-            <label class="checkbox-option has-count">
-              <span class="checkbox-label-content">
-                <input type="checkbox" class="meal-filter" value="breakfast-dinner" onchange="applyFilters()" />
-                <span>Breakfast &amp; dinner included</span>
-              </span>
-              <span class="filter-count">263</span>
-            </label>
-            <label class="checkbox-option has-count">
-              <span class="checkbox-label-content">
-                <input type="checkbox" class="meal-filter" value="kitchen" onchange="applyFilters()" />
-                <span>Kitchen facilities</span>
-              </span>
-              <span class="filter-count">4072</span>
-            </label>
-          </div>
-
-          <!-- Review score -->
-          <div class="filter-group">
-            <h3 class="filter-title">Review score</h3>
-            <label class="checkbox-option has-count">
-              <span class="checkbox-label-content">
-                <input type="checkbox" class="score-filter" value="9" onchange="applyFilters()" />
-                <span>Superb: 9+</span>
-              </span>
-              <span class="filter-count">320</span>
-            </label>
-            <label class="checkbox-option has-count">
-              <span class="checkbox-label-content">
-                <input type="checkbox" class="score-filter" value="8.5" onchange="applyFilters()" />
-                <span>Very Good: 8.5+</span>
-              </span>
-              <span class="filter-count">850</span>
-            </label>
-            <label class="checkbox-option has-count">
-              <span class="checkbox-label-content">
-                <input type="checkbox" class="score-filter" value="8" onchange="applyFilters()" />
-                <span>Good: 8+</span>
-              </span>
-              <span class="filter-count">1942</span>
-            </label>
-            <label class="checkbox-option has-count">
-              <span class="checkbox-label-content">
-                <input type="checkbox" class="score-filter" value="7" onchange="applyFilters()" />
-                <span>Pleasant: 7+</span>
-              </span>
-              <span class="filter-count">3102</span>
-            </label>
-          </div>
-
-          <!-- Property rating -->
-          <div class="filter-group">
-            <h3 class="filter-title">Property rating</h3>
-            <label class="checkbox-option has-count">
-              <span class="checkbox-label-content">
-                <input type="checkbox" class="rating-filter" value="5" onchange="applyFilters()" />
-                <span>5 stars</span>
-              </span>
-              <span class="filter-count">531</span>
-            </label>
-            <label class="checkbox-option has-count">
-              <span class="checkbox-label-content">
-                <input type="checkbox" class="rating-filter" value="4" onchange="applyFilters()" />
-                <span>4 stars</span>
-              </span>
-              <span class="filter-count">869</span>
-            </label>
-            <label class="checkbox-option has-count">
-              <span class="checkbox-label-content">
-                <input type="checkbox" class="rating-filter" value="3" onchange="applyFilters()" />
-                <span>3 stars</span>
-              </span>
-              <span class="filter-count">1240</span>
-            </label>
-          </div>
-
-          <!-- Neighborhood -->
-          <div class="filter-group">
-            <h3 class="filter-title">Neighborhood</h3>
-            <label class="checkbox-option has-count">
-              <span class="checkbox-label-content">
-                <input type="checkbox" class="neighborhood-filter" value="Dubai Marina" onchange="applyFilters()" />
-                <span>Dubai Marina</span>
-              </span>
-              <span class="filter-count">150</span>
-            </label>
-            <label class="checkbox-option has-count">
-              <span class="checkbox-label-content">
-                <input type="checkbox" class="neighborhood-filter" value="Downtown Dubai" onchange="applyFilters()" />
-                <span>Downtown Dubai</span>
-              </span>
-              <span class="filter-count">120</span>
-            </label>
-            <label class="checkbox-option has-count">
-              <span class="checkbox-label-content">
-                <input type="checkbox" class="neighborhood-filter" value="Palm Jumeirah" onchange="applyFilters()" />
-                <span>Palm Jumeirah</span>
-              </span>
-              <span class="filter-count">45</span>
-            </label>
-          </div>
-
-          <!-- Bed preference -->
-          <div class="filter-group">
-            <h3 class="filter-title">Bed preference</h3>
-            <label class="checkbox-option has-count">
-              <span class="checkbox-label-content">
-                <input type="checkbox" class="bed-filter" value="king" onchange="applyFilters()" />
-                <span>King bed</span>
-              </span>
-              <span class="filter-count">1120</span>
-            </label>
-            <label class="checkbox-option has-count">
-              <span class="checkbox-label-content">
-                <input type="checkbox" class="bed-filter" value="double" onchange="applyFilters()" />
-                <span>Double bed</span>
-              </span>
-              <span class="filter-count">1430</span>
-            </label>
-            <label class="checkbox-option has-count">
-              <span class="checkbox-label-content">
-                <input type="checkbox" class="bed-filter" value="single" onchange="applyFilters()" />
-                <span>Single beds</span>
-              </span>
-              <span class="filter-count">860</span>
-            </label>
-          </div>
-
-          <!-- Distance from center -->
-          <div class="filter-group">
-            <h3 class="filter-title">Distance from center</h3>
-            <label class="checkbox-option has-count">
-              <span class="checkbox-label-content">
-                <input type="checkbox" class="distance-filter" value="1" onchange="applyFilters()" />
-                <span>Less than 1 km</span>
-              </span>
-              <span class="filter-count">240</span>
-            </label>
-            <label class="checkbox-option has-count">
-              <span class="checkbox-label-content">
-                <input type="checkbox" class="distance-filter" value="3" onchange="applyFilters()" />
-                <span>Less than 3 km</span>
-              </span>
-              <span class="filter-count">680</span>
-            </label>
-            <label class="checkbox-option has-count">
-              <span class="checkbox-label-content">
-                <input type="checkbox" class="distance-filter" value="5" onchange="applyFilters()" />
-                <span>Less than 5 km</span>
-              </span>
-              <span class="filter-count">1430</span>
-            </label>
-          </div>
-
-          <!-- Reservation policy -->
-          <div class="filter-group">
-            <h3 class="filter-title">Reservation policy</h3>
-            <label class="checkbox-option has-count">
-              <span class="checkbox-label-content">
-                <input type="checkbox" class="policy-filter" value="cancellation" onchange="applyFilters()" />
-                <span>Free cancellation</span>
-              </span>
-              <span class="filter-count">4130</span>
-            </label>
-            <label class="checkbox-option has-count">
-              <span class="checkbox-label-content">
-                <input type="checkbox" class="policy-filter" value="noprepayment" onchange="applyFilters()" />
-                <span>No prepayment needed</span>
-              </span>
-              <span class="filter-count">3204</span>
-            </label>
-          </div>
-
-          <!-- Fun Things To Do -->
-          <div class="filter-group">
-            <h3 class="filter-title">Fun Things To Do</h3>
-            <label class="checkbox-option has-count">
-              <span class="checkbox-label-content">
-                <input type="checkbox" class="fun-filter" value="fitness" onchange="applyFilters()" />
-                <span>Fitness center</span>
-              </span>
-              <span class="filter-count">2394</span>
-            </label>
-            <label class="checkbox-option has-count">
-              <span class="checkbox-label-content">
-                <input type="checkbox" class="fun-filter" value="beach" onchange="applyFilters()" />
-                <span>Beach access</span>
-              </span>
-              <span class="filter-count">143</span>
-            </label>
-            <label class="checkbox-option has-count">
-              <span class="checkbox-label-content">
-                <input type="checkbox" class="fun-filter" value="golf" onchange="applyFilters()" />
-                <span>Golf course</span>
-              </span>
-              <span class="filter-count">12</span>
-            </label>
-          </div>
-
-          <!-- Landmarks -->
-          <div class="filter-group">
-            <h3 class="filter-title">Landmarks</h3>
-            <label class="checkbox-option has-count">
-              <span class="checkbox-label-content">
-                <input type="checkbox" class="landmark-filter" value="Burj Khalifa" onchange="applyFilters()" />
-                <span>Burj Khalifa</span>
-              </span>
-              <span class="filter-count">87</span>
-            </label>
-            <label class="checkbox-option has-count">
-              <span class="checkbox-label-content">
-                <input type="checkbox" class="landmark-filter" value="Dubai Mall" onchange="applyFilters()" />
-                <span>Dubai Mall</span>
-              </span>
-              <span class="filter-count">143</span>
-            </label>
-            <label class="checkbox-option has-count">
-              <span class="checkbox-label-content">
-                <input type="checkbox" class="landmark-filter" value="Burj Al Arab" onchange="applyFilters()" />
-                <span>Burj Al Arab</span>
-              </span>
-              <span class="filter-count">26</span>
-            </label>
-          </div>
-
-          <!-- Brands of hotels name -->
-          <div class="filter-group">
-            <h3 class="filter-title">Brands of hotels name</h3>
-            <label class="checkbox-option has-count">
-              <span class="checkbox-label-content">
-                <input type="checkbox" class="brand-filter" value="Hyatt" onchange="applyFilters()" />
-                <span>Hyatt Resorts</span>
-              </span>
-              <span class="filter-count">15</span>
-            </label>
-            <label class="checkbox-option has-count">
-              <span class="checkbox-label-content">
-                <input type="checkbox" class="brand-filter" value="Marriott" onchange="applyFilters()" />
-                <span>Marriott Portfolio</span>
-              </span>
-              <span class="filter-count">22</span>
-            </label>
-            <label class="checkbox-option has-count">
-              <span class="checkbox-label-content">
-                <input type="checkbox" class="brand-filter" value="Hilton" onchange="applyFilters()" />
-                <span>Hilton Hotels</span>
-              </span>
-              <span class="filter-count">34</span>
-            </label>
-          </div>
-
-          <!-- Facilities -->
-          <div class="filter-group">
-            <h3 class="filter-title">Facilities</h3>
-            <label class="checkbox-option has-count">
-              <span class="checkbox-label-content">
-                <input type="checkbox" class="facility-filter" value="parking" onchange="applyFilters()" />
-                <span>Free parking</span>
-              </span>
-              <span class="filter-count">1240</span>
-            </label>
-            <label class="checkbox-option has-count">
-              <span class="checkbox-label-content">
-                <input type="checkbox" class="facility-filter" value="pool" onchange="applyFilters()" />
-                <span>Swimming pool</span>
-              </span>
-              <span class="filter-count">3933</span>
-            </label>
-            <label class="checkbox-option has-count">
-              <span class="checkbox-label-content">
-                <input type="checkbox" class="facility-filter" value="spa" onchange="applyFilters()" />
-                <span>Spa &amp; wellness centre</span>
-              </span>
-              <span class="filter-count">850</span>
-            </label>
-            <label class="checkbox-option has-count">
-              <span class="checkbox-label-content">
-                <input type="checkbox" class="facility-filter" value="wifi" onchange="applyFilters()" />
-                <span>Free WiFi</span>
-              </span>
-              <span class="filter-count">4072</span>
-            </label>
-            <label class="checkbox-option has-count">
-              <span class="checkbox-label-content">
-                <input type="checkbox" class="facility-filter" value="fitness" onchange="applyFilters()" />
-                <span>Fitness center</span>
-              </span>
-              <span class="filter-count">2394</span>
-            </label>
-            <label class="checkbox-option has-count">
-              <span class="checkbox-label-content">
-                <input type="checkbox" class="facility-filter" value="shuttle" onchange="applyFilters()" />
-                <span>Airport shuttle</span>
-              </span>
-              <span class="filter-count">1100</span>
-            </label>
-          </div>
-
-          <!-- Room facilities -->
-          <div class="filter-group">
-            <h3 class="filter-title">Room facilities</h3>
-            <label class="checkbox-option has-count">
-              <span class="checkbox-label-content">
-                <input type="checkbox" class="room-filter" value="ac" onchange="applyFilters()" />
-                <span>Air conditioning</span>
-              </span>
-              <span class="filter-count">4020</span>
-            </label>
-            <label class="checkbox-option has-count">
-              <span class="checkbox-label-content">
-                <input type="checkbox" class="room-filter" value="private-pool" onchange="applyFilters()" />
-                <span>Private pool</span>
-              </span>
-              <span class="filter-count">45</span>
-            </label>
-            <label class="checkbox-option has-count">
-              <span class="checkbox-label-content">
-                <input type="checkbox" class="room-filter" value="sea-view" onchange="applyFilters()" />
-                <span>Sea view</span>
-              </span>
-              <span class="filter-count">680</span>
-            </label>
-            <label class="checkbox-option has-count">
-              <span class="checkbox-label-content">
-                <input type="checkbox" class="room-filter" value="balcony" onchange="applyFilters()" />
-                <span>Balcony</span>
-              </span>
-              <span class="filter-count">1430</span>
-            </label>
-            <label class="checkbox-option has-count">
-              <span class="checkbox-label-content">
-                <input type="checkbox" class="room-filter" value="bathroom" onchange="applyFilters()" />
-                <span>Private bathroom</span>
-              </span>
-              <span class="filter-count">4072</span>
-            </label>
-            <label class="checkbox-option has-count">
-              <span class="checkbox-label-content">
-                <input type="checkbox" class="room-filter" value="kitchen" onchange="applyFilters()" />
-                <span>Kitchen/Kitchenette</span>
-              </span>
-              <span class="filter-count">3844</span>
-            </label>
-          </div>
-
-          <!-- Travel Group -->
-          <div class="filter-group">
-            <h3 class="filter-title">Travel Group</h3>
-            <label class="checkbox-option has-count">
-              <span class="checkbox-label-content">
-                <input type="checkbox" class="group-filter" value="solo" onchange="applyFilters()" />
-                <span>Solo travellers</span>
-              </span>
-              <span class="filter-count">850</span>
-            </label>
-            <label class="checkbox-option has-count">
-              <span class="checkbox-label-content">
-                <input type="checkbox" class="group-filter" value="couple" onchange="applyFilters()" />
-                <span>Couples</span>
-              </span>
-              <span class="filter-count">1940</span>
-            </label>
-            <label class="checkbox-option has-count">
-              <span class="checkbox-label-content">
-                <input type="checkbox" class="group-filter" value="family" onchange="applyFilters()" />
-                <span>Families</span>
-              </span>
-              <span class="filter-count">1240</span>
-            </label>
-            <label class="checkbox-option has-count">
-              <span class="checkbox-label-content">
-                <input type="checkbox" class="group-filter" value="group" onchange="applyFilters()" />
-                <span>Groups of friends</span>
-              </span>
-              <span class="filter-count">450</span>
-            </label>
-          </div>
-
-          <!-- Accepts online payments -->
-          <div class="filter-group">
-            <h3 class="filter-title">Payment Options</h3>
-            <label class="checkbox-option has-count">
-              <span class="checkbox-label-content">
-                <input type="checkbox" class="payment-filter" value="online" onchange="applyFilters()" />
-                <span>Accepts online payments</span>
-              </span>
-              <span class="filter-count">3940</span>
-            </label>
-          </div>
-
-          <!-- Property & Room Accessibility -->
-          <div class="filter-group">
-            <h3 class="filter-title">Accessibility Facilities</h3>
-            <label class="checkbox-option has-count">
-              <span class="checkbox-label-content">
-                <input type="checkbox" class="access-filter" value="wheelchair" onchange="applyFilters()" />
-                <span>Wheelchair accessible</span>
-              </span>
-              <span class="filter-count">727</span>
-            </label>
-            <label class="checkbox-option has-count">
-              <span class="checkbox-label-content">
-                <input type="checkbox" class="access-filter" value="emergency-cord" onchange="applyFilters()" />
-                <span>Emergency cord in bathroom</span>
-              </span>
-              <span class="filter-count">110</span>
-            </label>
-            <label class="checkbox-option has-count">
-              <span class="checkbox-label-content">
-                <input type="checkbox" class="access-filter" value="shower" onchange="applyFilters()" />
-                <span>Walk-in shower</span>
-              </span>
-              <span class="filter-count">680</span>
-            </label>
-          </div>
-        </div>
-
-        <!-- CAB SPECIFIC FILTERS (Dynamic display) -->
-        <div id="filter-cab-blocks" style="display: none;">
-          
-          <!-- Vehicle Class -->
-          <div class="filter-group">
-            <h3 class="filter-title">Vehicle Class</h3>
-            <label class="checkbox-option has-count">
-              <span class="checkbox-label-content">
-                <input type="checkbox" class="cab-class-filter" value="Economy" onchange="applyFilters()" />
-                <span>Economy Class</span>
-              </span>
-              <span class="filter-count">12</span>
-            </label>
-            <label class="checkbox-option has-count">
-              <span class="checkbox-label-content">
-                <input type="checkbox" class="cab-class-filter" value="Minivan" onchange="applyFilters()" />
-                <span>Minivan / Family</span>
-              </span>
-              <span class="filter-count">8</span>
-            </label>
-            <label class="checkbox-option has-count">
-              <span class="checkbox-label-content">
-                <input type="checkbox" class="cab-class-filter" value="SUV" onchange="applyFilters()" />
-                <span>Comfort SUV</span>
-              </span>
-              <span class="filter-count">6</span>
-            </label>
-            <label class="checkbox-option has-count">
-              <span class="checkbox-label-content">
-                <input type="checkbox" class="cab-class-filter" value="Business" onchange="applyFilters()" />
-                <span>Business Sedan</span>
-              </span>
-              <span class="filter-count">4</span>
-            </label>
-            <label class="checkbox-option has-count">
-              <span class="checkbox-label-content">
-                <input type="checkbox" class="cab-class-filter" value="Minibus" onchange="applyFilters()" />
-                <span>Large Minibus</span>
-              </span>
-              <span class="filter-count">2</span>
-            </label>
-          </div>
-
-          <!-- Transfer Options / Extras -->
-          <div class="filter-group">
-            <h3 class="filter-title">Transfer Options</h3>
-            <label class="checkbox-option has-count">
-              <span class="checkbox-label-content">
-                <input type="checkbox" class="cab-extra-filter" value="child-seat" onchange="applyFilters()" />
-                <span>Child seat available</span>
-              </span>
-              <span class="filter-count">28</span>
-            </label>
-            <label class="checkbox-option has-count">
-              <span class="checkbox-label-content">
-                <input type="checkbox" class="cab-extra-filter" value="english-driver" onchange="applyFilters()" />
-                <span>English-speaking driver</span>
-              </span>
-              <span class="filter-count">30</span>
-            </label>
-            <label class="checkbox-option has-count">
-              <span class="checkbox-label-content">
-                <input type="checkbox" class="cab-extra-filter" value="meet-greet" onchange="applyFilters()" />
-                <span>Meet &amp; Greet included</span>
-              </span>
-              <span class="filter-count">32</span>
-            </label>
-          </div>
-
-          <!-- Reservation Policy -->
-          <div class="filter-group">
-            <h3 class="filter-title">Cancellation Policy</h3>
-            <label class="checkbox-option has-count">
-              <span class="checkbox-label-content">
-                <input type="checkbox" class="cab-policy-filter" value="free-cancellation" onchange="applyFilters()" />
-                <span>Free cancellation</span>
-              </span>
-              <span class="filter-count">32</span>
-            </label>
-          </div>
-
-          <!-- Payment Options -->
-          <div class="filter-group">
-            <h3 class="filter-title">Payment Options</h3>
-            <label class="checkbox-option has-count">
-              <span class="checkbox-label-content">
-                <input type="checkbox" class="cab-payment-filter" value="online" onchange="applyFilters()" />
-                <span>Pay online</span>
-              </span>
-              <span class="filter-count">24</span>
-            </label>
-            <label class="checkbox-option has-count">
-              <span class="checkbox-label-content">
-                <input type="checkbox" class="cab-payment-filter" value="cash" onchange="applyFilters()" />
-                <span>Pay cash to driver</span>
-              </span>
-              <span class="filter-count">10</span>
-            </label>
-          </div>
-
         </div>
       </aside>
       
@@ -1169,52 +767,43 @@
     </div>
   </div>
 
-  <!-- ==================== AFFILIATE CONFIG DRAWER ==================== -->
+  <!-- AFFILIATE CONFIG DRAWER -->
   <div class="drawer-overlay" id="affiliate-drawer">
     <div class="drawer-card">
       <div class="drawer-header">
-        <h3 class="drawer-title"><i class="fa-solid fa-gear"></i> Partner Settings</h3>
+        <h3 class="drawer-title"><i class="fa-solid fa-gear"></i> Skyscanner Partner Console</h3>
         <button class="close-overlay-btn" onclick="closeAffiliateDrawer()"><i class="fa-solid fa-xmark"></i></button>
       </div>
       
-      <p style="font-size: 12.5px; color: var(--text-secondary); line-height: 1.5;">
-        Configure your Travel Affiliate partner details here. These tracking codes will be saved locally and automatically injected into all flight and hotel booking URLs.
+      <p style="font-size: 12.5px; color: #475569; line-height: 1.5;">
+        Configure your official Skyscanner &amp; Impact Radius affiliate markers here.
       </p>
 
       <form id="affiliate-settings-form" onsubmit="saveAffiliateSettings(event)">
         <div class="form-grid">
           <div class="form-group">
-            <label class="form-label">Settings Access PIN</label>
-            <input type="password" id="aff-settings-pin" class="form-input" style="padding-left: 14px;" placeholder="Enter PIN to unlock" required />
+            <label class="form-label">Security PIN</label>
+            <input type="password" id="aff-settings-pin" class="form-input" placeholder="Enter PIN (Default: 1234)" required />
           </div>
 
-          <div id="affiliate-inputs-block" style="display: none; flex-direction: column; gap: 16px; margin-top: 10px; border-top: 1px solid var(--border-color); padding-top: 16px;">
+          <div id="affiliate-inputs-block" style="display: none; flex-direction: column; gap: 16px; margin-top: 10px; border-top: 1px solid #cbd5e1; padding-top: 16px;">
             <div class="form-group">
-              <label class="form-label">Travelpayouts Partner Marker ID</label>
-              <input type="text" id="set-tp-marker" class="form-input" style="padding-left: 14px;" placeholder="e.g. 394982" />
-              <span style="font-size: 10px; color: var(--text-muted);">Marker code used for flights redirection searches.</span>
+              <label class="form-label">Impact Verification ID</label>
+              <input type="text" id="set-impact-id" class="form-input" value="68365de3-fa82-485f-8dab-15c1696d4c80" readonly style="background: #e6f7f5; color: #00a698; font-weight:700;" />
             </div>
 
             <div class="form-group">
-              <label class="form-label">Booking.com Affiliate Label (AID)</label>
-              <input type="text" id="set-booking-aid" class="form-input" style="padding-left: 14px;" placeholder="e.g. 2194829" />
-              <span style="font-size: 10px; color: var(--text-muted);">Affiliate tracking ID for hotel stays links.</span>
+              <label class="form-label">Skyscanner Partner Marker / Tag</label>
+              <input type="text" id="set-tp-marker" class="form-input" placeholder="e.g. 394982" />
             </div>
 
             <div class="form-group">
-              <label class="form-label">Taxi Partner Affiliate ID (KiwiTaxi)</label>
-              <input type="text" id="set-taxi-marker" class="form-input" style="padding-left: 14px;" placeholder="e.g. 556677" />
-              <span style="font-size: 10px; color: var(--text-muted);">Affiliate tracking ID for cab/transfer bookings.</span>
-            </div>
-            
-            <div class="form-group">
-              <label class="form-label">General Travel Redirect Domain</label>
-              <input type="text" id="set-redirect-domain" class="form-input" style="padding-left: 14px;" value="travelpayouts.com" />
-              <span style="font-size: 10px; color: var(--text-muted);">Root routing domain for custom booking queries.</span>
+              <label class="form-label">Booking.com Affiliate AID</label>
+              <input type="text" id="set-booking-aid" class="form-input" placeholder="e.g. 2194829" />
             </div>
 
             <button type="submit" class="btn-primary" style="justify-content: center; margin-top: 12px;">
-              <i class="fa-solid fa-floppy-disk"></i> Save Partner Configurations
+              <i class="fa-solid fa-floppy-disk"></i> Save Partner Settings
             </button>
           </div>
           
@@ -1223,20 +812,9 @@
           </button>
         </div>
       </form>
-
-      <div style="margin-top: auto; border-top: 1px solid var(--border-color); padding-top: 16px; font-size: 11px; color: var(--text-muted); line-height: 1.4;">
-        * Note: The default security PIN is <strong>1234</strong>. You can change this code at any time by editing the configurations file.
-      </div>
     </div>
   </div>
 
-  <!-- ==================== FLOATING WHATSAPP BUTTON ==================== -->
-  <a href="https://wa.me/919911083423?text=Hi%20BudgetStayFly!%20I%20have%20a%20travel%20query." class="whatsapp-float" target="_blank" rel="noopener noreferrer" title="Chat on WhatsApp">
-    <i class="fa-brands fa-whatsapp whatsapp-icon"></i>
-    <span class="whatsapp-tooltip">Chat with us</span>
-  </a>
-
-  <!-- Main Application Logic Script -->
   <script src="app.js"></script>
 </body>
 </html>
